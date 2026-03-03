@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>SIE 2028 — Beta 1</title>
+  <link rel="stylesheet" href="./assets/css/styles.css"/>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-icon">SIE</span>
+        <span class="brand-name">SIE 2028</span>
+        <span class="badge" id="app-version-badge"></span>
+      </div>
+
+      <nav id="nav" class="nav" role="navigation" aria-label="Módulos"></nav>
+
+      <div class="topbar-right">
+        <div id="global-controls" class="global-controls"></div>
+        <button id="btn-export" class="btn-sm" title="Exportar PDF" style="display:none;">PDF</button>
+        <button id="btn-theme" class="btn-icon" title="Cambiar tema">Tema</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-wrap">
+    <div id="view" class="view-container"></div>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- APP PRINCIPAL (MÓDULO) -->
+  <script type="module" src="./assets/js/app.js"></script>
+
+  <!-- VERSIONADO (NO MODULAR) -->
+  <script src="./assets/js/core/version.js"></script>
+  <script src="./assets/js/core/version_boot.js"></script>
+
+</body>
+</html>
