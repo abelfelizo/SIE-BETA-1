@@ -1,11 +1,11 @@
- // assets/js/core/state.js
+// assets/js/core/state.js
 const state = {
   nivel: "pres",
   year: 2024,
   useProj: false,
 
   simulator: {
-    overrideEnabled: false,   // <- lo que te falta
+    overrideEnabled: false,
     overrideNivel: null,
 
     alianzas: {},
