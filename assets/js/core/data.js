@@ -88,9 +88,32 @@ function flatToMetaRows(flat) {
 
 // Formato B: { meta:{...}, votes:{PRM:..., FP:...} }
 function metaVotesToMetaRows(obj) {
-  const meta = (obj && obj.meta && typeof obj.meta === "object") ? obj.meta : {};
-  const votes = (obj && obj.votes && typeof obj.votes === "object") ? obj.votes : {};
+  const metaIn = (obj && obj.meta && typeof obj.meta === "object") ? obj.meta : {};
+  const votes  = (obj && obj.votes && typeof obj.votes === "object") ? obj.votes : {};
+
+  // Clonar meta y crear alias en MAYÚSCULAS (y asegurar numéricos)
+  const meta = { ...metaIn };
+
+  // min -> MAY
+  if (meta.inscritos != null) meta.INSCRITOS = Number(meta.inscritos) || 0;
+  if (meta.emitidos  != null) meta.EMITIDOS  = Number(meta.emitidos)  || 0;
+  if (meta.validos   != null) meta.VALIDOS   = Number(meta.validos)   || 0;
+  if (meta.nulos     != null) meta.NULOS     = Math.max(0, Number(meta.nulos) || 0);
+
+  // MAY -> min (por si viniera al revés)
+  if (meta.INSCRITOS != null && meta.inscritos == null) meta.inscritos = Number(meta.INSCRITOS) || 0;
+  if (meta.EMITIDOS  != null && meta.emitidos  == null) meta.emitidos  = Number(meta.EMITIDOS)  || 0;
+  if (meta.VALIDOS   != null && meta.validos   == null) meta.validos   = Number(meta.VALIDOS)   || 0;
+  if (meta.NULOS     != null && meta.nulos     == null) meta.nulos     = Math.max(0, Number(meta.NULOS) || 0);
+
+  // saneo mínimo: si EMITIDOS viene 0 pero hay VALIDOS
+  if ((Number(meta.EMITIDOS) || 0) <= 0 && (Number(meta.VALIDOS) || 0) > 0) {
+    meta.EMITIDOS = (Number(meta.VALIDOS) || 0) + (Number(meta.NULOS) || 0);
+    meta.emitidos = meta.EMITIDOS;
+  }
+
   return { meta, rows: objectToRows(votes) };
+}
 }
 
 function normalizeNacional(block) {
