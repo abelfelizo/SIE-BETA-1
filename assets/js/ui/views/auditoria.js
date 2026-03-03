@@ -10,7 +10,7 @@ export function renderAuditoria(root, ctx, state, setState){
   const pres = ctx.normalized[y].pres;
   const sen  = ctx.normalized[y].sen;
   const dip  = ctx.normalized[y].dip;
-  const mun  = ctx.normalized[y].mun;
+  const mun  = ctx.normalized[y].alc;
   const dm   = ctx.normalized[y].dm;
 
   const checks = [];

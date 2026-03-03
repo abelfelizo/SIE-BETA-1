@@ -8,6 +8,9 @@ const state = {
     overrideEnabled: false,
     overrideNivel: null,
 
+    // ajustes directos por partido (simulador)
+    partyAdjust: {},
+
     alianzas: {},
     movilizacion: {},
     arrastre: {},

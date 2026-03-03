@@ -4,11 +4,17 @@ const YEARS  = [2020, 2024, 2028];
 const LEVELS = ["pres", "sen", "dip", "alc", "dm"];
 
 function ensureLevelShape(obj) {
+  // Compat: vistas esperan .nacional.meta (lowercase) y .nacional.votes
+  // y territorios como mapa por id (prov/mun/circ)
   if (!obj || typeof obj !== "object") obj = {};
-  if (!obj.nacional) obj.nacional = { meta: {}, rows: [] };
-  if (!obj.provincias) obj.provincias = { meta: {}, rows: [] };
-  if (!obj.municipios) obj.municipios = { meta: {}, rows: [] };
-  if (!obj.circunscripciones) obj.circunscripciones = { meta: {}, rows: [] };
+  if (!obj.nacional) obj.nacional = { meta: {}, votes: {}, rows: [] };
+  if (!obj.provincias) obj.provincias = { meta: {}, votes: {}, rows: [] };
+  if (!obj.municipios) obj.municipios = { meta: {}, votes: {}, rows: [] };
+  if (!obj.circunscripciones) obj.circunscripciones = { meta: {}, votes: {}, rows: [] };
+  if (!obj.territorios) obj.territorios = {};         // alias genérico
+  if (!obj.territoriosProv) obj.territoriosProv = {}; // mapa provincias
+  if (!obj.territoriosMun) obj.territoriosMun = {};   // mapa municipios
+  if (!obj.territoriosCirc) obj.territoriosCirc = {}; // mapa circunscripciones
   return obj;
 }
 
@@ -83,7 +89,13 @@ function flatToMetaRows(flat) {
   meta.VALIDOS  = val;
   meta.NULOS    = nul;
 
-  return { meta, rows: objectToRows(votes) };
+  // aliases lowercase para vistas
+  if (meta.inscritos == null && meta.INSCRITOS != null) meta.inscritos = Number(meta.INSCRITOS) || 0;
+  if (meta.emitidos  == null && meta.EMITIDOS  != null) meta.emitidos  = Number(meta.EMITIDOS)  || 0;
+  if (meta.validos   == null && meta.VALIDOS   != null) meta.validos   = Number(meta.VALIDOS)   || 0;
+  if (meta.nulos     == null && meta.NULOS     != null) meta.nulos     = Math.max(0, Number(meta.NULOS) || 0);
+
+  return { meta, votes, rows: objectToRows(votes) };
 }
 
 // Formato B: { meta:{...}, votes:{PRM:..., FP:...} }
@@ -112,7 +124,7 @@ function metaVotesToMetaRows(obj) {
     meta.emitidos = meta.EMITIDOS;
   }
 
-  return { meta, rows: objectToRows(votes) };
+  return { meta, votes, rows: objectToRows(votes) };
 }
 
 function normalizeNacional(block) {
@@ -127,7 +139,8 @@ function normalizeNacional(block) {
 // - {id:{...flat directo...}}   (fallback)
 function normalizeIdMap(idMap) {
   const rows = [];
-  if (!idMap || typeof idMap !== "object") return rows;
+  const map = {};
+  if (!idMap || typeof idMap !== "object") return { rows, map };
 
   Object.keys(idMap).forEach((id) => {
     const item = idMap[id] || {};
@@ -137,15 +150,18 @@ function normalizeIdMap(idMap) {
     else if (item.votes && typeof item.votes === "object") nm = metaVotesToMetaRows(item);
     else nm = normalizeNacional(item);
 
-    rows.push({
+    const rec = {
       id,
       nombre: item.nombre || "",
       meta: nm.meta,
+      votes: nm.votes || {},
       rows: nm.rows
-    });
+    };
+    rows.push(rec);
+    map[id] = rec;
   });
 
-  return rows;
+  return { rows, map };
 }
 
 export async function loadCTX() {
@@ -155,11 +171,31 @@ export async function loadCTX() {
   ctx.data.results_2024 = r2024;
   ctx.meta.source = r2024.meta || {};
 
+  // Padrón/participación base (para PRES donde el JSON no trae inscritos)
+  try { ctx.padron2024 = await fetchJSON("./data/padron_2024_meta.json"); } catch(e) { ctx.padron2024 = null; }
+
   // ===== PRES =====
   if (r2024.pres) {
     const out = ensureLevelShape({});
     out.nacional = normalizeNacional(r2024.pres.nacional);
-    if (r2024.pres.provincias) out.provincias.rows = normalizeIdMap(r2024.pres.provincias);
+
+    // completar inscritos/emitidos si faltan
+    try {
+      const m = out.nacional.meta || {};
+      if ((!m.inscritos || m.inscritos === 0) && ctx.padron2024 && ctx.padron2024.totales) {
+        m.inscritos = Number(ctx.padron2024.totales.inscritos_total) || m.inscritos || 0;
+      }
+      if ((!m.emitidos || m.emitidos === 0) && ctx.padron2024 && ctx.padron2024.totales) {
+        m.emitidos = Number(ctx.padron2024.totales.emitidos_pres_total) || m.emitidos || 0;
+      }
+      out.nacional.meta = m;
+    } catch(e) {}
+    if (r2024.pres.provincias) {
+      const n = normalizeIdMap(r2024.pres.provincias);
+      out.provincias.rows = n.rows;
+      out.territoriosProv = n.map;
+      out.territorios = out.territoriosProv;
+    }
     ctx.normalized[2024].pres = out;
   }
 
@@ -167,7 +203,12 @@ export async function loadCTX() {
   if (r2024.sen) {
     const out = ensureLevelShape({});
     out.nacional = normalizeNacional(r2024.sen.nacional);
-    if (r2024.sen.provincias) out.provincias.rows = normalizeIdMap(r2024.sen.provincias);
+    if (r2024.sen.provincias) {
+      const n = normalizeIdMap(r2024.sen.provincias);
+      out.provincias.rows = n.rows;
+      out.territoriosProv = n.map;
+      out.territorios = out.territoriosProv;
+    }
     ctx.normalized[2024].sen = out;
   }
 
@@ -175,8 +216,18 @@ export async function loadCTX() {
   if (r2024.dip) {
     const out = ensureLevelShape({});
     out.nacional = normalizeNacional(r2024.dip.nacional);
-    if (r2024.dip.provincias) out.provincias.rows = normalizeIdMap(r2024.dip.provincias);
-    if (r2024.dip.circunscripciones) out.circunscripciones.rows = normalizeIdMap(r2024.dip.circunscripciones);
+    if (r2024.dip.provincias) {
+      const n = normalizeIdMap(r2024.dip.provincias);
+      out.provincias.rows = n.rows;
+      out.territoriosProv = n.map;
+    }
+    if (r2024.dip.circunscripciones) {
+      const n = normalizeIdMap(r2024.dip.circunscripciones);
+      out.circunscripciones.rows = n.rows;
+      out.territoriosCirc = n.map;
+      out.circunscripciones = out.territoriosCirc; // compat mapa
+    }
+    out.territorios = out.territoriosProv;
     ctx.normalized[2024].dip = out;
   }
 
@@ -184,13 +235,19 @@ export async function loadCTX() {
   // Formato: mun.municipios[id] = {nombre, meta, votes}
   if (r2024.mun && r2024.mun.municipios) {
     const out = ensureLevelShape({});
-    out.municipios.rows = normalizeIdMap(r2024.mun.municipios);
+    const n = normalizeIdMap(r2024.mun.municipios);
+    out.municipios.rows = n.rows;
+    out.territoriosMun = n.map;
+    out.territorios = out.territoriosMun;
     ctx.normalized[2024].alc = out; // el nivel en la app es "alc"
   }
   // compat si viniera como "alc"
   if (r2024.alc && r2024.alc.municipios) {
     const out = ensureLevelShape({});
-    out.municipios.rows = normalizeIdMap(r2024.alc.municipios);
+    const n = normalizeIdMap(r2024.alc.municipios);
+    out.municipios.rows = n.rows;
+    out.territoriosMun = n.map;
+    out.territorios = out.territoriosMun;
     ctx.normalized[2024].alc = out;
   }
 
@@ -198,8 +255,10 @@ export async function loadCTX() {
   // Formato: dm[id].data = {flat}
   if (r2024.dm) {
     const out = ensureLevelShape({});
-    out.municipios.rows = normalizeIdMap(r2024.dm)
-      .filter(x => (x.meta && (x.meta.VALIDOS || 0) > 0)); // elimina id basura tipo 0.0
+    const n = normalizeIdMap(r2024.dm);
+    out.municipios.rows = n.rows;
+    out.territoriosMun = n.map;
+    out.territorios = out.territoriosMun;
     ctx.normalized[2024].dm = out;
   }
 
