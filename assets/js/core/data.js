@@ -201,17 +201,104 @@ export async function loadCTX() {
     fetchJSON(DATA.partidos),
   ]);
 
+  const r = {
+    2024: normYear(r2024),
+    2020: normYear(r2020),
+  };
+
+  // --- Compat layer: ctx.normalized[year][nivel] ---
+  function toLevelShape(src) {
+    // src is {nacional, prov, mun, dm, circ, extDip}
+    const mkUnit = (u) => ({
+      meta: {
+        inscritos: u && u.inscritos != null ? u.inscritos : null,
+        emitidos:  u ? u.emitidos : 0,
+        validos:   u ? u.validos  : 0,
+        nulos:     u ? u.nulos    : 0,
+      },
+      votes: (u && u.votes) ? u.votes : {},
+    });
+
+    const out = {
+      nacional: mkUnit(src && src.nacional ? src.nacional : empty()),
+      provincias: {},
+      municipios: {},
+      dm: {},
+      circunscripciones: {},
+      exterior: {},
+    };
+
+    // Provincias
+    const prov = (src && src.prov) ? src.prov : {};
+    for (const id in prov) {
+      const u = prov[id];
+      out.provincias[id] = Object.assign({ nombre: u.nombre || id }, mkUnit(u));
+    }
+
+    // Municipios
+    const mun = (src && src.mun) ? src.mun : {};
+    for (const id in mun) {
+      const u = mun[id];
+      out.municipios[id] = Object.assign({ nombre: u.nombre || id }, mkUnit(u));
+    }
+
+    // Distritos municipales
+    const dmSrc = (src && src.dm) ? src.dm : {};
+    for (const id in dmSrc) {
+      const u = dmSrc[id];
+      out.dm[id] = Object.assign({ nombre: u.nombre || id }, mkUnit(u));
+    }
+
+    // Circunscripciones (dip)
+    const circ = (src && src.circ) ? src.circ : {};
+    for (const id in circ) {
+      const u = circ[id];
+      out.circunscripciones[id] = Object.assign({ nombre: u.nombre || id }, mkUnit(u));
+    }
+
+    // Exterior diputados
+    const ext = (src && src.extDip) ? src.extDip : {};
+    for (const id in ext) {
+      const u = ext[id];
+      out.exterior[id] = Object.assign({ nombre: u.nombre || id }, mkUnit(u));
+    }
+
+    return out;
+  }
+
+  function toNormalizedYear(yObj) {
+    // yObj has pres/sen/dip/mun/dm
+    const pres = toLevelShape(yObj && yObj.pres ? yObj.pres : null);
+    const sen  = toLevelShape(yObj && yObj.sen  ? yObj.sen  : null);
+    const dip  = toLevelShape(yObj && yObj.dip  ? yObj.dip  : null);
+    const alc  = toLevelShape(yObj && yObj.mun  ? yObj.mun  : null); // alias mun -> alc
+    const dm   = toLevelShape(yObj && yObj.dm   ? yObj.dm   : null);
+    return { pres, sen, dip, alc, dm, mun: alc };
+  }
+
+  const normalized = {
+    2024: toNormalizedYear(r[2024]),
+    2020: toNormalizedYear(r[2020]),
+    // 2028 se llena luego; por ahora espejo estructural para evitar undefined
+    2028: toNormalizedYear(r[2024]),
+  };
+
   _ctx = {
-    r: {
-      2024: normYear(r2024),
-      2020: normYear(r2020),
-    },
+    // Canonical raw/normalized sources
+    r,
+    normalized,
+
+    // Aux data
     padron:  padron  || {},
     meta:    meta    || {},
     curules: curules || {},
     geo:     geo     || {},
     polls:   Array.isArray(polls) ? polls : [],
     partidos: Array.isArray(partidos) ? partidos : (partidos && partidos.partidos ? partidos.partidos : []),
+
+    // Common aliases used by UI
+    geography: geo     || {},
+    curules2024: curules || {},
   };
 
   return _ctx;
