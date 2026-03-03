@@ -1,4 +1,4 @@
-// assets/js/core/data.js  (BETA 2 LOADER adaptado a JSON flat por nivel)
+ // assets/js/core/data.js  (BETA 2 LOADER CONSOLIDADO)
 
 const YEARS  = [2020, 2024, 2028];
 const LEVELS = ["pres", "sen", "dip", "alc", "dm"];
@@ -20,16 +20,14 @@ function hardEnsureNormalized(ctx) {
 
   YEARS.forEach((Y) => {
     if (!ctx.normalized[Y] || typeof ctx.normalized[Y] !== "object") ctx.normalized[Y] = {};
-    if (!ctx.normalized[String(Y)] || typeof ctx.normalized[String(Y)] !== "object") {
-      ctx.normalized[String(Y)] = ctx.normalized[Y];
-    }
+    if (!ctx.normalized[String(Y)] || typeof ctx.normalized[String(Y)] !== "object") ctx.normalized[String(Y)] = ctx.normalized[Y];
 
     LEVELS.forEach((lv) => {
       ctx.normalized[Y][lv] = ensureLevelShape(ctx.normalized[Y][lv]);
       ctx.normalized[String(Y)][lv] = ctx.normalized[Y][lv];
     });
 
-    // aliases por si alguna vista usa ctx.normalized[y].pres
+    // aliases
     ctx.normalized[Y].pres = ctx.normalized[Y]["pres"];
     ctx.normalized[Y].sen  = ctx.normalized[Y]["sen"];
     ctx.normalized[Y].dip  = ctx.normalized[Y]["dip"];
@@ -47,89 +45,146 @@ async function fetchJSON(path) {
   return r.json();
 }
 
-// Convierte objeto flat {EMITIDOS, VALIDOS, NULOS, PRM, FP...} -> {meta, rows[]}
+function objectToRows(votesObj) {
+  if (!votesObj || typeof votesObj !== "object") return [];
+  return Object.keys(votesObj)
+    .map(k => ({ partido: k, votos: Number(votesObj[k]) || 0 }))
+    .sort((a,b)=>b.votos-a.votos);
+}
+
+// Formato A: flat {EMITIDOS, VALIDOS, NULOS, PRM, FP, ...}
 function flatToMetaRows(flat) {
-  const metaKeys = new Set(["PADRON","INSCRITOS","EMITIDOS","VALIDOS","NULOS","BLANCOS","OBSERVADOS"]);
+  const metaKeys = new Set([
+    "PADRON","INSCRITOS","EMITIDOS","VALIDOS","NULOS","BLANCOS","OBSERVADOS",
+    "inscritos","emitidos","validos","nulos"
+  ]);
+
   const meta = {};
-  const rows = [];
+  const votes = {};
 
   if (!flat || typeof flat !== "object") return { meta:{}, rows:[] };
 
   Object.keys(flat).forEach((k) => {
-    const v = flat[k];
-    if (metaKeys.has(k)) meta[k] = Number(v) || 0;
-    else rows.push({ partido: k, votos: Number(v) || 0 });
+    const v = Number(flat[k]) || 0;
+    if (metaKeys.has(k)) meta[k] = v;
+    else votes[k] = v;
   });
 
-  // Ordena por votos desc
-  rows.sort((a,b)=>b.votos-a.votos);
+  // SANEO mínimo
+  const emit = Number(meta.EMITIDOS ?? meta.emitidos ?? 0) || 0;
+  const val  = Number(meta.VALIDOS  ?? meta.validos  ?? 0) || 0;
+  let nul    = Number(meta.NULOS    ?? meta.nulos    ?? 0) || 0;
+  if (nul < 0) nul = 0;
 
-  return { meta, rows };
+  let emitFix = emit;
+  if (emitFix <= 0 && val > 0) emitFix = val + nul;
+
+  meta.EMITIDOS = emitFix;
+  meta.VALIDOS  = val;
+  meta.NULOS    = nul;
+
+  return { meta, rows: objectToRows(votes) };
 }
 
-// Normaliza un bloque "nivel" con posibles secciones (nacional/provincias/municipios/circunscripciones)
-// Cada sección puede venir como "flat" o como {rows/meta} ya armados.
-function normalizeNivelBlock(block) {
-  const out = ensureLevelShape({});
-  if (!block || typeof block !== "object") return out;
+// Formato B: { meta:{...}, votes:{PRM:..., FP:...} }
+function metaVotesToMetaRows(obj) {
+  const meta = (obj && obj.meta && typeof obj.meta === "object") ? obj.meta : {};
+  const votes = (obj && obj.votes && typeof obj.votes === "object") ? obj.votes : {};
+  return { meta, rows: objectToRows(votes) };
+}
 
-  // 1) nacional
-  if (block.nacional) {
-    const nm = flatToMetaRows(block.nacional);
-    out.nacional = { meta: nm.meta, rows: nm.rows };
-  }
+function normalizeNacional(block) {
+  if (!block || typeof block !== "object") return { meta:{}, rows:[] };
+  if (block.votes && typeof block.votes === "object") return metaVotesToMetaRows(block);
+  return flatToMetaRows(block);
+}
 
-  // 2) provincias (si viene como mapa: { "Azua": {..flat..}, ... })
-  if (block.provincias && typeof block.provincias === "object") {
-    // guardamos como rows de objetos {id/nombre, ...} si lo necesitas luego,
-    // pero por ahora mantenemos un placeholder estable:
-    out.provincias.meta = out.provincias.meta || {};
-    out.provincias.rows = out.provincias.rows || [];
-    // Si quieres listar provincias más adelante, se itera aquí.
-  }
+// Normaliza mapa de subunidades por id (provincias/municipios/DM):
+// - {id:{nombre, data:{flat}}}  (PRES/DM)
+// - {id:{nombre, meta, votes}}  (SEN/MUN)
+// - {id:{...flat directo...}}   (fallback)
+function normalizeIdMap(idMap) {
+  const rows = [];
+  if (!idMap || typeof idMap !== "object") return rows;
 
-  // 3) municipios
-  if (block.municipios && typeof block.municipios === "object") {
-    out.municipios.meta = out.municipios.meta || {};
-    out.municipios.rows = out.municipios.rows || [];
-  }
+  Object.keys(idMap).forEach((id) => {
+    const item = idMap[id] || {};
+    let nm;
 
-  // 4) circunscripciones
-  if (block.circunscripciones && typeof block.circunscripciones === "object") {
-    out.circunscripciones.meta = out.circunscripciones.meta || {};
-    out.circunscripciones.rows = out.circunscripciones.rows || [];
-  }
+    if (item.data && typeof item.data === "object") nm = flatToMetaRows(item.data);
+    else if (item.votes && typeof item.votes === "object") nm = metaVotesToMetaRows(item);
+    else nm = normalizeNacional(item);
 
-  return out;
+    rows.push({
+      id,
+      nombre: item.nombre || "",
+      meta: nm.meta,
+      rows: nm.rows
+    });
+  });
+
+  return rows;
 }
 
 export async function loadCTX() {
   let ctx = hardEnsureNormalized({ normalized: {}, data: {}, meta: {} });
 
-  // Cargar results 2024
   const r2024 = await fetchJSON("./data/results_2024.json");
   ctx.data.results_2024 = r2024;
-  ctx.meta.source_2024 = r2024.meta || {};
+  ctx.meta.source = r2024.meta || {};
 
-  // Mapear mun->alc si existiera (por compatibilidad)
-  if (r2024.mun && !r2024.alc) r2024.alc = r2024.mun;
+  // ===== PRES =====
+  if (r2024.pres) {
+    const out = ensureLevelShape({});
+    out.nacional = normalizeNacional(r2024.pres.nacional);
+    if (r2024.pres.provincias) out.provincias.rows = normalizeIdMap(r2024.pres.provincias);
+    ctx.normalized[2024].pres = out;
+  }
 
-  // Normalizar cada nivel según exista
-  if (r2024.pres) ctx.normalized[2024].pres = normalizeNivelBlock(r2024.pres);
-  if (r2024.sen)  ctx.normalized[2024].sen  = normalizeNivelBlock(r2024.sen);
-  if (r2024.dip)  ctx.normalized[2024].dip  = normalizeNivelBlock(r2024.dip);
-  if (r2024.alc)  ctx.normalized[2024].alc  = normalizeNivelBlock(r2024.alc);
-  if (r2024.dm)   ctx.normalized[2024].dm   = normalizeNivelBlock(r2024.dm);
+  // ===== SEN =====
+  if (r2024.sen) {
+    const out = ensureLevelShape({});
+    out.nacional = normalizeNacional(r2024.sen.nacional);
+    if (r2024.sen.provincias) out.provincias.rows = normalizeIdMap(r2024.sen.provincias);
+    ctx.normalized[2024].sen = out;
+  }
+
+  // ===== DIP =====
+  if (r2024.dip) {
+    const out = ensureLevelShape({});
+    out.nacional = normalizeNacional(r2024.dip.nacional);
+    if (r2024.dip.provincias) out.provincias.rows = normalizeIdMap(r2024.dip.provincias);
+    if (r2024.dip.circunscripciones) out.circunscripciones.rows = normalizeIdMap(r2024.dip.circunscripciones);
+    ctx.normalized[2024].dip = out;
+  }
+
+  // ===== MUN (ALCALDES) =====
+  // Formato: mun.municipios[id] = {nombre, meta, votes}
+  if (r2024.mun && r2024.mun.municipios) {
+    const out = ensureLevelShape({});
+    out.municipios.rows = normalizeIdMap(r2024.mun.municipios);
+    ctx.normalized[2024].alc = out; // el nivel en la app es "alc"
+  }
+  // compat si viniera como "alc"
+  if (r2024.alc && r2024.alc.municipios) {
+    const out = ensureLevelShape({});
+    out.municipios.rows = normalizeIdMap(r2024.alc.municipios);
+    ctx.normalized[2024].alc = out;
+  }
+
+  // ===== DM =====
+  // Formato: dm[id].data = {flat}
+  if (r2024.dm) {
+    const out = ensureLevelShape({});
+    out.municipios.rows = normalizeIdMap(r2024.dm)
+      .filter(x => (x.meta && (x.meta.VALIDOS || 0) > 0)); // elimina id basura tipo 0.0
+    ctx.normalized[2024].dm = out;
+  }
 
   // Extras opcionales
-  try { ctx.geography = await fetchJSON("./data/geography.json"); } catch (e) {}
-  try { ctx.curules2024 = await fetchJSON("./data/curules_2024.json"); } catch (e) {}
+  try { ctx.geography   = await fetchJSON("./data/geography.json"); } catch(e) {}
+  try { ctx.curules2024 = await fetchJSON("./data/curules_2024.json"); } catch(e) {}
 
-  // Reflejar llave string "2024"
   ctx.normalized["2024"] = ctx.normalized[2024];
-
-  // Re-asegurar estructura total
-  ctx = hardEnsureNormalized(ctx);
-
-  return ctx;
+  return hardEnsureNormalized(ctx);
 }
