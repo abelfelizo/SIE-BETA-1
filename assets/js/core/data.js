@@ -114,7 +114,6 @@ function metaVotesToMetaRows(obj) {
 
   return { meta, rows: objectToRows(votes) };
 }
-}
 
 function normalizeNacional(block) {
   if (!block || typeof block !== "object") return { meta:{}, rows:[] };
