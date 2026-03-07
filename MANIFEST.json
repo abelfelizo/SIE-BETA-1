@@ -1,0 +1,32 @@
+{
+  "name": "SIE-2028",
+  "description": "Sistema de Inteligencia Electoral - República Dominicana",
+  "version": "8.3",
+  "author": "SIE Team",
+  "license": "CC BY-NC-SA 4.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/usuario/SIE-2028.git"
+  },
+  "datasets": {
+    "active": "2024",
+    "files": [
+      "data/resultados_2024.json",
+      "data/padron_2024.json",
+      "data/alianzas_2024.json",
+      "data/curules_catalogo.json",
+      "data/curules_resultado_2024.json",
+      "data/territorios_catalogo.json",
+      "data/partidos.json"
+    ]
+  },
+  "validation": {
+    "padron_nacional": 8145548,
+    "provincias": 32,
+    "municipios": 158,
+    "distritos_municipales": 235,
+    "curules_totales": 222,
+    "partidos": 39,
+    "last_updated": "2026-03-07T22:11:56.236007"
+  }
+}
