@@ -1,260 +1,243 @@
 [
   {
-    "id": "01",
+    "id": "01-C1",
+    "provincia_id": "01",
     "provincia": "Distrito Nacional",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 48.49,
     "blocs": {
-      "PRM": 216932,
-      "FP": 86663,
-      "PLD": 56640,
-      "PRD": 7275,
-      "OD": 15827,
-      "GENS": 7392,
-      "PRSC": 5637,
-      "FNP": 1262,
-      "ALPAIS": 6341,
-      "DXC": 5138,
-      "PUN": 2886,
-      "PHD": 1790,
-      "PCR": 2092,
-      "PRSD": 2560,
-      "MODA": 2103,
-      "APD": 1576,
-      "PLR": 1417,
-      "PPC": 389,
-      "UDC": 1007,
-      "PAL": 1462,
-      "PRI": 1425,
-      "PDP": 1115,
-      "PNVC": 503,
-      "PASOVE": 639,
-      "PPG": 1702,
-      "JS": 1968,
-      "PQDC": 1350,
-      "PDI": 470,
-      "BIS": 2827,
-      "PSC": 1554,
-      "FAMP": 1221,
-      "PP": 3336,
-      "PPT": 802,
-      "PED": 2077
+      "PRM": 91762,
+      "FP": 31659,
+      "PLD": 22985,
+      "OD": 14324,
+      "GENS": 5340,
+      "PRSC": 3580,
+      "PED": 928,
+      "PP": 858,
+      "FAMP": 480,
+      "PPT": 309
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 48.49
+        "pct": 53.28
       },
       {
         "id": "FP",
-        "pct": 19.37
+        "pct": 18.38
       },
       {
         "id": "PLD",
-        "pct": 12.66
+        "pct": 13.35
       }
     ],
-    "inscritos": 794080,
-    "votos_emitidos": 447378,
-    "participacion": 56.34,
-    "abstencion": 43.66,
-    "enpp": 3.432,
-    "margen_pp": 29.12,
-    "riesgo_score": 66.6,
-    "riesgo_nivel": "alto",
-    "circs": 3,
-    "curules": {
-      "PRM": 13,
-      "PLD": 2,
-      "FP": 3
-    }
+    "inscritos": 300010,
+    "votos_emitidos": 175958,
+    "votos_validos": 172225,
+    "participacion": 58.65,
+    "abstencion": 41.35,
+    "enpp": 2.908,
+    "margen_pp": 34.9,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "02",
-    "provincia": "La Altagracia",
+    "id": "01-C2",
+    "provincia_id": "01",
+    "provincia": "Distrito Nacional",
+    "circ": 2,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 41.37,
     "blocs": {
-      "PRM": 41322,
-      "FP": 15297,
-      "PLD": 12428,
-      "PLR": 8513,
-      "PRD": 1228,
-      "PRSC": 1790,
-      "BIS": 867,
-      "PQDC": 874,
-      "OD": 213,
-      "PSC": 249,
-      "PDI": 208,
-      "ALPAIS": 1063,
-      "DXC": 2428,
-      "PUN": 1388,
-      "PHD": 994,
-      "PCR": 869,
-      "PRSD": 918,
-      "MODA": 850,
-      "APD": 654,
-      "PPC": 303,
-      "UDC": 485,
-      "PAL": 1067,
-      "PRI": 1136,
-      "PDP": 394,
-      "PNVC": 230,
-      "PASOVE": 394,
-      "JS": 490,
-      "FAMP": 303,
-      "PP": 1051,
-      "PPT": 63,
-      "GENS": 264,
-      "PED": 705,
-      "PPG": 855
+      "PRM": 73893,
+      "FP": 26550,
+      "PLD": 16435,
+      "BIS": 3624,
+      "PP": 1224,
+      "PRSC": 1154,
+      "GENS": 980,
+      "PED": 623,
+      "FAMP": 323,
+      "PPT": 205
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 41.37
+        "pct": 59.11
       },
       {
         "id": "FP",
-        "pct": 15.31
+        "pct": 21.24
       },
       {
         "id": "PLD",
-        "pct": 12.44
+        "pct": 13.15
+      }
+    ],
+    "inscritos": 220355,
+    "votos_emitidos": 128680,
+    "votos_validos": 125011,
+    "participacion": 58.4,
+    "abstencion": 41.6,
+    "enpp": 2.422,
+    "margen_pp": 37.87,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
+  },
+  {
+    "id": "01-C3",
+    "provincia_id": "01",
+    "provincia": "Distrito Nacional",
+    "circ": 3,
+    "nivel": "diputados",
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "PRM",
+    "blocs": {
+      "PRM": 87390,
+      "FP": 30274,
+      "PLD": 24495,
+      "BIS": 2260,
+      "PRSC": 2165,
+      "PP": 1254,
+      "GENS": 1072,
+      "PED": 526,
+      "FAMP": 418,
+      "PPT": 288
+    },
+    "top3": [
+      {
+        "id": "PRM",
+        "pct": 58.2
+      },
+      {
+        "id": "FP",
+        "pct": 20.16
+      },
+      {
+        "id": "PLD",
+        "pct": 16.31
+      }
+    ],
+    "inscritos": 273715,
+    "votos_emitidos": 156547,
+    "votos_validos": 150142,
+    "participacion": 57.19,
+    "abstencion": 42.81,
+    "enpp": 2.459,
+    "margen_pp": 38.04,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
+  },
+  {
+    "id": "02-C1",
+    "provincia_id": "02",
+    "provincia": "La Altagracia",
+    "circ": 1,
+    "nivel": "diputados",
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "PRM",
+    "blocs": {
+      "PRM": 64225,
+      "FP": 17038,
+      "PLD": 13098,
+      "PRD": 1228,
+      "ALPAIS": 1063,
+      "PP": 1051,
+      "PPG": 855,
+      "PED": 705,
+      "FAMP": 303,
+      "GENS": 264,
+      "PPT": 63
+    },
+    "top3": [
+      {
+        "id": "PRM",
+        "pct": 64.29
+      },
+      {
+        "id": "FP",
+        "pct": 17.06
+      },
+      {
+        "id": "PLD",
+        "pct": 13.11
       }
     ],
     "inscritos": 186886,
-    "votos_emitidos": 99893,
-    "participacion": 53.45,
-    "abstencion": 46.55,
-    "enpp": 4.549,
-    "margen_pp": 26.05,
-    "riesgo_score": 73.6,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 4,
-      "FP": 1
-    }
+    "votos_emitidos": 102959,
+    "votos_validos": 99893,
+    "participacion": 55.09,
+    "abstencion": 44.91,
+    "enpp": 2.173,
+    "margen_pp": 47.24,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "03",
+    "id": "03-C1",
+    "provincia_id": "03",
     "provincia": "Azua",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 47.9,
     "blocs": {
-      "PRM": 53779,
-      "FP": 19352,
-      "PLD": 16583,
-      "JS": 3777,
+      "PRM": 69973,
+      "FP": 20730,
+      "PLD": 17034,
       "PRD": 2094,
       "PPG": 1644,
-      "PRSC": 990,
-      "MODA": 1054,
-      "PHD": 1220,
-      "BIS": 662,
-      "PQDC": 529,
-      "PDI": 187,
-      "OD": 91,
-      "PSC": 162,
-      "GENS": 198,
-      "ALPAIS": 515,
-      "DXC": 1320,
-      "PUN": 761,
-      "PCR": 606,
-      "PRSD": 984,
-      "APD": 726,
-      "PP": 1506,
-      "PLR": 232,
-      "PPC": 238,
-      "UDC": 292,
-      "PAL": 927,
-      "PRI": 389,
-      "PDP": 273,
-      "PNVC": 116,
-      "PASOVE": 268,
       "FAMP": 413,
-      "PPT": 118,
-      "PED": 262
+      "PED": 262,
+      "PPT": 118
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 47.9
+        "pct": 62.33
       },
       {
         "id": "FP",
-        "pct": 17.24
+        "pct": 18.46
       },
       {
         "id": "PLD",
-        "pct": 14.77
+        "pct": 15.17
       }
     ],
     "inscritos": 172801,
-    "votos_emitidos": 112268,
-    "participacion": 64.97,
-    "abstencion": 35.03,
-    "enpp": 3.525,
-    "margen_pp": 30.67,
-    "riesgo_score": 64.5,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 3,
-      "FP": 1
-    }
+    "votos_emitidos": 116274,
+    "votos_validos": 112268,
+    "participacion": 67.29,
+    "abstencion": 32.71,
+    "enpp": 2.241,
+    "margen_pp": 43.86,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "04",
+    "id": "04-C1",
+    "provincia_id": "04",
     "provincia": "Bahoruco",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 53.06,
     "blocs": {
-      "PRM": 27196,
+      "PRM": 32929,
       "PLD": 8804,
+      "FP": 5028,
       "PRSD": 4099,
-      "FP": 4676,
-      "JS": 710,
       "PRD": 363,
-      "PRSC": 544,
-      "BIS": 182,
-      "PQDC": 88,
-      "OD": 28,
-      "PSC": 31,
-      "PDI": 23,
-      "GENS": 34,
-      "ALPAIS": 247,
-      "DXC": 416,
-      "PUN": 581,
-      "PHD": 283,
-      "PCR": 273,
-      "MODA": 214,
-      "FAMP": 107,
-      "APD": 281,
-      "PP": 599,
-      "PLR": 130,
-      "PPC": 511,
-      "UDC": 81,
-      "PAL": 101,
-      "PRI": 114,
-      "PDP": 92,
-      "PNVC": 26,
-      "PASOVE": 136,
-      "PPG": 287
+      "GENS": 34
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 53.06
+        "pct": 64.24
       },
       {
         "id": "PLD",
@@ -262,408 +245,246 @@
       },
       {
         "id": "FP",
-        "pct": 9.12
+        "pct": 9.81
       }
     ],
     "inscritos": 76436,
-    "votos_emitidos": 51257,
-    "participacion": 67.06,
-    "abstencion": 32.94,
-    "enpp": 3.061,
-    "margen_pp": 35.88,
-    "riesgo_score": 57.5,
-    "riesgo_nivel": "medio",
-    "circs": 1,
-    "curules": {
-      "PRM": 2
-    }
+    "votos_emitidos": 52587,
+    "votos_validos": 51257,
+    "participacion": 68.8,
+    "abstencion": 31.2,
+    "enpp": 2.182,
+    "margen_pp": 47.07,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "05",
+    "id": "05-C1",
+    "provincia_id": "05",
     "provincia": "Barahona",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 46.47,
     "blocs": {
-      "PRM": 40769,
-      "FP": 16636,
-      "PLD": 13752,
-      "PP": 2289,
+      "PRM": 53931,
+      "FP": 17597,
+      "PLD": 13999,
       "PRD": 1504,
-      "JS": 1209,
-      "PRI": 981,
-      "PCR": 766,
-      "PUN": 1234,
-      "PRSC": 818,
-      "BIS": 533,
-      "PQDC": 250,
-      "PSC": 89,
-      "PDI": 89,
-      "OD": 247,
-      "ALPAIS": 358,
-      "DXC": 1016,
-      "PHD": 418,
-      "PRSD": 447,
-      "MODA": 414,
-      "APD": 700,
-      "PLR": 588,
-      "PPC": 319,
-      "UDC": 182,
-      "PAL": 540,
-      "PDP": 189,
-      "PNVC": 79,
-      "PASOVE": 127,
-      "PPG": 488,
       "FAMP": 252,
-      "PPT": 134,
+      "PED": 168,
       "GENS": 138,
-      "PED": 168
+      "PPT": 134
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 46.47
+        "pct": 61.48
       },
       {
         "id": "FP",
-        "pct": 18.96
+        "pct": 20.06
       },
       {
         "id": "PLD",
-        "pct": 15.68
+        "pct": 15.96
       }
     ],
     "inscritos": 135743,
-    "votos_emitidos": 87723,
-    "participacion": 64.62,
-    "abstencion": 35.38,
-    "enpp": 3.588,
-    "margen_pp": 27.51,
-    "riesgo_score": 66.7,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 3
-    }
+    "votos_emitidos": 90762,
+    "votos_validos": 87723,
+    "participacion": 66.86,
+    "abstencion": 33.14,
+    "enpp": 2.252,
+    "margen_pp": 41.42,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "06",
-    "provincia": "Dajabón",
+    "id": "06-C1",
+    "provincia_id": "06",
+    "provincia": "Dajabon",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 56.35,
     "blocs": {
-      "PRM": 20794,
-      "PLD": 9480,
-      "JS": 574,
-      "FP": 1721,
+      "PRM": 24898,
+      "PLD": 9625,
+      "FP": 1906,
       "PRD": 368,
-      "PRSC": 355,
-      "BIS": 108,
-      "PQDC": 40,
-      "OD": 19,
-      "PDI": 18,
-      "PSC": 145,
-      "ALPAIS": 107,
-      "DXC": 728,
-      "PUN": 492,
-      "PHD": 301,
-      "PCR": 224,
-      "PRSD": 164,
-      "MODA": 85,
-      "FAMP": 62,
-      "APD": 209,
-      "PP": 184,
-      "PLR": 88,
-      "PPC": 60,
-      "UDC": 38,
-      "PAL": 50,
-      "PRI": 63,
-      "PDP": 51,
-      "PNVC": 24,
-      "PASOVE": 53,
-      "PPG": 299
+      "ALPAIS": 107
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 56.35
+        "pct": 67.47
       },
       {
         "id": "PLD",
-        "pct": 25.69
+        "pct": 26.08
       },
       {
         "id": "FP",
-        "pct": 4.66
+        "pct": 5.16
       }
     ],
     "inscritos": 52824,
-    "votos_emitidos": 36904,
-    "participacion": 69.86,
-    "abstencion": 30.14,
-    "enpp": 2.584,
-    "margen_pp": 30.66,
-    "riesgo_score": 55.4,
-    "riesgo_nivel": "medio",
-    "circs": 1,
-    "curules": {
-      "PRM": 2
-    }
+    "votos_emitidos": 37776,
+    "votos_validos": 36904,
+    "participacion": 71.51,
+    "abstencion": 28.49,
+    "enpp": 1.901,
+    "margen_pp": 41.39,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "07",
+    "id": "07-C1",
+    "provincia_id": "07",
     "provincia": "Duarte",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 54.8,
     "blocs": {
-      "PRM": 67035,
-      "FP": 16475,
-      "PLD": 14485,
-      "MODA": 4043,
-      "PRD": 2230,
-      "PRSC": 1740,
-      "JS": 1226,
-      "PHD": 2612,
-      "BIS": 413,
-      "PQDC": 324,
-      "PDI": 121,
-      "OD": 172,
-      "PSC": 166,
-      "ALPAIS": 934,
-      "DXC": 1671,
-      "PUN": 789,
-      "PCR": 861,
-      "PRSD": 1333,
-      "APD": 587,
-      "PP": 859,
-      "PLR": 191,
-      "PPC": 122,
-      "UDC": 257,
-      "PAL": 867,
-      "PRI": 505,
-      "PDP": 271,
-      "PNVC": 98,
-      "PASOVE": 146,
-      "PPG": 740,
+      "PRM": 86887,
+      "FP": 17333,
+      "PLD": 17053,
       "FAMP": 385,
-      "PPT": 153,
+      "PED": 309,
       "GENS": 196,
-      "PED": 309
+      "PPT": 153
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 54.8
+        "pct": 71.03
       },
       {
         "id": "FP",
-        "pct": 13.47
+        "pct": 14.17
       },
       {
         "id": "PLD",
-        "pct": 11.84
+        "pct": 13.94
       }
     ],
     "inscritos": 234553,
-    "votos_emitidos": 122316,
-    "participacion": 52.15,
-    "abstencion": 47.85,
-    "enpp": 2.982,
-    "margen_pp": 41.34,
-    "riesgo_score": 57.8,
-    "riesgo_nivel": "medio",
-    "circs": 1,
-    "curules": {
-      "PRM": 5
-    }
+    "votos_emitidos": 126271,
+    "votos_validos": 122316,
+    "participacion": 53.83,
+    "abstencion": 46.17,
+    "enpp": 1.838,
+    "margen_pp": 56.86,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "08",
+    "id": "08-C1",
+    "provincia_id": "08",
     "provincia": "El Seibo",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 51.37,
     "blocs": {
-      "PRM": 20328,
-      "PLD": 6042,
-      "FP": 5026,
-      "JS": 1195,
+      "PRM": 26617,
+      "PLD": 6195,
+      "FP": 5672,
       "PRD": 892,
-      "PCR": 865,
-      "DXC": 1054,
-      "PRSC": 242,
-      "BIS": 329,
-      "PQDC": 159,
-      "OD": 93,
-      "PDI": 65,
-      "PSC": 153,
-      "ALPAIS": 162,
-      "PUN": 452,
-      "PHD": 443,
-      "PRSD": 149,
-      "MODA": 95,
-      "APD": 296,
-      "PP": 270,
-      "PLR": 200,
-      "PPC": 145,
-      "UDC": 57,
-      "PAL": 134,
-      "PRI": 140,
-      "PDP": 113,
-      "PNVC": 43,
-      "PASOVE": 69,
-      "PPG": 165,
-      "FAMP": 29,
+      "PED": 109,
       "PPT": 55,
-      "PED": 109
+      "FAMP": 29
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 51.37
+        "pct": 67.27
       },
       {
         "id": "PLD",
-        "pct": 15.27
+        "pct": 15.66
       },
       {
         "id": "FP",
-        "pct": 12.7
+        "pct": 14.33
       }
     ],
     "inscritos": 63596,
-    "votos_emitidos": 39569,
-    "participacion": 62.22,
-    "abstencion": 37.78,
-    "enpp": 3.261,
-    "margen_pp": 36.1,
-    "riesgo_score": 60.2,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 2
-    }
+    "votos_emitidos": 41214,
+    "votos_validos": 39569,
+    "participacion": 64.81,
+    "abstencion": 35.19,
+    "enpp": 2.008,
+    "margen_pp": 51.61,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "09",
-    "provincia": "Elías Piña",
+    "id": "09-C1",
+    "provincia_id": "09",
+    "provincia": "Elias Piña",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 46.53,
     "blocs": {
-      "PRM": 13449,
-      "PLD": 5433,
-      "FP": 4477,
-      "JS": 554,
-      "PRD": 1154,
-      "PRSC": 1028,
-      "BIS": 180,
-      "PQDC": 57,
-      "PDI": 41,
-      "OD": 105,
-      "PSC": 184,
-      "ALPAIS": 117,
-      "DXC": 226,
-      "PUN": 318,
-      "PHD": 71,
-      "PCR": 229,
-      "PRSD": 146,
-      "MODA": 148,
-      "APD": 137,
-      "PP": 271,
-      "PLR": 101,
-      "PPC": 53,
-      "UDC": 29,
-      "PAL": 101,
-      "PRI": 61,
-      "PDP": 42,
-      "PNVC": 23,
-      "PASOVE": 39,
-      "FAMP": 18,
-      "PPT": 9,
+      "PRM": 17143,
+      "PLD": 6876,
+      "FP": 4755,
       "GENS": 60,
       "PED": 24,
-      "PPG": 22
+      "PPG": 22,
+      "FAMP": 18,
+      "PPT": 9
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 46.53
+        "pct": 59.3
       },
       {
         "id": "PLD",
-        "pct": 18.79
+        "pct": 23.79
       },
       {
         "id": "FP",
-        "pct": 15.49
+        "pct": 16.45
       }
     ],
     "inscritos": 45337,
-    "votos_emitidos": 28907,
-    "participacion": 63.76,
-    "abstencion": 36.24,
-    "enpp": 3.577,
-    "margen_pp": 27.73,
-    "riesgo_score": 66.7,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 2
-    }
+    "votos_emitidos": 30040,
+    "votos_validos": 28907,
+    "participacion": 66.26,
+    "abstencion": 33.74,
+    "enpp": 2.297,
+    "margen_pp": 35.52,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "10",
+    "id": "10-C1",
+    "provincia_id": "10",
     "provincia": "Espaillat",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 57.18,
     "blocs": {
-      "PRM": 61999,
+      "PRM": 76950,
       "PLD": 15749,
-      "FP": 12341,
-      "JS": 1405,
-      "DXC": 2853,
+      "FP": 12822,
       "PRD": 1532,
-      "PPG": 993,
-      "PRSC": 813,
-      "BIS": 297,
-      "PQDC": 252,
-      "OD": 134,
-      "PDI": 95,
-      "PSC": 93,
-      "ALPAIS": 551,
-      "PUN": 1105,
-      "PHD": 1162,
-      "PCR": 1128,
-      "PRSD": 708,
-      "MODA": 502,
-      "APD": 935,
-      "PP": 950,
-      "PLR": 165,
-      "PPC": 91,
-      "UDC": 256,
-      "PAL": 296,
-      "PRI": 420,
-      "PDP": 302,
-      "PNVC": 127,
-      "PASOVE": 189,
+      "GENS": 646,
+      "BIS": 390,
       "FAMP": 210,
-      "PPT": 123,
-      "GENS": 646
+      "PPT": 123
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 57.18
+        "pct": 70.97
       },
       {
         "id": "PLD",
@@ -671,67 +492,40 @@
       },
       {
         "id": "FP",
-        "pct": 11.38
+        "pct": 11.83
       }
     ],
     "inscritos": 191403,
-    "votos_emitidos": 108422,
-    "participacion": 56.65,
-    "abstencion": 43.35,
-    "enpp": 2.755,
-    "margen_pp": 42.66,
-    "riesgo_score": 54.1,
-    "riesgo_nivel": "medio",
-    "circs": 1,
-    "curules": {
-      "PRM": 4
-    }
+    "votos_emitidos": 111269,
+    "votos_validos": 108422,
+    "participacion": 58.13,
+    "abstencion": 41.87,
+    "enpp": 1.855,
+    "margen_pp": 56.45,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "11",
+    "id": "11-C1",
+    "provincia_id": "11",
     "provincia": "Hato Mayor",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 57.29,
     "blocs": {
-      "PRM": 27181,
+      "PRM": 35750,
       "PLD": 4576,
-      "FP": 4026,
+      "FP": 4535,
       "PRD": 2390,
-      "JS": 941,
-      "PCR": 1132,
-      "PRSC": 551,
-      "BIS": 250,
-      "PQDC": 95,
-      "OD": 54,
-      "PSC": 60,
-      "PDI": 50,
-      "ALPAIS": 288,
-      "DXC": 680,
-      "PUN": 743,
-      "PHD": 332,
-      "PRSD": 747,
-      "MODA": 200,
-      "APD": 354,
-      "PP": 528,
-      "PLR": 342,
-      "PPC": 192,
-      "UDC": 139,
-      "PAL": 234,
-      "PRI": 237,
-      "PDP": 180,
-      "PNVC": 107,
-      "PASOVE": 130,
-      "PPG": 512,
-      "FAMP": 31,
+      "PED": 103,
       "GENS": 60,
-      "PED": 103
+      "FAMP": 31
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 57.29
+        "pct": 75.35
       },
       {
         "id": "PLD",
@@ -739,71 +533,43 @@
       },
       {
         "id": "FP",
-        "pct": 8.49
+        "pct": 9.56
       }
     ],
     "inscritos": 73367,
-    "votos_emitidos": 47445,
-    "participacion": 64.67,
-    "abstencion": 35.33,
-    "enpp": 2.86,
-    "margen_pp": 47.64,
-    "riesgo_score": 50.5,
-    "riesgo_nivel": "medio",
-    "circs": 1,
-    "curules": {
-      "PRM": 2
-    }
+    "votos_emitidos": 48537,
+    "votos_validos": 47445,
+    "participacion": 66.16,
+    "abstencion": 33.84,
+    "enpp": 1.699,
+    "margen_pp": 65.71,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "12",
+    "id": "12-C1",
+    "provincia_id": "12",
     "provincia": "Independencia",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 47.59,
     "blocs": {
-      "PRM": 13276,
-      "PLD": 5927,
+      "PRM": 16065,
+      "PLD": 6036,
       "PPC": 4058,
-      "FP": 1303,
-      "PRD": 278,
-      "PRSC": 520,
-      "BIS": 60,
-      "PQDC": 16,
-      "PDI": 5,
-      "OD": 42,
-      "PSC": 67,
-      "ALPAIS": 53,
-      "DXC": 246,
-      "PUN": 189,
-      "PHD": 47,
-      "PCR": 158,
-      "PRSD": 77,
-      "MODA": 74,
-      "FAMP": 39,
-      "APD": 259,
-      "PP": 296,
-      "PLR": 32,
-      "UDC": 23,
-      "PAL": 18,
-      "PRI": 146,
-      "PDP": 44,
-      "PNVC": 23,
-      "PASOVE": 77,
-      "PPG": 169,
-      "JS": 299,
-      "GENS": 38,
-      "PED": 39
+      "FP": 1662,
+      "PED": 39,
+      "GENS": 38
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 47.59
+        "pct": 57.58
       },
       {
         "id": "PLD",
-        "pct": 21.25
+        "pct": 21.64
       },
       {
         "id": "PPC",
@@ -811,68 +577,46 @@
       }
     ],
     "inscritos": 38238,
-    "votos_emitidos": 27898,
-    "participacion": 72.96,
-    "abstencion": 27.04,
-    "enpp": 3.379,
-    "margen_pp": 26.34,
-    "riesgo_score": 63.4,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 2
-    }
+    "votos_emitidos": 28441,
+    "votos_validos": 27898,
+    "participacion": 74.38,
+    "abstencion": 25.62,
+    "enpp": 2.481,
+    "margen_pp": 35.95,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "13",
+    "id": "13-C1",
+    "provincia_id": "13",
     "provincia": "La Romana",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 35.53,
     "blocs": {
-      "PRM": 38762,
-      "FP": 24144,
+      "PRM": 50906,
+      "FP": 25500,
       "PRSC": 13627,
       "PLD": 8866,
       "PRD": 6571,
-      "PSC": 864,
-      "PDI": 492,
-      "BIS": 993,
-      "OD": 354,
+      "BIS": 1347,
       "PQDC": 455,
-      "ALPAIS": 359,
-      "PHD": 254,
-      "DXC": 1227,
-      "PUN": 1413,
-      "PCR": 1100,
-      "PRSD": 1364,
-      "MODA": 604,
-      "APD": 650,
-      "PP": 487,
-      "PLR": 744,
-      "PPC": 206,
-      "UDC": 421,
-      "PAL": 631,
-      "PRI": 910,
-      "PDP": 492,
-      "PNVC": 215,
-      "PASOVE": 271,
-      "PPG": 754,
-      "JS": 655,
-      "FAMP": 272,
-      "PPT": 75,
+      "PED": 439,
       "GENS": 426,
-      "PED": 439
+      "ALPAIS": 359,
+      "FAMP": 272,
+      "PHD": 254,
+      "PPT": 75
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 35.53
+        "pct": 46.66
       },
       {
         "id": "FP",
-        "pct": 22.13
+        "pct": 23.37
       },
       {
         "id": "PRSC",
@@ -880,206 +624,163 @@
       }
     ],
     "inscritos": 189231,
-    "votos_emitidos": 109097,
-    "participacion": 57.65,
-    "abstencion": 42.35,
-    "enpp": 4.945,
-    "margen_pp": 13.4,
-    "riesgo_score": 78.9,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 3,
-      "FP": 1
-    }
+    "votos_emitidos": 112314,
+    "votos_validos": 109097,
+    "participacion": 59.35,
+    "abstencion": 40.65,
+    "enpp": 3.351,
+    "margen_pp": 23.29,
+    "riesgo_score": 6.7,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "14",
+    "id": "14-C1",
+    "provincia_id": "14",
     "provincia": "La Vega",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 51.14,
     "blocs": {
-      "PRM": 91237,
-      "FP": 25583,
-      "PLD": 32363,
-      "PRSC": 5108,
-      "PRD": 2501,
-      "PRSD": 1990,
-      "DXC": 1818,
-      "JS": 1161,
-      "BIS": 667,
-      "PQDC": 791,
-      "OD": 681,
-      "PDI": 318,
-      "PSC": 159,
-      "PHD": 1062,
-      "PPG": 930,
-      "ALPAIS": 1071,
-      "PUN": 1844,
-      "PCR": 1224,
-      "MODA": 830,
-      "FAMP": 717,
-      "APD": 746,
-      "PP": 1511,
-      "PLR": 461,
-      "PPC": 299,
-      "UDC": 400,
-      "PAL": 685,
-      "PRI": 506,
-      "PDP": 365,
-      "PNVC": 187,
-      "PASOVE": 280,
-      "PPT": 134,
+      "PRM": 79840,
+      "FP": 20964,
+      "PLD": 18902,
+      "PRD": 1855,
+      "PHD": 1724,
+      "PED": 433,
+      "BIS": 384,
       "GENS": 197,
-      "PED": 578
+      "PPT": 134
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 51.14
-      },
-      {
-        "id": "PLD",
-        "pct": 18.14
+        "pct": 64.16
       },
       {
         "id": "FP",
-        "pct": 14.34
+        "pct": 16.85
+      },
+      {
+        "id": "PLD",
+        "pct": 15.19
       }
     ],
-    "inscritos": 318532,
-    "votos_emitidos": 178404,
-    "participacion": 56.01,
-    "abstencion": 43.99,
-    "enpp": 3.157,
-    "margen_pp": 33,
-    "riesgo_score": 62.5,
-    "riesgo_nivel": "alto",
-    "circs": 2,
-    "curules": {
-      "PRM": 6,
-      "FP": 1
-    }
+    "inscritos": 220945,
+    "votos_emitidos": 128163,
+    "votos_validos": 124433,
+    "participacion": 58.01,
+    "abstencion": 41.99,
+    "enpp": 2.157,
+    "margen_pp": 47.32,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "15",
-    "provincia": "María Trinidad Sánchez",
+    "id": "14-C2",
+    "provincia_id": "14",
+    "provincia": "La Vega",
+    "circ": 2,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 59.23,
     "blocs": {
-      "PRM": 41214,
-      "PLD": 14971,
-      "FP": 2812,
-      "PP": 1553,
-      "PRD": 917,
-      "JS": 923,
-      "PRSC": 555,
-      "PQDC": 39,
-      "OD": 45,
-      "PDI": 38,
-      "PSC": 198,
-      "BIS": 143,
-      "ALPAIS": 249,
-      "DXC": 427,
-      "PUN": 875,
-      "PHD": 256,
-      "PCR": 638,
-      "PRSD": 519,
-      "MODA": 436,
-      "FAMP": 210,
-      "APD": 435,
-      "PLR": 191,
-      "PPC": 127,
-      "UDC": 50,
-      "PAL": 591,
-      "PRI": 156,
-      "PDP": 156,
-      "PNVC": 50,
-      "PASOVE": 96,
-      "PPG": 162,
-      "GENS": 343,
-      "PED": 207
+      "PRM": 32600,
+      "PLD": 13461,
+      "FP": 6851,
+      "PRD": 646,
+      "PHD": 268,
+      "PED": 145
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 59.23
+        "pct": 60.4
       },
       {
         "id": "PLD",
-        "pct": 21.52
+        "pct": 24.94
       },
       {
         "id": "FP",
-        "pct": 4.04
+        "pct": 12.69
+      }
+    ],
+    "inscritos": 97587,
+    "votos_emitidos": 55533,
+    "votos_validos": 53971,
+    "participacion": 56.91,
+    "abstencion": 43.09,
+    "enpp": 2.256,
+    "margen_pp": 35.46,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
+  },
+  {
+    "id": "15-C1",
+    "provincia_id": "15",
+    "provincia": "Maria Trinidad Sanchez",
+    "circ": 1,
+    "nivel": "diputados",
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "PRM",
+    "blocs": {
+      "PRM": 49869,
+      "PLD": 16086,
+      "FP": 2934,
+      "GENS": 343,
+      "PED": 207,
+      "BIS": 143
+    },
+    "top3": [
+      {
+        "id": "PRM",
+        "pct": 71.67
+      },
+      {
+        "id": "PLD",
+        "pct": 23.12
+      },
+      {
+        "id": "FP",
+        "pct": 4.22
       }
     ],
     "inscritos": 113091,
-    "votos_emitidos": 69582,
-    "participacion": 61.53,
-    "abstencion": 38.47,
-    "enpp": 2.498,
-    "margen_pp": 37.72,
-    "riesgo_score": 53.2,
-    "riesgo_nivel": "medio",
-    "circs": 1,
-    "curules": {
-      "PRM": 3
-    }
+    "votos_emitidos": 71365,
+    "votos_validos": 69582,
+    "participacion": 63.1,
+    "abstencion": 36.9,
+    "enpp": 1.758,
+    "margen_pp": 48.55,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "16",
+    "id": "16-C1",
+    "provincia_id": "16",
     "provincia": "Monseñor Nouel",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 49.33,
     "blocs": {
-      "PRM": 37636,
-      "FP": 16569,
-      "PRD": 1837,
+      "PRM": 47539,
+      "FP": 19308,
       "PLD": 7798,
-      "PRSC": 1483,
-      "PQDC": 295,
-      "OD": 259,
-      "PSC": 171,
-      "PDI": 177,
-      "BIS": 500,
-      "GENS": 705,
-      "ALPAIS": 414,
-      "DXC": 771,
-      "PUN": 1052,
-      "PHD": 410,
-      "PCR": 988,
-      "PRSD": 630,
-      "MODA": 218,
-      "APD": 509,
-      "PP": 725,
-      "PLR": 400,
-      "PPC": 171,
-      "UDC": 138,
-      "PAL": 218,
-      "PRI": 361,
-      "PDP": 255,
-      "PNVC": 143,
-      "PASOVE": 163,
-      "JS": 854,
-      "FAMP": 62,
+      "BIS": 1205,
+      "PED": 320,
       "PPT": 69,
-      "PED": 320
+      "FAMP": 62
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 49.33
+        "pct": 62.3
       },
       {
         "id": "FP",
-        "pct": 21.72
+        "pct": 25.31
       },
       {
         "id": "PLD",
@@ -1087,619 +788,492 @@
       }
     ],
     "inscritos": 144045,
-    "votos_emitidos": 76301,
-    "participacion": 52.97,
-    "abstencion": 47.03,
-    "enpp": 3.3,
-    "margen_pp": 27.61,
-    "riesgo_score": 67.1,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 2,
-      "FP": 1
-    }
+    "votos_emitidos": 79086,
+    "votos_validos": 76301,
+    "participacion": 54.9,
+    "abstencion": 45.1,
+    "enpp": 2.16,
+    "margen_pp": 37.0,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "17",
+    "id": "17-C1",
+    "provincia_id": "17",
     "provincia": "Monte Cristi",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 55.6,
     "blocs": {
-      "PRM": 28729,
-      "PLD": 8918,
-      "FP": 5533,
-      "JS": 1132,
+      "PRM": 35952,
+      "PLD": 9208,
+      "FP": 5835,
       "PRD": 555,
-      "PRSC": 499,
-      "BIS": 209,
-      "PQDC": 54,
-      "PDI": 39,
-      "OD": 131,
-      "PSC": 159,
-      "ALPAIS": 56,
-      "FAMP": 50,
-      "DXC": 687,
-      "PUN": 813,
-      "PHD": 290,
-      "PCR": 603,
-      "PRSD": 475,
-      "MODA": 676,
-      "APD": 389,
-      "PP": 655,
-      "PLR": 175,
-      "PPC": 108,
-      "UDC": 78,
-      "PAL": 45,
-      "PRI": 155,
-      "PDP": 108,
-      "PNVC": 52,
-      "PASOVE": 60,
-      "PPG": 223,
+      "FAMP": 106,
       "PPT": 15
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 55.6
+        "pct": 69.58
       },
       {
         "id": "PLD",
-        "pct": 17.26
+        "pct": 17.82
       },
       {
         "id": "FP",
-        "pct": 10.71
+        "pct": 11.29
       }
     ],
     "inscritos": 82552,
-    "votos_emitidos": 51671,
-    "participacion": 62.59,
-    "abstencion": 37.41,
-    "enpp": 2.839,
-    "margen_pp": 38.34,
-    "riesgo_score": 55.5,
-    "riesgo_nivel": "medio",
-    "circs": 1,
-    "curules": {
-      "PRM": 2
-    }
+    "votos_emitidos": 52957,
+    "votos_validos": 51671,
+    "participacion": 64.15,
+    "abstencion": 35.85,
+    "enpp": 1.891,
+    "margen_pp": 51.76,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "18",
+    "id": "18-C1",
+    "provincia_id": "18",
     "provincia": "Monte Plata",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 42.61,
     "blocs": {
-      "PRM": 40612,
-      "PLD": 21604,
-      "FP": 19373,
-      "PRD": 1966,
-      "JS": 1204,
-      "PRSC": 1444,
-      "BIS": 656,
-      "PQDC": 404,
-      "PSC": 138,
-      "PDI": 133,
-      "OD": 265,
-      "ALPAIS": 370,
-      "DXC": 1018,
-      "PUN": 973,
-      "PHD": 487,
-      "PCR": 517,
-      "PRSD": 285,
-      "MODA": 278,
-      "APD": 495,
-      "PP": 957,
-      "PLR": 299,
-      "PPC": 161,
-      "UDC": 81,
-      "PAL": 111,
-      "PRI": 267,
-      "PDP": 182,
-      "PNVC": 85,
-      "PASOVE": 134,
+      "PRM": 49960,
+      "PLD": 23835,
+      "FP": 20704,
       "FAMP": 251,
-      "PPT": 71,
       "GENS": 223,
+      "PPG": 170,
       "PED": 94,
-      "PPG": 170
+      "PPT": 71
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 42.61
+        "pct": 52.42
       },
       {
         "id": "PLD",
-        "pct": 22.67
+        "pct": 25.01
       },
       {
         "id": "FP",
-        "pct": 20.33
+        "pct": 21.72
       }
     ],
     "inscritos": 142460,
-    "votos_emitidos": 95308,
-    "participacion": 66.9,
-    "abstencion": 33.1,
-    "enpp": 3.628,
-    "margen_pp": 19.94,
-    "riesgo_score": 70.2,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 2,
-      "PLD": 1
-    }
+    "votos_emitidos": 98474,
+    "votos_validos": 95308,
+    "participacion": 69.12,
+    "abstencion": 30.88,
+    "enpp": 2.601,
+    "margen_pp": 27.41,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "19",
+    "id": "19-C1",
+    "provincia_id": "19",
     "provincia": "Pedernales",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 41.87,
     "blocs": {
-      "PRM": 5952,
-      "FP": 3402,
-      "PRD": 1814,
-      "PLD": 1386,
-      "PRSC": 157,
-      "BIS": 190,
-      "PQDC": 45,
-      "OD": 26,
-      "PSC": 44,
-      "PDI": 29,
-      "ALPAIS": 71,
-      "DXC": 180,
-      "PUN": 111,
-      "PHD": 132,
-      "PRSD": 74,
-      "MODA": 43,
-      "FAMP": 17,
-      "APD": 77,
-      "PP": 97,
-      "PLR": 32,
-      "PPC": 37,
-      "UDC": 12,
-      "PAL": 13,
-      "PRI": 68,
-      "PDP": 19,
-      "PNVC": 10,
-      "PASOVE": 13,
-      "PPG": 85,
-      "JS": 51,
+      "PRM": 7251,
+      "FP": 3736,
+      "PLD": 3200,
       "PCR": 14,
       "PPT": 14
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 41.87
+        "pct": 51.01
       },
       {
         "id": "FP",
-        "pct": 23.93
+        "pct": 26.28
       },
       {
-        "id": "PRD",
-        "pct": 12.76
+        "id": "PLD",
+        "pct": 22.51
       }
     ],
     "inscritos": 19720,
-    "votos_emitidos": 14215,
-    "participacion": 72.08,
-    "abstencion": 27.92,
-    "enpp": 3.857,
-    "margen_pp": 17.94,
-    "riesgo_score": 71.8,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 1,
-      "FP": 1
-    }
+    "votos_emitidos": 14616,
+    "votos_validos": 14215,
+    "participacion": 74.12,
+    "abstencion": 25.88,
+    "enpp": 2.632,
+    "margen_pp": 24.73,
+    "riesgo_score": 5.3,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "20",
+    "id": "20-C1",
+    "provincia_id": "20",
     "provincia": "Peravia",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 63.61,
     "blocs": {
-      "PRM": 50399,
-      "FP": 7283,
-      "PLD": 6089,
-      "PP": 1309,
-      "DXC": 1402,
-      "PUN": 1677,
-      "PRD": 865,
-      "JS": 909,
-      "PRSC": 846,
-      "BIS": 308,
-      "PQDC": 178,
-      "PDI": 72,
-      "PSC": 74,
-      "OD": 145,
-      "ALPAIS": 580,
-      "PHD": 511,
-      "PCR": 436,
-      "PRSD": 502,
-      "MODA": 257,
-      "APD": 1112,
-      "PLR": 544,
-      "PPC": 260,
-      "UDC": 214,
-      "PAL": 447,
-      "PRI": 457,
-      "PDP": 368,
-      "PNVC": 129,
-      "PASOVE": 247,
-      "PPG": 727,
+      "PRM": 63333,
+      "FP": 7841,
+      "PLD": 7028,
       "FAMP": 401,
-      "PPT": 34,
+      "PED": 342,
+      "OD": 145,
       "GENS": 105,
-      "PED": 342
+      "PPT": 34
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 63.61
+        "pct": 79.94
       },
       {
         "id": "FP",
-        "pct": 9.19
+        "pct": 9.9
       },
       {
         "id": "PLD",
-        "pct": 7.69
+        "pct": 8.87
       }
     ],
     "inscritos": 140956,
-    "votos_emitidos": 79229,
-    "participacion": 56.21,
-    "abstencion": 43.79,
-    "enpp": 2.375,
-    "margen_pp": 54.42,
-    "riesgo_score": 45.2,
-    "riesgo_nivel": "medio",
-    "circs": 1,
-    "curules": {
-      "PRM": 3
-    }
+    "votos_emitidos": 80896,
+    "votos_validos": 79229,
+    "participacion": 57.39,
+    "abstencion": 42.61,
+    "enpp": 1.523,
+    "margen_pp": 70.04,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "21",
+    "id": "21-C1",
+    "provincia_id": "21",
     "provincia": "Puerto Plata",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 50.21,
     "blocs": {
-      "PRM": 74016,
-      "PLD": 29745,
-      "FP": 14918,
-      "PRSC": 4712,
-      "PRD": 3027,
-      "JS": 1838,
-      "PQDC": 550,
-      "OD": 474,
-      "PSC": 243,
-      "PDI": 148,
-      "ALPAIS": 1737,
-      "BIS": 645,
-      "MODA": 267,
-      "DXC": 3444,
-      "PUN": 1821,
-      "PHD": 856,
-      "PCR": 1447,
-      "PRSD": 1052,
-      "APD": 984,
-      "PP": 655,
-      "PLR": 327,
-      "PPC": 236,
-      "UDC": 454,
-      "PAL": 633,
-      "FNP": 350,
-      "PRI": 543,
-      "PDP": 316,
-      "PNVC": 150,
-      "PASOVE": 307,
-      "FAMP": 207,
-      "GENS": 158,
+      "PRM": 61197,
+      "PLD": 16752,
+      "FP": 15916,
+      "ALPAIS": 1354,
+      "PPG": 857,
+      "BIS": 492,
       "PED": 280,
-      "PPG": 885
+      "MODA": 168,
+      "GENS": 158,
+      "FAMP": 144
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 50.21
+        "pct": 62.88
       },
       {
         "id": "PLD",
-        "pct": 20.18
+        "pct": 17.21
       },
       {
         "id": "FP",
-        "pct": 10.12
+        "pct": 16.35
       }
     ],
-    "inscritos": 258042,
-    "votos_emitidos": 147425,
-    "participacion": 57.13,
-    "abstencion": 42.87,
-    "enpp": 3.27,
-    "margen_pp": 30.03,
-    "riesgo_score": 64.6,
-    "riesgo_nivel": "alto",
-    "circs": 2,
-    "curules": {
-      "PRM": 5,
-      "PLD": 1
-    }
+    "inscritos": 178232,
+    "votos_emitidos": 99995,
+    "votos_validos": 97318,
+    "participacion": 56.1,
+    "abstencion": 43.9,
+    "enpp": 2.212,
+    "margen_pp": 45.67,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "22",
-    "provincia": "Hermanas Mirabal",
+    "id": "21-C2",
+    "provincia_id": "21",
+    "provincia": "Puerto Plata",
+    "circ": 2,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 50.48,
     "blocs": {
-      "PRM": 25506,
-      "FP": 9751,
-      "PLD": 7341,
-      "PCR": 1441,
-      "JS": 1012,
-      "PRD": 469,
-      "PRSC": 325,
-      "BIS": 210,
-      "PQDC": 66,
-      "PSC": 33,
-      "PDI": 49,
-      "OD": 130,
-      "ALPAIS": 275,
-      "DXC": 348,
-      "PUN": 684,
-      "PHD": 358,
-      "PRSD": 161,
-      "MODA": 327,
-      "APD": 313,
-      "PP": 571,
-      "PLR": 164,
-      "PPC": 90,
-      "UDC": 50,
-      "PAL": 133,
-      "PRI": 112,
-      "PDP": 75,
-      "PNVC": 50,
-      "PASOVE": 73,
-      "PPG": 200,
-      "PPT": 26,
-      "GENS": 83,
-      "PED": 103
+      "PRM": 32944,
+      "PLD": 13254,
+      "FP": 3336,
+      "ALPAIS": 383,
+      "MODA": 99,
+      "FAMP": 63,
+      "PPG": 28
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 50.48
-      },
-      {
-        "id": "FP",
-        "pct": 19.3
+        "pct": 65.75
       },
       {
         "id": "PLD",
-        "pct": 14.53
+        "pct": 26.45
+      },
+      {
+        "id": "FP",
+        "pct": 6.66
+      }
+    ],
+    "inscritos": 79810,
+    "votos_emitidos": 51419,
+    "votos_validos": 50107,
+    "participacion": 64.43,
+    "abstencion": 35.57,
+    "enpp": 1.973,
+    "margen_pp": 39.3,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
+  },
+  {
+    "id": "22-C1",
+    "provincia_id": "22",
+    "provincia": "Hermanas Mirabal",
+    "circ": 1,
+    "nivel": "diputados",
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "PRM",
+    "blocs": {
+      "PRM": 32268,
+      "FP": 10109,
+      "PLD": 7940,
+      "PED": 103,
+      "GENS": 83,
+      "PPT": 26
+    },
+    "top3": [
+      {
+        "id": "PRM",
+        "pct": 63.86
+      },
+      {
+        "id": "FP",
+        "pct": 20.01
+      },
+      {
+        "id": "PLD",
+        "pct": 15.71
       }
     ],
     "inscritos": 84835,
-    "votos_emitidos": 50529,
-    "participacion": 59.56,
-    "abstencion": 40.44,
-    "enpp": 3.174,
-    "margen_pp": 31.18,
-    "riesgo_score": 62.6,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 2
-    }
+    "votos_emitidos": 51991,
+    "votos_validos": 50529,
+    "participacion": 61.28,
+    "abstencion": 38.72,
+    "enpp": 2.116,
+    "margen_pp": 43.85,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "23",
-    "provincia": "Samaná",
+    "id": "23-C1",
+    "provincia_id": "23",
+    "provincia": "Samana",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 48.09,
     "blocs": {
-      "PRM": 23736,
-      "FP": 8302,
-      "PLD": 6981,
+      "PRM": 26995,
+      "FP": 9310,
+      "PLD": 7183,
       "PHD": 2899,
-      "PRD": 576,
-      "PRSC": 1093,
-      "PCR": 315,
-      "FNP": 308,
-      "BIS": 697,
-      "PQDC": 311,
-      "OD": 81,
-      "PSC": 70,
-      "PDI": 51,
+      "PRSC": 1716,
       "ALPAIS": 583,
-      "DXC": 353,
-      "PUN": 616,
-      "PRSD": 302,
-      "MODA": 155,
-      "APD": 266,
-      "PP": 503,
-      "PLR": 121,
-      "PPC": 89,
-      "UDC": 80,
-      "PAL": 57,
-      "PRI": 113,
-      "PDP": 84,
-      "PNVC": 47,
-      "PASOVE": 72,
-      "JS": 401,
+      "PRD": 576,
       "FAMP": 49,
       "PPG": 47
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 48.09
+        "pct": 54.69
       },
       {
         "id": "FP",
-        "pct": 16.82
+        "pct": 18.86
       },
       {
         "id": "PLD",
-        "pct": 14.14
+        "pct": 14.55
       }
     ],
     "inscritos": 81061,
-    "votos_emitidos": 49358,
-    "participacion": 60.89,
-    "abstencion": 39.11,
-    "enpp": 3.514,
-    "margen_pp": 31.27,
-    "riesgo_score": 65.1,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 2
-    }
+    "votos_emitidos": 50931,
+    "votos_validos": 49358,
+    "participacion": 62.83,
+    "abstencion": 37.17,
+    "enpp": 2.771,
+    "margen_pp": 35.83,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "24",
-    "provincia": "San Cristóbal",
+    "id": "24-C1",
+    "provincia_id": "24",
+    "provincia": "San Cristobal",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 45.43,
     "blocs": {
-      "PRM": 124306,
-      "PLD": 55891,
-      "FP": 51408,
-      "PRD": 6416,
-      "JS": 2053,
-      "GENS": 1986,
-      "PRSC": 1992,
-      "BIS": 2089,
-      "PQDC": 1064,
-      "PSC": 887,
-      "PDI": 430,
-      "OD": 1019,
-      "ALPAIS": 1281,
-      "DXC": 2335,
-      "PUN": 2827,
-      "PHD": 1617,
-      "PCR": 1342,
-      "PRSD": 1770,
-      "MODA": 1246,
-      "APD": 1364,
-      "PP": 2546,
-      "PLR": 887,
-      "PPC": 626,
-      "UDC": 642,
-      "PAL": 719,
-      "PRI": 947,
-      "PDP": 650,
-      "PNVC": 308,
-      "PASOVE": 350,
-      "PPG": 1117,
-      "FAMP": 912,
-      "PPT": 171,
-      "PED": 400
+      "PRM": 64866,
+      "PLD": 27489,
+      "FP": 22444,
+      "FAMP": 487,
+      "PED": 400,
+      "PPT": 103
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 45.43
+        "pct": 56.02
       },
       {
         "id": "PLD",
-        "pct": 20.43
+        "pct": 23.74
       },
       {
         "id": "FP",
-        "pct": 18.79
+        "pct": 19.38
       }
     ],
-    "inscritos": 441258,
-    "votos_emitidos": 273598,
-    "participacion": 62,
-    "abstencion": 38,
-    "enpp": 3.511,
-    "margen_pp": 25.01,
-    "riesgo_score": 67.9,
-    "riesgo_nivel": "alto",
-    "circs": 3,
-    "curules": {
-      "PRM": 6,
-      "PLD": 2,
-      "FP": 2
-    }
+    "inscritos": 187033,
+    "votos_emitidos": 119228,
+    "votos_validos": 115789,
+    "participacion": 63.75,
+    "abstencion": 36.25,
+    "enpp": 2.452,
+    "margen_pp": 32.28,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "25",
-    "provincia": "San Juan",
+    "id": "24-C2",
+    "provincia_id": "24",
+    "provincia": "San Cristobal",
+    "circ": 2,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 47.64,
     "blocs": {
-      "PRM": 58427,
-      "FP": 25992,
-      "PLD": 19571,
-      "PRD": 2649,
-      "GENS": 1550,
-      "PRSC": 1222,
-      "BIS": 567,
-      "PQDC": 457,
-      "PSC": 215,
-      "PDI": 180,
-      "ALPAIS": 721,
-      "DXC": 1102,
-      "PUN": 1020,
-      "PHD": 781,
-      "PCR": 863,
-      "PRSD": 701,
-      "MODA": 730,
-      "APD": 526,
-      "PP": 984,
-      "PLR": 302,
-      "PPC": 218,
-      "UDC": 558,
-      "PAL": 630,
-      "PRI": 452,
-      "PDP": 288,
-      "PNVC": 126,
-      "PASOVE": 177,
-      "JS": 781,
-      "FAMP": 376,
-      "PPT": 54,
-      "OD": 209,
-      "PED": 95,
-      "PPG": 116
+      "PRM": 51215,
+      "PLD": 26520,
+      "FP": 10186,
+      "BIS": 1196,
+      "FAMP": 114
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 47.64
+        "pct": 57.4
+      },
+      {
+        "id": "PLD",
+        "pct": 29.72
       },
       {
         "id": "FP",
-        "pct": 21.19
+        "pct": 11.42
+      }
+    ],
+    "inscritos": 137458,
+    "votos_emitidos": 92376,
+    "votos_validos": 89231,
+    "participacion": 67.2,
+    "abstencion": 32.8,
+    "enpp": 2.32,
+    "margen_pp": 27.68,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
+  },
+  {
+    "id": "24-C3",
+    "provincia_id": "24",
+    "provincia": "San Cristobal",
+    "circ": 3,
+    "nivel": "diputados",
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "PRM",
+    "blocs": {
+      "PRM": 34844,
+      "FP": 22785,
+      "PLD": 10119,
+      "GENS": 451,
+      "FAMP": 311,
+      "PPT": 68
+    },
+    "top3": [
+      {
+        "id": "PRM",
+        "pct": 50.81
+      },
+      {
+        "id": "FP",
+        "pct": 33.22
+      },
+      {
+        "id": "PLD",
+        "pct": 14.76
+      }
+    ],
+    "inscritos": 116767,
+    "votos_emitidos": 70657,
+    "votos_validos": 68578,
+    "participacion": 60.51,
+    "abstencion": 39.49,
+    "enpp": 2.562,
+    "margen_pp": 17.58,
+    "riesgo_score": 12.4,
+    "riesgo_nivel": "baja"
+  },
+  {
+    "id": "25-C1",
+    "provincia_id": "25",
+    "provincia": "San Juan",
+    "circ": 1,
+    "nivel": "diputados",
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "PRM",
+    "blocs": {
+      "PRM": 70609,
+      "FP": 30060,
+      "PLD": 19571,
+      "GENS": 1550,
+      "FAMP": 376,
+      "OD": 209,
+      "PPG": 116,
+      "PED": 95,
+      "PPT": 54
+    },
+    "top3": [
+      {
+        "id": "PRM",
+        "pct": 57.57
+      },
+      {
+        "id": "FP",
+        "pct": 24.51
       },
       {
         "id": "PLD",
@@ -1707,126 +1281,71 @@
       }
     ],
     "inscritos": 192039,
-    "votos_emitidos": 122640,
-    "participacion": 63.86,
-    "abstencion": 36.14,
-    "enpp": 3.348,
-    "margen_pp": 26.45,
-    "riesgo_score": 65.4,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 3,
-      "FP": 1
-    }
+    "votos_emitidos": 127672,
+    "votos_validos": 122640,
+    "participacion": 66.48,
+    "abstencion": 33.52,
+    "enpp": 2.397,
+    "margen_pp": 33.06,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "26",
-    "provincia": "San Pedro de Macorís",
+    "id": "26-C1",
+    "provincia_id": "26",
+    "provincia": "San Pedro de Macoris",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 47.34,
     "blocs": {
-      "PRM": 61826,
-      "FP": 19922,
-      "PLD": 18393,
+      "PRM": 81839,
+      "FP": 20741,
+      "PLD": 18945,
       "PRD": 5662,
-      "PRSC": 5239,
-      "PQDC": 596,
-      "PDI": 223,
-      "PSC": 552,
-      "BIS": 845,
-      "OD": 232,
-      "ALPAIS": 880,
-      "DXC": 2161,
-      "PUN": 1153,
-      "PHD": 661,
-      "PCR": 1227,
-      "PRSD": 1329,
-      "MODA": 1318,
-      "APD": 764,
-      "PP": 1379,
-      "PLR": 291,
-      "PPC": 135,
-      "UDC": 361,
-      "PAL": 421,
-      "PRI": 577,
-      "PDP": 435,
-      "PNVC": 158,
-      "PASOVE": 297,
-      "JS": 1227,
-      "FAMP": 383,
-      "PPT": 188,
+      "BIS": 1077,
+      "PPG": 720,
       "GENS": 592,
       "PED": 442,
-      "PPG": 720
+      "FAMP": 383,
+      "PPT": 188
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 47.34
+        "pct": 62.67
       },
       {
         "id": "FP",
-        "pct": 15.26
+        "pct": 15.88
       },
       {
         "id": "PLD",
-        "pct": 14.08
+        "pct": 14.51
       }
     ],
     "inscritos": 229372,
-    "votos_emitidos": 130589,
-    "participacion": 56.93,
-    "abstencion": 43.07,
-    "enpp": 3.678,
-    "margen_pp": 32.09,
-    "riesgo_score": 67,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 4,
-      "FP": 1
-    }
+    "votos_emitidos": 134871,
+    "votos_validos": 130589,
+    "participacion": 58.8,
+    "abstencion": 41.2,
+    "enpp": 2.267,
+    "margen_pp": 46.79,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "27",
-    "provincia": "Sánchez Ramírez",
+    "id": "27-C1",
+    "provincia_id": "27",
+    "provincia": "Sanchez Ramirez",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 58.27,
     "blocs": {
-      "PRM": 46863,
-      "FP": 12235,
-      "PLD": 10164,
-      "PRD": 1833,
-      "PRSC": 822,
-      "PQDC": 113,
-      "PSC": 63,
-      "PDI": 79,
-      "BIS": 157,
-      "OD": 95,
-      "ALPAIS": 364,
-      "DXC": 742,
-      "PUN": 1098,
-      "PHD": 459,
-      "PCR": 976,
-      "PRSD": 698,
-      "MODA": 409,
-      "APD": 636,
-      "PP": 550,
-      "PLR": 217,
-      "PPC": 126,
-      "UDC": 78,
-      "PAL": 177,
-      "PRI": 200,
-      "PDP": 134,
-      "PNVC": 80,
-      "PASOVE": 83,
-      "PPG": 225,
-      "JS": 472,
+      "PRM": 55409,
+      "PRD": 24487,
+      "BIS": 252,
       "FAMP": 161,
       "PPT": 69,
       "GENS": 40
@@ -1834,375 +1353,562 @@
     "top3": [
       {
         "id": "PRM",
-        "pct": 58.27
+        "pct": 68.9
       },
       {
-        "id": "FP",
-        "pct": 15.21
+        "id": "PRD",
+        "pct": 30.45
       },
       {
-        "id": "PLD",
-        "pct": 12.64
+        "id": "BIS",
+        "pct": 0.31
       }
     ],
     "inscritos": 126090,
-    "votos_emitidos": 80418,
-    "participacion": 63.78,
-    "abstencion": 36.22,
-    "enpp": 2.631,
-    "margen_pp": 43.06,
-    "riesgo_score": 51.1,
-    "riesgo_nivel": "medio",
-    "circs": 1,
-    "curules": {
-      "PRM": 2,
-      "PRD": 1
-    }
+    "votos_emitidos": 82570,
+    "votos_validos": 80418,
+    "participacion": 65.48,
+    "abstencion": 34.52,
+    "enpp": 1.762,
+    "margen_pp": 38.45,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "28",
+    "id": "28-C1",
+    "provincia_id": "28",
     "provincia": "Santiago",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
-    "ganador": "PRM",
-    "pct_ganador": 46.74,
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "FP",
     "blocs": {
-      "PRM": 168779,
-      "PLD": 67930,
-      "FP": 43009,
-      "JS": 13583,
-      "DXC": 8774,
-      "PRSC": 8574,
-      "PRD": 9016,
-      "PSC": 722,
-      "PQDC": 1056,
-      "OD": 2813,
-      "BIS": 2187,
-      "PDI": 346,
-      "ALPAIS": 3174,
-      "PUN": 3908,
-      "PHD": 2415,
-      "PCR": 2570,
-      "PRSD": 3132,
-      "MODA": 1543,
-      "APD": 1681,
-      "PP": 1355,
-      "PLR": 855,
-      "PPC": 419,
-      "UDC": 1093,
-      "PAL": 1269,
-      "PRI": 1378,
-      "PDP": 990,
-      "PNVC": 479,
-      "PASOVE": 600,
-      "PPG": 2020,
-      "FAMP": 919,
-      "PPT": 462,
-      "GENS": 1841,
-      "PED": 2201
+      "PRM": 83859,
+      "PLD": 27425,
+      "FP": 25575,
+      "PRSC": 6068,
+      "JS": 4556,
+      "DXC": 4480,
+      "PUN": 2347,
+      "PRSD": 1572,
+      "PHD": 1420,
+      "ALPAIS": 1206,
+      "PCR": 1152,
+      "PPG": 924,
+      "PED": 917,
+      "APD": 910,
+      "MODA": 845,
+      "GENS": 814,
+      "PP": 803,
+      "UDC": 751,
+      "PAL": 675,
+      "PRI": 626,
+      "BIS": 612,
+      "PSC": 536,
+      "PLR": 510,
+      "PDP": 485,
+      "FAMP": 378,
+      "PASOVE": 304,
+      "PNVC": 280,
+      "PPC": 230,
+      "PPT": 189
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 46.74
+        "pct": 49.2
       },
       {
         "id": "PLD",
-        "pct": 18.81
+        "pct": 16.09
       },
       {
         "id": "FP",
-        "pct": 11.91
+        "pct": 15.0
       }
     ],
-    "inscritos": 785287,
-    "votos_emitidos": 361093,
-    "participacion": 45.98,
-    "abstencion": 54.02,
-    "enpp": 3.677,
-    "margen_pp": 27.93,
-    "riesgo_score": 71.8,
-    "riesgo_nivel": "alto",
-    "circs": 3,
-    "curules": {
-      "PRM": 13,
-      "PLD": 2,
-      "FP": 3
-    }
+    "inscritos": 357833,
+    "votos_emitidos": 176552,
+    "votos_validos": 170449,
+    "participacion": 49.34,
+    "abstencion": 50.66,
+    "enpp": 3.403,
+    "margen_pp": 33.11,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "29",
-    "provincia": "Santiago Rodríguez",
+    "id": "28-C2",
+    "provincia_id": "28",
+    "provincia": "Santiago",
+    "circ": 2,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 46.11,
     "blocs": {
-      "PRM": 14667,
-      "PLD": 7595,
-      "PPG": 2213,
-      "FP": 3592,
-      "PRD": 477,
-      "PRSC": 325,
-      "BIS": 237,
-      "PQDC": 64,
-      "PDI": 73,
-      "OD": 74,
-      "PSC": 92,
-      "ALPAIS": 94,
-      "DXC": 237,
-      "PUN": 312,
-      "PHD": 87,
-      "PCR": 227,
-      "PRSD": 88,
-      "MODA": 86,
-      "APD": 144,
-      "PP": 160,
-      "PLR": 57,
-      "PPC": 59,
-      "UDC": 23,
-      "PAL": 28,
-      "PRI": 67,
-      "PDP": 72,
-      "PNVC": 26,
-      "PASOVE": 48,
-      "JS": 468,
-      "FAMP": 49,
-      "GENS": 67
+      "PRM": 43998,
+      "FP": 13382,
+      "PLD": 12984,
+      "PED": 612,
+      "BIS": 601,
+      "GENS": 346,
+      "FAMP": 192,
+      "PPT": 112,
+      "PSC": 85
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 46.11
-      },
-      {
-        "id": "PLD",
-        "pct": 23.88
+        "pct": 60.84
       },
       {
         "id": "FP",
-        "pct": 11.29
+        "pct": 18.51
+      },
+      {
+        "id": "PLD",
+        "pct": 17.96
+      }
+    ],
+    "inscritos": 176038,
+    "votos_emitidos": 75390,
+    "votos_validos": 72312,
+    "participacion": 42.83,
+    "abstencion": 57.17,
+    "enpp": 2.289,
+    "margen_pp": 42.34,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
+  },
+  {
+    "id": "28-C3",
+    "provincia_id": "28",
+    "provincia": "Santiago",
+    "circ": 3,
+    "nivel": "diputados",
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "PRM",
+    "blocs": {
+      "PRM": 70590,
+      "PLD": 27521,
+      "FP": 16937,
+      "BIS": 1320,
+      "GENS": 681,
+      "PED": 672,
+      "FAMP": 349,
+      "PPT": 161,
+      "PSC": 101
+    },
+    "top3": [
+      {
+        "id": "PRM",
+        "pct": 59.65
+      },
+      {
+        "id": "PLD",
+        "pct": 23.26
+      },
+      {
+        "id": "FP",
+        "pct": 14.31
+      }
+    ],
+    "inscritos": 251417,
+    "votos_emitidos": 122035,
+    "votos_validos": 118332,
+    "participacion": 48.54,
+    "abstencion": 51.46,
+    "enpp": 2.322,
+    "margen_pp": 36.4,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
+  },
+  {
+    "id": "29-C1",
+    "provincia_id": "29",
+    "provincia": "Santiago Rodriguez",
+    "circ": 1,
+    "nivel": "diputados",
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "PRM",
+    "blocs": {
+      "PRM": 19488,
+      "PLD": 7761,
+      "FP": 3966,
+      "PRD": 477,
+      "GENS": 67,
+      "FAMP": 49
+    },
+    "top3": [
+      {
+        "id": "PRM",
+        "pct": 61.27
+      },
+      {
+        "id": "PLD",
+        "pct": 24.4
+      },
+      {
+        "id": "FP",
+        "pct": 12.47
       }
     ],
     "inscritos": 49639,
-    "votos_emitidos": 31808,
-    "participacion": 64.08,
-    "abstencion": 35.92,
-    "enpp": 3.47,
-    "margen_pp": 22.23,
-    "riesgo_score": 68.4,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 2
-    }
+    "votos_emitidos": 32584,
+    "votos_validos": 31808,
+    "participacion": 65.64,
+    "abstencion": 34.36,
+    "enpp": 2.219,
+    "margen_pp": 36.87,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "30",
+    "id": "30-C1",
+    "provincia_id": "30",
     "provincia": "Valverde",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 56.31,
     "blocs": {
-      "PRM": 37196,
-      "PLD": 11521,
-      "JS": 1529,
-      "FP": 6041,
+      "PRM": 46248,
+      "PLD": 11766,
+      "FP": 6553,
       "PRD": 1100,
-      "PRSC": 1062,
-      "BIS": 263,
-      "PQDC": 128,
-      "PSC": 76,
-      "PDI": 45,
-      "OD": 245,
-      "ALPAIS": 226,
-      "DXC": 630,
-      "PUN": 1042,
-      "PHD": 303,
-      "PCR": 765,
-      "PRSD": 173,
-      "MODA": 594,
-      "APD": 758,
-      "PP": 606,
-      "PLR": 187,
-      "PPC": 126,
-      "UDC": 152,
-      "PAL": 72,
-      "PRI": 167,
-      "PDP": 120,
-      "PNVC": 69,
-      "PASOVE": 95,
-      "PPG": 376,
+      "PED": 199,
       "FAMP": 107,
-      "PPT": 28,
       "GENS": 53,
-      "PED": 199
+      "PPT": 28
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 56.31
+        "pct": 70.02
       },
       {
         "id": "PLD",
-        "pct": 17.44
+        "pct": 17.81
       },
       {
         "id": "FP",
-        "pct": 9.15
+        "pct": 9.92
       }
     ],
     "inscritos": 116738,
-    "votos_emitidos": 66054,
-    "participacion": 56.58,
-    "abstencion": 43.42,
-    "enpp": 2.794,
-    "margen_pp": 38.87,
-    "riesgo_score": 56.4,
-    "riesgo_nivel": "medio",
-    "circs": 1,
-    "curules": {
-      "PRM": 3
-    }
+    "votos_emitidos": 67729,
+    "votos_validos": 66054,
+    "participacion": 58.02,
+    "abstencion": 41.98,
+    "enpp": 1.879,
+    "margen_pp": 52.2,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "31",
-    "provincia": "San José de Ocoa",
+    "id": "31-C1",
+    "provincia_id": "31",
+    "provincia": "San Jose de Ocoa",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 46.29,
     "blocs": {
-      "PRM": 15400,
-      "FP": 6371,
-      "PLD": 6407,
-      "BIS": 501,
+      "PRM": 19199,
+      "FP": 7139,
+      "PLD": 6568,
       "PRD": 225,
-      "PRSC": 370,
-      "PQDC": 125,
-      "PSC": 83,
-      "PDI": 59,
-      "OD": 161,
-      "ALPAIS": 176,
-      "DXC": 531,
-      "PUN": 340,
-      "PHD": 169,
-      "PCR": 245,
-      "PRSD": 234,
-      "MODA": 195,
-      "APD": 221,
-      "PP": 529,
-      "PLR": 181,
-      "PPC": 84,
-      "UDC": 40,
-      "PAL": 99,
-      "PRI": 80,
-      "PDP": 45,
-      "PNVC": 28,
-      "PASOVE": 37,
-      "PPG": 153,
-      "JS": 42,
       "FAMP": 71,
       "PPT": 70
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 46.29
-      },
-      {
-        "id": "PLD",
-        "pct": 19.26
+        "pct": 57.7
       },
       {
         "id": "FP",
-        "pct": 19.15
+        "pct": 21.46
+      },
+      {
+        "id": "PLD",
+        "pct": 19.74
       }
     ],
     "inscritos": 52519,
-    "votos_emitidos": 33272,
-    "participacion": 63.35,
-    "abstencion": 36.65,
-    "enpp": 3.456,
-    "margen_pp": 27.03,
-    "riesgo_score": 66.1,
-    "riesgo_nivel": "alto",
-    "circs": 1,
-    "curules": {
-      "PRM": 2
-    }
+    "votos_emitidos": 34504,
+    "votos_validos": 33272,
+    "participacion": 65.7,
+    "abstencion": 34.3,
+    "enpp": 2.392,
+    "margen_pp": 36.25,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
   },
   {
-    "id": "32",
+    "id": "32-C1",
+    "provincia_id": "32",
     "provincia": "Santo Domingo",
+    "circ": 1,
     "nivel": "diputados",
-    "fuente": "diputados_agregado_provincia_con_alianzas",
+    "fuente": "RTF_JCE_oficial_2024",
     "ganador": "PRM",
-    "pct_ganador": 44.84,
     "blocs": {
-      "PRM": 394529,
-      "FP": 210601,
-      "PLD": 113195,
-      "PRD": 17192,
-      "PRSC": 13485,
-      "PQDC": 5152,
-      "PDI": 1727,
-      "BIS": 6044,
-      "OD": 5873,
-      "PSC": 2006,
-      "ALPAIS": 5003,
-      "DXC": 7482,
-      "FAMP": 4795,
-      "APD": 2320,
-      "FNP": 965,
-      "PNVC": 664,
-      "PUN": 10856,
-      "PHD": 5711,
-      "PCR": 6720,
-      "PRSD": 6673,
-      "MODA": 7114,
-      "PLR": 3915,
-      "PPC": 1347,
-      "UDC": 2569,
-      "PAL": 3576,
-      "PRI": 4773,
-      "PDP": 3679,
-      "PASOVE": 3126,
-      "JS": 5333,
-      "PP": 7296,
-      "PPT": 1373,
-      "GENS": 5128,
-      "PPG": 6097,
-      "PED": 3445
+      "PRM": 63771,
+      "FP": 29240,
+      "PLD": 19942,
+      "PRD": 2454,
+      "FAMP": 2217,
+      "BIS": 2078,
+      "PP": 1091,
+      "GENS": 966,
+      "PPT": 488,
+      "PPG": 469
     },
     "top3": [
       {
         "id": "PRM",
-        "pct": 44.84
+        "pct": 51.97
       },
       {
         "id": "FP",
-        "pct": 23.94
+        "pct": 23.83
       },
       {
         "id": "PLD",
-        "pct": 12.87
+        "pct": 16.25
       }
     ],
-    "inscritos": 1649032,
-    "votos_emitidos": 879764,
-    "participacion": 53.35,
-    "abstencion": 46.65,
-    "enpp": 3.616,
-    "margen_pp": 20.91,
-    "riesgo_score": 73,
-    "riesgo_nivel": "alto",
-    "circs": 6,
-    "curules": {
-      "PRM": 28,
-      "PLD": 4,
-      "FP": 11
-    }
+    "inscritos": 244595,
+    "votos_emitidos": 126721,
+    "votos_validos": 122716,
+    "participacion": 51.81,
+    "abstencion": 48.19,
+    "enpp": 2.822,
+    "margen_pp": 28.14,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
+  },
+  {
+    "id": "32-C2",
+    "provincia_id": "32",
+    "provincia": "Santo Domingo",
+    "circ": 2,
+    "nivel": "diputados",
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "PRM",
+    "blocs": {
+      "PRM": 41759,
+      "FP": 19170,
+      "PLD": 9471,
+      "PRD": 1557,
+      "FAMP": 1499,
+      "BIS": 837,
+      "PED": 416,
+      "GENS": 398,
+      "PP": 363,
+      "PPG": 258,
+      "PPT": 221
+    },
+    "top3": [
+      {
+        "id": "PRM",
+        "pct": 54.98
+      },
+      {
+        "id": "FP",
+        "pct": 25.24
+      },
+      {
+        "id": "PLD",
+        "pct": 12.47
+      }
+    ],
+    "inscritos": 150250,
+    "votos_emitidos": 79036,
+    "votos_validos": 75949,
+    "participacion": 52.6,
+    "abstencion": 47.4,
+    "enpp": 2.614,
+    "margen_pp": 29.74,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
+  },
+  {
+    "id": "32-C3",
+    "provincia_id": "32",
+    "provincia": "Santo Domingo",
+    "circ": 3,
+    "nivel": "diputados",
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "PRM",
+    "blocs": {
+      "PRM": 113464,
+      "FP": 46818,
+      "PLD": 34967,
+      "FAMP": 8700,
+      "PRD": 4606,
+      "BIS": 3729,
+      "PP": 1790,
+      "PED": 1459,
+      "PPG": 1428,
+      "GENS": 1256,
+      "PPT": 245
+    },
+    "top3": [
+      {
+        "id": "PRM",
+        "pct": 51.94
+      },
+      {
+        "id": "FP",
+        "pct": 21.43
+      },
+      {
+        "id": "PLD",
+        "pct": 16.01
+      }
+    ],
+    "inscritos": 407639,
+    "votos_emitidos": 227667,
+    "votos_validos": 218462,
+    "participacion": 55.85,
+    "abstencion": 44.15,
+    "enpp": 2.909,
+    "margen_pp": 30.51,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
+  },
+  {
+    "id": "32-C4",
+    "provincia_id": "32",
+    "provincia": "Santo Domingo",
+    "circ": 4,
+    "nivel": "diputados",
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "PRM",
+    "blocs": {
+      "PRM": 86252,
+      "FP": 35155,
+      "PLD": 14446,
+      "FAMP": 3343,
+      "PRD": 2085,
+      "GENS": 1223,
+      "PP": 1010,
+      "PED": 700,
+      "PSC": 158,
+      "PPT": 100
+    },
+    "top3": [
+      {
+        "id": "PRM",
+        "pct": 59.7
+      },
+      {
+        "id": "FP",
+        "pct": 24.33
+      },
+      {
+        "id": "PLD",
+        "pct": 10.0
+      }
+    ],
+    "inscritos": 265698,
+    "votos_emitidos": 149157,
+    "votos_validos": 144472,
+    "participacion": 56.14,
+    "abstencion": 43.86,
+    "enpp": 2.345,
+    "margen_pp": 35.37,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
+  },
+  {
+    "id": "32-C5",
+    "provincia_id": "32",
+    "provincia": "Santo Domingo",
+    "circ": 5,
+    "nivel": "diputados",
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "PRM",
+    "blocs": {
+      "PRM": 73359,
+      "FP": 32941,
+      "PLD": 11271,
+      "PRD": 2386,
+      "PP": 2064,
+      "FAMP": 1534,
+      "PPG": 581,
+      "GENS": 543,
+      "PPT": 150
+    },
+    "top3": [
+      {
+        "id": "PRM",
+        "pct": 58.77
+      },
+      {
+        "id": "FP",
+        "pct": 26.39
+      },
+      {
+        "id": "PLD",
+        "pct": 9.03
+      }
+    ],
+    "inscritos": 223713,
+    "votos_emitidos": 129210,
+    "votos_validos": 124829,
+    "participacion": 57.76,
+    "abstencion": 42.24,
+    "enpp": 2.359,
+    "margen_pp": 32.38,
+    "riesgo_score": 5,
+    "riesgo_nivel": "baja"
+  },
+  {
+    "id": "32-C6",
+    "provincia_id": "32",
+    "provincia": "Santo Domingo",
+    "circ": 6,
+    "nivel": "diputados",
+    "fuente": "RTF_JCE_oficial_2024",
+    "ganador": "PRM",
+    "blocs": {
+      "PRM": 94801,
+      "FP": 58523,
+      "PLD": 24012,
+      "PRD": 4104,
+      "FAMP": 3936,
+      "PPG": 3361,
+      "BIS": 1840,
+      "PP": 978,
+      "PED": 870,
+      "GENS": 742,
+      "PPT": 169
+    },
+    "top3": [
+      {
+        "id": "PRM",
+        "pct": 49.03
+      },
+      {
+        "id": "FP",
+        "pct": 30.27
+      },
+      {
+        "id": "PLD",
+        "pct": 12.42
+      }
+    ],
+    "inscritos": 357137,
+    "votos_emitidos": 201016,
+    "votos_validos": 193336,
+    "participacion": 56.29,
+    "abstencion": 43.71,
+    "enpp": 2.867,
+    "margen_pp": 18.76,
+    "riesgo_score": 11.2,
+    "riesgo_nivel": "baja"
   }
 ]

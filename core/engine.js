@@ -277,53 +277,123 @@ const MotorResultados = {
     });
   },
 
-  // Senadores: resultados por provincia, agregados por bloque
+  // Senadores: resultados por provincia, agregados por bloque (desde prov_metrics)
+  // prov_metrics_senadores ya tiene ganador, bloque_coalicion, top3 calculados desde RTF real
   getSenadores() {
-    // Alianzas de senadores son por provincia — distintas al presidencial
     const senAlianzas = this._a.niveles.senadores || [];
+    // prov_metrics inyectado por ui.js como _PROV_METRICS_SEN (window global)
+    const metricsMap = {};
+    (window._PROV_METRICS_SEN || []).forEach(m => { metricsMap[m.id] = m; });
 
     return this._r.niveles.senadores.map(prov => {
-      // Mapa de bloque para esta provincia específica
-      const provBlocMap = {};
+      const m = metricsMap[prov.provincia_id] || {};
       const provAli = senAlianzas.find(a => a.provincia_id === prov.provincia_id);
-      if (provAli) {
-        provAli.bloques.forEach(b => {
-          b.partidos.forEach(p => { provBlocMap[p] = b.candidato_base; });
-        });
+      const blocs   = m.blocs || prov.resultados;
+      const ganador = m.ganador || provAli?.ganador || Object.entries(prov.resultados).sort((a,b)=>b[1]-a[1])[0]?.[0] || '?';
+      const total   = Object.values(blocs).reduce((s,v)=>s+v,0);
+
+      // bloque_coalicion: leer desde prov_metrics o recalcular
+      let bloque_coalicion = m.bloque_coalicion || 'otro';
+      if (!m.bloque_coalicion) {
+        const prmBloc = (this._a.niveles.presidencial[0]?.bloques || []).find(b=>b.candidato_base==='PRM');
+        const fpBloc  = (this._a.niveles.presidencial[0]?.bloques || []).find(b=>b.candidato_base==='FP');
+        const prmParts = new Set(prmBloc?.partidos || ['PRM']);
+        const fpParts  = new Set(fpBloc?.partidos  || ['FP']);
+        if (prmParts.has(ganador)) bloque_coalicion = 'PRM-coalicion';
+        else if (fpParts.has(ganador)) bloque_coalicion = 'FP-coalicion';
       }
-      const getBlocProv = p => provBlocMap[p] || p;
 
-      const blocs = {};
-      Object.entries(prov.resultados).forEach(([p,v]) => {
-        const b = getBlocProv(p);
-        blocs[b] = (blocs[b]||0)+v;
-      });
-      const sorted = Object.entries(blocs).sort((a,b)=>b[1]-a[1]);
-      const total  = sorted.reduce((s,[,v])=>s+v,0);
-      const ganador = sorted[0][0];
-
-      // Bloque coalición presidencial del ganador
-      const prmPresBloc = (this._a.niveles.presidencial[0]?.bloques || []).find(b => b.candidato_base === 'PRM');
-      const fpPresBloc  = (this._a.niveles.presidencial[0]?.bloques || []).find(b => b.candidato_base === 'FP');
-      let bloque_coalicion = 'otro';
-      if (ganador === 'PRM' || (prmPresBloc && prmPresBloc.partidos.includes(ganador))) bloque_coalicion = 'PRM-coalicion';
-      else if (ganador === 'FP' || (fpPresBloc && fpPresBloc.partidos.includes(ganador))) bloque_coalicion = 'FP-coalicion';
+      const top3 = m.top3 ||
+        Object.entries(blocs).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([id,v])=>({
+          id, nombre: this.getPartidoNombre(id), pct: +(v/total*100).toFixed(1)
+        }));
 
       return {
         provincia_id:     prov.provincia_id,
         provincia:        prov.provincia,
-        ganador,                          // partido que ganó realmente
-        bloque_coalicion,                 // PRM-coalicion | FP-coalicion | otro
-        pct_ganador:      +(sorted[0][1]/total*100).toFixed(1),
-        top3: sorted.slice(0,3).map(([id,v])=>({
-          id, nombre: this.getPartidoNombre(id),
-          pct: +(v/total*100).toFixed(1)
-        }))
+        ganador,
+        bloque_coalicion,
+        pct_ganador:      m.pct_ganador ?? +(( (blocs[ganador]||0)/total )*100).toFixed(1),
+        top3,
+        enpp:             m.enpp,
+        riesgo_nivel:     m.riesgo_nivel,
+        riesgo_score:     m.riesgo_score,
+        margen_pp:        m.margen_pp,
+        inscritos:        m.inscritos || prov.totales?.inscritos,
+        votos_emitidos:   m.votos_emitidos || prov.totales?.emitidos,
+        votos_validos:    m.votos_validos  || prov.totales?.validos,
+        participacion:    m.participacion,
+        resultados_ind:   prov.resultados,   // votos individuales por partido
+        blocs_agregados:  blocs,              // votos por bloque (para barras)
       };
     });
   },
 
-  getDiputados() { return this._r.niveles.diputados; }
+  // Diputados por circunscripción con votos individuales + alianzas aplicadas
+  getDiputadosPorCirc() {
+    const dipAlianzas = this._a.niveles.diputados || [];
+    const metricsMap  = {};
+    (window._PROV_METRICS_DIP || []).forEach(m => { metricsMap[m.id] = m; });
+
+    return this._r.niveles.diputados.map(circ => {
+      const key  = circ.provincia_id + '-C' + circ.circ;
+      const m    = metricsMap[key] || {};
+      const ali  = dipAlianzas.find(a => a.provincia_id===circ.provincia_id && a.circ===circ.circ);
+      const blocs = m.blocs || circ.resultados;
+      const ganador = m.ganador || ali?.ganador || Object.entries(circ.resultados).sort((a,b)=>b[1]-a[1])[0]?.[0] || '?';
+      const total = Object.values(blocs).reduce((s,v)=>s+v,0);
+
+      return {
+        provincia_id:    circ.provincia_id,
+        provincia:       circ.provincia,
+        circ:            circ.circ,
+        ganador,
+        pct_ganador:     m.pct_ganador ?? +((( blocs[ganador]||0)/total)*100).toFixed(1),
+        top3:            m.top3 || Object.entries(blocs).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([id,v])=>({id,pct:+(v/total*100).toFixed(1)})),
+        enpp:            m.enpp,
+        riesgo_nivel:    m.riesgo_nivel,
+        inscritos:       m.inscritos || circ.inscritos,
+        participacion:   m.participacion,
+        resultados_ind:  circ.resultados,
+        blocs_agregados: blocs,
+      };
+    });
+  },
+
+  getDiputados() { return this._r.niveles.diputados; },
+
+  // Exterior: resultados por circunscripción
+  getDiputadosExterior() {
+    const extAli = this._a.niveles.diputados_exterior || [];
+    return (this._r.niveles.diputados_exterior || []).map(circ => {
+      const ali   = extAli.find(a => a.circ_exterior === circ.circ_exterior) || {};
+      const blocs = {};
+      const aliB  = ali.bloques || [];
+      if (aliB.length) {
+        aliB.forEach(b => {
+          blocs[b.candidato_base] = (b.partidos||[]).reduce((s,p)=>s+(circ.resultados[p]||0), 0);
+        });
+        const inBloc = new Set(aliB.flatMap(b=>b.partidos));
+        Object.entries(circ.resultados).forEach(([p,v])=>{ if(!inBloc.has(p)) blocs[p]=(blocs[p]||0)+v; });
+      } else {
+        Object.assign(blocs, circ.resultados);
+      }
+      const sorted  = Object.entries(blocs).sort((a,b)=>b[1]-a[1]);
+      const total   = sorted.reduce((s,[,v])=>s+v,0);
+      const ganador = ali.ganador || sorted[0]?.[0] || '?';
+      return {
+        circ_exterior:   circ.circ_exterior,
+        region:          circ.region,
+        inscritos:       circ.inscritos,
+        ganador,
+        pct_ganador:     +((( blocs[ganador]||0)/total)*100).toFixed(1),
+        top3:            sorted.slice(0,3).map(([id,v])=>({id,pct:+(v/total*100).toFixed(1)})),
+        totales:         circ.totales,
+        resultados_ind:  circ.resultados,
+        blocs_agregados: blocs,
+      };
+    });
+  }
 };
 
 // ─────────────────────────────────────────────────────────────────
@@ -334,12 +404,25 @@ const MotorAlianzas = {
   _a: null,
   init(alianzasData) { this._a = alianzasData; },
 
-  getBloques(nivel='presidencial') {
-    return this._a.niveles[nivel]?.[0]?.bloques || [];
+  // Presidencial: array con 1 elemento { territorio, bloques }
+  // Senadores/diputados: array de objetos por territorio con { bloques }
+  getBloques(nivel='presidencial', territorioId=null) {
+    const data = this._a.niveles[nivel];
+    if (!data || !data.length) return [];
+    if (nivel === 'presidencial') {
+      return data[0]?.bloques || [];
+    }
+    // Para senadores/diputados: si se pide territorio específico, devolver esos bloques
+    if (territorioId) {
+      const terr = data.find(d => d.provincia_id === territorioId || d.circ_exterior === territorioId);
+      return terr?.bloques || [];
+    }
+    // Sin territorio: devolver bloques únicos de la primera entrada (representativo)
+    return data[0]?.bloques || [];
   },
 
-  getCoalicion(basePartido, nivel='presidencial') {
-    return this.getBloques(nivel).find(b => b.candidato_base === basePartido) || null;
+  getCoalicion(basePartido, nivel='presidencial', territorioId=null) {
+    return this.getBloques(nivel, territorioId).find(b => b.candidato_base === basePartido) || null;
   },
 
   // Escenario sin alianzas: cada partido compite solo
