@@ -173,20 +173,33 @@ function renderPresidencial(){
 function renderSenadores(){
   var senData = M.Resultados.getSenadores();
   var senC = M.Curules.getTotalByNivel('senadores');
+  var senCoal = M.Curules.getSenadorePorCoalicion();
+
+  // Totales por coalici\u00f3n
+  var prmReal = senC['PRM']||0;
+  var fpReal  = senC['FP']||0;
+  var prmCoal = (senCoal.find(function(x){return x.id==='PRM-coalicion';})||{curules:0}).curules;
+  var fpCoal  = (senCoal.find(function(x){return x.id==='FP-coalicion';})||{curules:0}).curules;
+  var otros   = 32 - prmCoal - fpCoal;
 
   document.getElementById('sen-kpis').innerHTML =
-    kpi('blue','PRM',senC.PRM||0,'de 32 senadores')
-    +kpi('purple','FP',senC.FP||0,'oposici\u00f3n')
-    +kpi('red','PLD',senC.PLD||0,'')
+    kpi('blue','PRM directo',prmReal,'bloque PRM: '+prmCoal+' (+'+(prmCoal-prmReal)+' aliados)')
+    +kpi('purple','FP directo',fpReal,'bloque FP: '+fpCoal+' (+'+(fpCoal-fpReal)+' aliados)')
+    +kpi('red','Otros partidos',otros,'fuera de bloques principales')
     +kpi('gold','Total','32','1 por provincia');
 
   document.getElementById('sen-prov-grid').innerHTML = senData.map(function(prov){
     var pm = _PROV_METRICS.find(function(p){return p.id===prov.provincia_id;})||{};
     var rn = pm.riesgo_nivel||'';
     var rs = pm.riesgo_score||'';
+    var esAliadoPRM = prov.ganador !== 'PRM' && prov.bloque_coalicion === 'PRM-coalicion';
+    var esAliadoFP  = prov.ganador !== 'FP'  && prov.bloque_coalicion === 'FP-coalicion';
+    var coalbadge = esAliadoPRM
+      ? '<span style="font-size:.65rem;background:var(--bg3);color:var(--muted);padding:.1rem .35rem;border-radius:.25rem;margin-left:.3rem">aliado PRM</span>'
+      : (esAliadoFP ? '<span style="font-size:.65rem;background:var(--bg3);color:var(--muted);padding:.1rem .35rem;border-radius:.25rem;margin-left:.3rem">aliado FP</span>' : '');
     return '<div class="prov-card">'
       +'<div class="prov-name">'+prov.provincia+'</div>'
-      +'<div class="prov-winner" style="color:'+pc(prov.ganador)+'">'+prov.ganador+'</div>'
+      +'<div class="prov-winner" style="color:'+pc(prov.ganador)+'">'+prov.ganador+coalbadge+'</div>'
       +'<div class="prov-pct">'+prov.pct_ganador+'% \u00b7 ENPP '+(pm.enpp||'?')+'</div>'
       +(rn?'<span class="risk-badge risk-'+rn+'">Riesgo '+rs+'</span>':'')
       +'<div class="prov-bar">'

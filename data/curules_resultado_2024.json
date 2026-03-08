@@ -6,10 +6,12 @@
         "provincia_id": "01",
         "provincia": "Distrito Nacional",
         "curules_totales": 1,
-        "ganador": "PRM",
+        "ganador": "FP",
+        "bloque_coalicion": "FP-coalicion",
+        "pct_ganador": 56.2,
         "resultado": [
           {
-            "partido": "PRM",
+            "partido": "FP",
             "curules": 1
           }
         ]
@@ -18,10 +20,12 @@
         "provincia_id": "02",
         "provincia": "La Altagracia",
         "curules_totales": 1,
-        "ganador": "PRM",
+        "ganador": "PLR",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 51.5,
         "resultado": [
           {
-            "partido": "PRM",
+            "partido": "PLR",
             "curules": 1
           }
         ]
@@ -31,6 +35,8 @@
         "provincia": "Azua",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 66.7,
         "resultado": [
           {
             "partido": "PRM",
@@ -42,10 +48,12 @@
         "provincia_id": "04",
         "provincia": "Bahoruco",
         "curules_totales": 1,
-        "ganador": "PRM",
+        "ganador": "APD",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 66.2,
         "resultado": [
           {
-            "partido": "PRM",
+            "partido": "APD",
             "curules": 1
           }
         ]
@@ -54,10 +62,12 @@
         "provincia_id": "05",
         "provincia": "Barahona",
         "curules_totales": 1,
-        "ganador": "PRM",
+        "ganador": "PRI",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 61.1,
         "resultado": [
           {
-            "partido": "PRM",
+            "partido": "PRI",
             "curules": 1
           }
         ]
@@ -67,6 +77,8 @@
         "provincia": "Dajabon",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 56.6,
         "resultado": [
           {
             "partido": "PRM",
@@ -79,6 +91,8 @@
         "provincia": "Duarte",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 72.9,
         "resultado": [
           {
             "partido": "PRM",
@@ -91,6 +105,8 @@
         "provincia": "El Seibo",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 68.9,
         "resultado": [
           {
             "partido": "PRM",
@@ -103,6 +119,8 @@
         "provincia": "Elias Piña",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 63.2,
         "resultado": [
           {
             "partido": "PRM",
@@ -115,6 +133,8 @@
         "provincia": "Espaillat",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 68.8,
         "resultado": [
           {
             "partido": "PRM",
@@ -127,6 +147,8 @@
         "provincia": "Hato Mayor",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 51.5,
         "resultado": [
           {
             "partido": "PRM",
@@ -139,6 +161,8 @@
         "provincia": "Independencia",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 56.6,
         "resultado": [
           {
             "partido": "PRM",
@@ -150,10 +174,12 @@
         "provincia_id": "13",
         "provincia": "La Romana",
         "curules_totales": 1,
-        "ganador": "PRM",
+        "ganador": "FP",
+        "bloque_coalicion": "FP-coalicion",
+        "pct_ganador": 52.2,
         "resultado": [
           {
-            "partido": "PRM",
+            "partido": "FP",
             "curules": 1
           }
         ]
@@ -162,10 +188,12 @@
         "provincia_id": "14",
         "provincia": "La Vega",
         "curules_totales": 1,
-        "ganador": "PRM",
+        "ganador": "PRSC",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 59.9,
         "resultado": [
           {
-            "partido": "PRM",
+            "partido": "PRSC",
             "curules": 1
           }
         ]
@@ -175,6 +203,8 @@
         "provincia": "Maria Trinidad Sanchez",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 75.4,
         "resultado": [
           {
             "partido": "PRM",
@@ -187,6 +217,8 @@
         "provincia": "Monseñor Nouel",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 57.9,
         "resultado": [
           {
             "partido": "PRM",
@@ -199,6 +231,8 @@
         "provincia": "Monte Cristi",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 70.8,
         "resultado": [
           {
             "partido": "PRM",
@@ -211,6 +245,8 @@
         "provincia": "Monte Plata",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 42.9,
         "resultado": [
           {
             "partido": "PRM",
@@ -223,6 +259,8 @@
         "provincia": "Pedernales",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 61,
         "resultado": [
           {
             "partido": "PRM",
@@ -235,6 +273,8 @@
         "provincia": "Peravia",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 52.6,
         "resultado": [
           {
             "partido": "PRM",
@@ -247,6 +287,8 @@
         "provincia": "Puerto Plata",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 54.8,
         "resultado": [
           {
             "partido": "PRM",
@@ -259,6 +301,8 @@
         "provincia": "Hermanas Mirabal",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 69.6,
         "resultado": [
           {
             "partido": "PRM",
@@ -271,6 +315,8 @@
         "provincia": "Samana",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 51,
         "resultado": [
           {
             "partido": "PRM",
@@ -283,6 +329,8 @@
         "provincia": "San Cristobal",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 57.9,
         "resultado": [
           {
             "partido": "PRM",
@@ -294,10 +342,12 @@
         "provincia_id": "25",
         "provincia": "San Juan",
         "curules_totales": 1,
-        "ganador": "PRM",
+        "ganador": "FP",
+        "bloque_coalicion": "FP-coalicion",
+        "pct_ganador": 53.2,
         "resultado": [
           {
-            "partido": "PRM",
+            "partido": "FP",
             "curules": 1
           }
         ]
@@ -307,6 +357,8 @@
         "provincia": "San Pedro de Macoris",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 62.5,
         "resultado": [
           {
             "partido": "PRM",
@@ -319,6 +371,8 @@
         "provincia": "Sanchez Ramirez",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 72.5,
         "resultado": [
           {
             "partido": "PRM",
@@ -331,6 +385,8 @@
         "provincia": "Santiago",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 63.1,
         "resultado": [
           {
             "partido": "PRM",
@@ -342,10 +398,12 @@
         "provincia_id": "29",
         "provincia": "Santiago Rodriguez",
         "curules_totales": 1,
-        "ganador": "PRM",
+        "ganador": "PPG",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 56.8,
         "resultado": [
           {
-            "partido": "PRM",
+            "partido": "PPG",
             "curules": 1
           }
         ]
@@ -355,6 +413,8 @@
         "provincia": "Valverde",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 63.2,
         "resultado": [
           {
             "partido": "PRM",
@@ -367,6 +427,8 @@
         "provincia": "San Jose de Ocoa",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 68.9,
         "resultado": [
           {
             "partido": "PRM",
@@ -379,6 +441,8 @@
         "provincia": "Santo Domingo",
         "curules_totales": 1,
         "ganador": "PRM",
+        "bloque_coalicion": "PRM-coalicion",
+        "pct_ganador": 54.2,
         "resultado": [
           {
             "partido": "PRM",

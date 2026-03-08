@@ -206,19 +206,42 @@ const MotorResultados = {
 
   // Senadores: resultados por provincia, agregados por bloque
   getSenadores() {
+    // Alianzas de senadores son por provincia — distintas al presidencial
+    const senAlianzas = this._a.niveles.senadores || [];
+
     return this._r.niveles.senadores.map(prov => {
+      // Mapa de bloque para esta provincia específica
+      const provBlocMap = {};
+      const provAli = senAlianzas.find(a => a.provincia_id === prov.provincia_id);
+      if (provAli) {
+        provAli.bloques.forEach(b => {
+          b.partidos.forEach(p => { provBlocMap[p] = b.candidato_base; });
+        });
+      }
+      const getBlocProv = p => provBlocMap[p] || p;
+
       const blocs = {};
       Object.entries(prov.resultados).forEach(([p,v]) => {
-        const b = this.getBlocFor(p);
+        const b = getBlocProv(p);
         blocs[b] = (blocs[b]||0)+v;
       });
       const sorted = Object.entries(blocs).sort((a,b)=>b[1]-a[1]);
       const total  = sorted.reduce((s,[,v])=>s+v,0);
+      const ganador = sorted[0][0];
+
+      // Bloque coalición presidencial del ganador
+      const prmPresBloc = (this._a.niveles.presidencial[0]?.bloques || []).find(b => b.candidato_base === 'PRM');
+      const fpPresBloc  = (this._a.niveles.presidencial[0]?.bloques || []).find(b => b.candidato_base === 'FP');
+      let bloque_coalicion = 'otro';
+      if (ganador === 'PRM' || (prmPresBloc && prmPresBloc.partidos.includes(ganador))) bloque_coalicion = 'PRM-coalicion';
+      else if (ganador === 'FP' || (fpPresBloc && fpPresBloc.partidos.includes(ganador))) bloque_coalicion = 'FP-coalicion';
+
       return {
-        provincia_id: prov.provincia_id,
-        provincia:    prov.provincia,
-        ganador:      sorted[0][0],
-        pct_ganador:  +(sorted[0][1]/total*100).toFixed(1),
+        provincia_id:     prov.provincia_id,
+        provincia:        prov.provincia,
+        ganador,                          // partido que ganó realmente
+        bloque_coalicion,                 // PRM-coalicion | FP-coalicion | otro
+        pct_ganador:      +(sorted[0][1]/total*100).toFixed(1),
         top3: sorted.slice(0,3).map(([id,v])=>({
           id, nombre: this.getPartidoNombre(id),
           pct: +(v/total*100).toFixed(1)
@@ -332,6 +355,29 @@ const MotorCurules = {
     return Object.values(this._totals.total).reduce((s,n)=>s+n,0);
   },
 
+  // Senadores: detalle con ganador real + bloque coalición
+  getSenadores() {
+    return this._res.niveles.senadores.map(p => ({
+      provincia_id:     p.provincia_id,
+      provincia:        p.provincia,
+      ganador:          p.ganador,           // partido que ganó realmente (PLR, APD, etc.)
+      bloque_coalicion: p.bloque_coalicion,  // PRM-coalicion | FP-coalicion | otro
+      pct_ganador:      p.pct_ganador
+    }));
+  },
+
+  // Senadores agrupados por coalición presidencial
+  getSenadorePorCoalicion() {
+    const resumen = {};
+    this._res.niveles.senadores.forEach(p => {
+      const coal = p.bloque_coalicion || p.ganador;
+      resumen[coal] = (resumen[coal]||0) + 1;
+    });
+    return Object.entries(resumen)
+      .map(([id, curules]) => ({ id, curules }))
+      .sort((a,b) => b.curules - a.curules);
+  },
+
   getDiputadosDetail()  { return this._res.niveles.diputados; },
   getExteriorDetail()   { return this._res.niveles.diputados_exterior; },
   getNacionalesDetail() { return this._res.niveles.diputados_nacionales; }
@@ -437,7 +483,9 @@ const MotorReplay = {
     add('📊', 'PRM > 50% votos válidos', prmPres?.pct > 50, '>50%', prmPres?.pct+'%');
     add('📋', 'Participación oficial 54.37%', Math.abs(partic-54.37)<1, '~54.37%', partic+'%');
     add('🏛️', 'Senadores = 32', senC===32, 32, senC);
-    add('🏛️', 'PRM gana todos los senadores', (curules.getTotalByNivel('senadores').PRM||0)===32, 32, curules.getTotalByNivel('senadores').PRM||0);
+    const senCoal = curules.getSenadorePorCoalicion();
+    const prmCoalCount = (senCoal.find(x=>x.id==='PRM-coalicion')||{curules:0}).curules;
+    add('🏛️', 'Bloque PRM: 29 senadores (24 PRM + 5 aliados)', prmCoalCount===29, 29, prmCoalCount);
     add('📋', 'Diputados territoriales = 178', dipC===178, 178, dipC);
     add('🌐', 'Diputados exterior = 7', extC===7, 7, extC);
     add('📝', 'Diputados nacionales = 5', natC===5, 5, natC);

@@ -20,10 +20,35 @@
     "data/curules_resultado_2024.json",
     "data/curules_catalogo.json",
     "data/partidos.json",
-    "data/territorios_catalogo.json"
+    "data/territorios_catalogo.json",
+    "data/prov_metrics_2024.json"
   ],
   "motores_activos": 16,
-  "motores_disabled": ["MotorMunicipal", "MotorHistorico2020"],
-  "vistas": ["dashboard","presidencial","senadores","diputados","potencial","movilizacion","riesgo","simulador","proyeccion","replay","motores"],
-  "globals_inyectados": ["_DS_RESULTADOS","_DS_PADRON","_DS_ALIANZAS","_DS_CURULES","_DS_CURULES_CAT","_DS_PARTIDOS","_DS_TERRITORIOS"]
+  "motores_disabled": [
+    "MotorMunicipal",
+    "MotorHistorico2020"
+  ],
+  "vistas": [
+    "dashboard",
+    "presidencial",
+    "senadores",
+    "diputados",
+    "potencial",
+    "movilizacion",
+    "riesgo",
+    "simulador",
+    "proyeccion",
+    "replay",
+    "motores"
+  ],
+  "globals_inyectados": [
+    "_DS_RESULTADOS",
+    "_DS_PADRON",
+    "_DS_ALIANZAS",
+    "_DS_CURULES",
+    "_DS_CURULES_CAT",
+    "_DS_PARTIDOS",
+    "_DS_TERRITORIOS",
+    "_PROV_METRICS"
+  ]
 }

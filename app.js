@@ -42,11 +42,12 @@
     { key: '_DS_CURULES_CAT',  file: 'curules_catalogo.json'      },
     { key: '_DS_PARTIDOS',     file: 'partidos.json'              },
     { key: '_DS_TERRITORIOS',  file: 'territorios_catalogo.json'  },
+    { key: '_PROV_METRICS',    file: 'prov_metrics_2024.json'     },
   ];
 
   let loaded = 0;
   for (const ds of DATASETS) {
-    setMsg(`Cargando ${ds.file}…`, `${loaded}/${DATASETS.length} archivos`);
+    setMsg('Cargando ' + ds.file + '…', loaded + '/' + DATASETS.length + ' archivos');
     try {
       const resp = await fetch('./data/' + ds.file);
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
@@ -60,7 +61,9 @@
 
   setMsg('Inicializando motores…', loaded + '/' + DATASETS.length + ' datasets listos');
 
-  // Cargar engine y UI
+  // Cargar engine y UI como scripts clásicos (no modules)
+  // engine.js expone window.SIE_MOTORES
+  // ui.js consume window._DS_* y window._PROV_METRICS
   try {
     await loadScript('./core/engine.js');
     await loadScript('./core/ui.js');
