@@ -54,21 +54,24 @@
   let loaded = 0;
 
   for (const ds of DATASETS) {
-    setMsg('Cargando ' + ds.file + '...', loaded + '/' + TOTAL_DS + ' archivos');
-    try {
-      const resp = await fetch('./data/' + ds.file);
-      if (!resp.ok) throw new Error('HTTP ' + resp.status);
-      window[ds.key] = await resp.json();
-      loaded++;
-    } catch (err) {
-      setError('Error cargando ' + ds.file + ': ' + err.message);
-      console.error(err);
-      return;
-    }
+  setMsg('Cargando ' + ds.file + '...', loaded + '/' + TOTAL_DS + ' archivos');
+  try {
+    const resp = await fetch('./data/' + ds.file);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    window[ds.key] = await resp.json();
+    loaded++;
+  } catch (err) {
+    setError('Error cargando ' + ds.file + ': ' + err.message);
+    return;
   }
+}
 
-  setMsg('Inicializando motores...', loaded + '/' + TOTAL_DS + ' datasets listos');
+/* COMPATIBILIDAD CON UI */
+window._PROV_PRES = window._PROV_METRICS_PRES;
+window._PROV_SEN  = window._PROV_METRICS_SEN;
+window._PROV_DIP  = window._PROV_METRICS_DIP;
 
+setMsg('Inicializando motores...', loaded + '/' + TOTAL_DS + ' datasets listos');
   try {
     await loadScript('./core/engine.js');
     await loadScript('./core/ui.js');
