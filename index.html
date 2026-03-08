@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>SIE 2028 · Sistema Inteligencia Electoral</title>
+<link rel="stylesheet" href="./assets/css/styles.css"/>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span style="font-size:1.3rem">\u26a1</span>
+    <span class="brand-name">SIE 2028</span>
+    <span class="badge">v8.4</span>
+    <span class="badge-ds">DATASET 2024</span>
+  </div>
+  <div style="display:flex;gap:.75rem;align-items:center">
+    <span id="sys-status" style="font-size:.76rem;color:var(--muted)">Iniciando...</span>
+  </div>
+</header>
+
+<nav class="nav" id="main-nav">
+  <button class="nav-btn active" data-view="dashboard">\ud83d\udcca Dashboard</button>
+  <button class="nav-btn" data-view="presidencial">\ud83d\uddfe Presidencial</button>
+  <button class="nav-btn" data-view="senadores">\ud83c\udfdb Senadores</button>
+  <button class="nav-btn" data-view="diputados">\ud83d\udccb Diputados</button>
+  <button class="nav-btn" data-view="potencial">\ud83c\udfaf Potencial</button>
+  <button class="nav-btn" data-view="movilizacion">\ud83d\ude80 Movilizaci\u00f3n</button>
+  <button class="nav-btn" data-view="riesgo">\u26a0 Riesgo</button>
+  <button class="nav-btn" data-view="simulador">\ud83d\udd2c Simulador 2028</button>
+  <button class="nav-btn" data-view="proyeccion">\ud83d\udcc8 Proyecci\u00f3n 2028</button>
+  <button class="nav-btn" data-view="replay">\u25b6 Replay 2024</button>
+  <button class="nav-btn" data-view="motores">\u2699 Motores</button>
+</nav>
+
+<main class="main">
+
+  <div id="view-dashboard" class="view active">
+    <div id="kpi-section"></div>
+    <div class="grid g2" style="margin-top:1rem">
+      <div class="card"><div class="card-hdr"><span class="card-title">Presidencial 2024 \u2014 Por bloques</span><span class="card-badge">Con alianzas</span></div><div id="pres-bar-list" class="bar-list"></div></div>
+      <div class="card"><div class="card-hdr"><span class="card-title">Distribuci\u00f3n legislativa</span><span class="card-badge">222 curules</span></div>
+        <div id="leg-bar-list" class="bar-list"></div>
+        <div class="divider"></div>
+        <canvas id="parl-canvas" width="360" height="195" style="display:block;margin:0 auto"></canvas>
+        <div id="parl-legend" style="display:flex;flex-wrap:wrap;gap:.5rem 1rem;justify-content:center;margin-top:.75rem"></div>
+      </div>
+    </div>
+    <div class="grid g3" style="margin-top:1rem">
+      <div class="card"><div class="card-hdr"><span class="card-title">Padr\u00f3n y Participaci\u00f3n</span></div><div id="dash-padron"></div></div>
+      <div class="card"><div class="card-hdr"><span class="card-title">Indicadores del Sistema</span></div><div id="dash-indicadores"></div></div>
+      <div class="card"><div class="card-hdr"><span class="card-title">Coalici\u00f3n PRM</span></div><div id="dash-coalicion"></div></div>
+    </div>
+  </div>
+
+  <div id="view-presidencial" class="view">
+    <div class="section-title">\ud83d\uddfe Resultados Presidenciales 2024</div>
+    <div class="grid g2">
+      <div class="card"><div class="card-hdr"><span class="card-title">Por bloque electoral</span><span class="card-badge">JCE Oficial</span></div><div id="pres-blocs-bars" class="bar-list"></div></div>
+      <div class="card"><div class="card-hdr"><span class="card-title">Estad\u00edsticas del proceso</span></div><div id="pres-stats"></div></div>
+    </div>
+    <div class="card" style="margin-top:1rem"><div class="card-hdr"><span class="card-title">Por partido individual</span></div><div id="pres-all-parties"></div></div>
+  </div>
+
+  <div id="view-senadores" class="view">
+    <div class="section-title">\ud83c\udfdb Senadores 2024 \u2014 32 Provincias</div>
+    <div class="kpi-grid" id="sen-kpis"></div>
+    <div class="prov-grid" id="sen-prov-grid"></div>
+  </div>
+
+  <div id="view-diputados" class="view">
+    <div class="section-title">\ud83d\udccb Diputados 2024 \u2014 D\u2019Hondt</div>
+    <div class="kpi-grid" id="dip-kpis"></div>
+    <div class="grid g2">
+      <div class="card"><div class="card-hdr"><span class="card-title">Curules por partido</span><span class="card-badge">178+5+7=190</span></div><div id="dip-bar-list" class="bar-list"></div></div>
+      <div class="card">
+        <div class="card-hdr"><span class="card-title">Diputados Exterior</span><span class="card-badge">7 curules</span></div><div id="ext-detail"></div>
+        <div class="divider"></div>
+        <div class="card-hdr" style="padding-top:.6rem"><span class="card-title">Lista Nacional</span><span class="card-badge">5 curules</span></div><div id="nat-detail"></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1rem"><div class="card-hdr"><span class="card-title">Por circunscripci\u00f3n</span></div><div id="dip-circ-grid"></div></div>
+  </div>
+
+  <div id="view-potencial" class="view">
+    <div class="section-title">\ud83c\udfaf Potencial Electoral por Territorio</div>
+    <div class="grid g2" style="margin-bottom:1rem">
+      <div class="card"><div class="card-hdr"><span class="card-title">Objetivos ofensivos \u2014 FP</span><span class="card-badge">Score Jacobson 2004</span></div><div id="potencial-ofensivo"></div><p class="note">Score = f(margen, absten., ENPP). Fuente: Jacobson (2004), Taagepera-Shugart</p></div>
+      <div class="card"><div class="card-hdr"><span class="card-title">Defensas prioritarias \u2014 PRM</span><span class="card-badge">Risk composite</span></div><div id="potencial-defensivo"></div><p class="note">Risk = 0.5*(1-margen) + 0.25*(1-partic) + 0.25*ENPP. Fuente: Jacobson (2004)</p></div>
+    </div>
+    <div class="card"><div class="card-hdr"><span class="card-title">Mapa de competitividad provincial</span><span class="card-badge">Laakso-Taagepera ENPP</span></div><div id="competitividad-grid" class="prov-grid"></div></div>
+  </div>
+
+  <div id="view-movilizacion" class="view">
+    <div class="section-title">\ud83d\ude80 Agenda de Movilizaci\u00f3n \u2014 FP</div>
+    <div class="card">
+      <div class="card-hdr"><span class="card-title">Provincias recuperables</span><span class="card-badge">Leighley & Nagler 2013</span></div>
+      <p class="note" style="margin-bottom:.75rem">Votos necesarios = ceil(\u0394votos/2)+1. Factibilidad = % de abstencionistas a movilizar.</p>
+      <div id="movilizacion-list"></div>
+    </div>
+  </div>
+
+  <div id="view-riesgo" class="view">
+    <div class="section-title">\u26a0 Mapa de Riesgo Electoral \u2014 PRM</div>
+    <div class="kpi-grid" id="riesgo-kpis"></div>
+    <div class="grid g2">
+      <div class="card"><div class="card-hdr"><span class="card-title">Provincias por riesgo</span><span class="card-badge">Composite Index</span></div><div id="riesgo-list"></div><p class="note">Risk = 0.50\u00d7(1-margen) + 0.25\u00d7(1-partic.) + 0.25\u00d7ENPP</p></div>
+      <div class="card"><div class="card-hdr"><span class="card-title">Alertas de alto riesgo</span></div><div id="riesgo-alertas"></div></div>
+    </div>
+  </div>
+
+  <div id="view-simulador" class="view">
+    <div class="section-title">\ud83d\udd2c Simulador Electoral 2028</div>
+    <div class="sim-grid">
+      <div class="card"><div class="card-hdr"><span class="card-title">Intenci\u00f3n de voto</span><span class="card-badge">D\u2019Hondt + umbral 2%</span></div>
+        <div id="sim-sliders" class="slider-group"></div>
+        <div style="margin-top:1rem"><button id="btn-simular" style="background:var(--accent);color:#fff;border:none;padding:.6rem 1.2rem;border-radius:var(--r);font-weight:700;cursor:pointer;width:100%">\u25b6 Simular D\u2019Hondt</button></div>
+        <p class="note">D\u2019Hondt con umbral 2% \u2014 Ley Electoral RD 275-97, Art. 68</p>
+      </div>
+      <div class="card"><div class="card-hdr"><span class="card-title">Proyecci\u00f3n legislativa</span></div><div id="sim-results"><p class="text-muted text-sm">Ajusta los sliders y presiona Simular.</p></div></div>
+    </div>
+  </div>
+
+  <div id="view-proyeccion" class="view">
+    <div class="section-title">\ud83d\udcc8 Proyecci\u00f3n Electoral 2028</div>
+    <div class="grid g2">
+      <div class="card"><div class="card-hdr"><span class="card-title">Modelo Fundamentals</span><span class="card-badge">Abramowitz 2008 adaptado</span></div><div id="proy-fundamentals"></div><p class="note">Incumbencia Erikson & Wlezien +3.5pp. Desgaste -2pp por ciclo adicional. Regresi\u00f3n a la media 15% (Silver/538).</p></div>
+      <div class="card"><div class="card-hdr"><span class="card-title">Crecimiento del Padr\u00f3n</span><span class="card-badge">CAGR</span></div><div id="proy-padron"></div></div>
+    </div>
+    <div class="card" style="margin-top:1rem"><div class="card-hdr"><span class="card-title">Encuestas \u2014 Carga manual</span><span class="card-badge">Silver/538 weighting</span></div><div id="encuestas-panel"></div></div>
+  </div>
+
+  <div id="view-replay" class="view">
+    <div class="section-title">\u25b6 Replay Electoral 2024</div>
+    <div class="grid g2">
+      <div class="card"><div class="card-hdr"><span class="card-title">Verificaciones</span><span class="card-badge">MODO REPLAY</span></div><div id="replay-checks"></div></div>
+      <div class="card"><div class="card-hdr"><span class="card-title">Resumen</span></div><div id="replay-summary"></div></div>
+    </div>
+  </div>
+
+  <div id="view-motores" class="view">
+    <div class="section-title">\u2699 Estado de Motores \u2014 SIE 2028 v8.4</div>
+    <div class="grid g2">
+      <div class="card"><div class="card-hdr"><span class="card-title">Activos (16)</span></div><div id="motores-on"></div></div>
+      <div class="card"><div class="card-hdr"><span class="card-title">Desactivados (2)</span></div><div id="motores-off"></div></div>
+    </div>
+    <div class="card" style="margin-top:1rem"><div class="card-hdr"><span class="card-title">Datasets</span></div><div id="datasets-status"></div></div>
+    <div class="card" style="margin-top:1rem"><div class="card-hdr"><span class="card-title">Referencias metodol\u00f3gicas</span></div><div id="metodologia-refs"></div></div>
+  </div>
+
+</main>
+
+<script src="./app.js"></script>
+</body>
+</html>
