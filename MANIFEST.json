@@ -1,6 +1,6 @@
 {
-  "version": "8.4",
-  "dataset_activo": "2024",
+  "version": "8.9",
+  "dataset_activo": "2024 + 2020",
   "build_date": "2026-03-08",
   "validaciones": "21/21",
   "entry_points": {
@@ -23,7 +23,7 @@
     "data/territorios_catalogo.json",
     "data/prov_metrics_2024.json"
   ],
-  "motores_activos": 16,
+  "motores_activos": 18,
   "motores_disabled": [
     "MotorMunicipal",
     "MotorHistorico2020"
@@ -50,5 +50,7 @@
     "_DS_PARTIDOS",
     "_DS_TERRITORIOS",
     "_PROV_METRICS"
-  ]
+  ],
+  "motores_inactivos": 1,
+  "nota": "v8.9: bugs UI corregidos, Motor Histórico 2020 ACTIVO, Riesgo con selector de partido"
 }

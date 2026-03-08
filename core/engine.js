@@ -1336,7 +1336,102 @@ const MotorNormalizacionHistorica = {
 
 
 const MotorMunicipal    = { status:'DISABLED', init(){ console.log('⏳ Motor Municipal: pendiente dataset municipal'); }};
-const MotorHistorico2020= { status:'DISABLED', init(){ console.log('⏳ Motor Histórico 2020: pendiente dataset 2020'); }};
+// ─────────────────────────────────────────────────────────────────
+// MOTOR 18: HISTÓRICO 2020
+// Rol: expone datos 2020 para comparativas, swing analysis y
+//      normalización histórica en proyecciones 2028
+// ─────────────────────────────────────────────────────────────────
+const MotorHistorico2020 = {
+  status: 'READY',
+  _res:   null,   // resultados_2020
+  _ali:   null,   // alianzas_2020
+  _cur:   null,   // curules_resultado_2020
+  _pm_p:  null,   // prov_metrics_presidencial_2020
+  _pm_s:  null,   // prov_metrics_senadores_2020
+  _pm_d:  null,   // prov_metrics_diputados_2020
+
+  init(res2020, ali2020, cur2020, pmPres, pmSen, pmDip) {
+    this._res  = res2020;
+    this._ali  = ali2020;
+    this._cur  = cur2020;
+    this._pm_p = pmPres;
+    this._pm_s = pmSen;
+    this._pm_d = pmDip;
+    this.status = 'READY';
+    console.log('✅ Motor Histórico 2020: ACTIVO — 32 prov · 45 circs');
+  },
+
+  // Presidencial 2020 por provincia
+  getPresidencialByProvincia() {
+    return this._pm_p || [];
+  },
+
+  // Swing presidencial 2024 vs 2020 por provincia
+  // Retorna delta de % por partido para cada provincia
+  getSwingPresidencial(partidos = ['PRM','PLD','FP']) {
+    const pm24 = window._PROV_METRICS_PRES || [];
+    const pm20 = this._pm_p || [];
+    const map20 = Object.fromEntries(pm20.map(p => [p.id, p]));
+
+    return pm24.map(p24 => {
+      const p20 = map20[p24.id] || {};
+      const swing = {};
+      partidos.forEach(par => {
+        const b24 = p24.blocs || {};
+        const b20 = p20.blocs  || {};
+        const t24 = Object.values(b24).reduce((s,v)=>s+v,0);
+        const t20 = Object.values(b20).reduce((s,v)=>s+v,0);
+        const pct24 = t24 ? (b24[par]||0)/t24*100 : 0;
+        const pct20 = t20 ? (b20[par]||0)/t20*100 : 0;
+        swing[par] = +(pct24 - pct20).toFixed(2);
+      });
+      return {
+        id:        p24.id,
+        provincia: p24.provincia,
+        swing,
+        participacion_24: p24.participacion,
+        participacion_20: p20.participacion || 0,
+        delta_participacion: +((p24.participacion||0) - (p20.participacion||0)).toFixed(2),
+      };
+    });
+  },
+
+  // Totales presidenciales 2020
+  getTotalesPresidencial() {
+    return this._res?.niveles?.presidencial?.totales || {};
+  },
+
+  // Curules 2020 por nivel
+  getCurulesByNivel(nivel) {
+    const niveles = this._cur?.niveles || {};
+    return niveles[nivel] || [];
+  },
+
+  // Comparativa curules 2020 vs 2024
+  getComparativaCurules() {
+    const cur20 = this._cur?.niveles || {};
+    const cur24 = window._DS_CURULES?.niveles || {};
+    const niveles = ['senadores','diputados','diputados_exterior','diputados_nacionales'];
+    const tot = (n, data) => {
+      const entries = data[n];
+      if (!entries) return {};
+      const arr = Array.isArray(entries) ? entries : (entries.resultado || []);
+      const res = {};
+      (Array.isArray(arr) ? arr : [arr]).forEach(x => {
+        const resultados = x.resultado || [x];
+        (Array.isArray(resultados) ? resultados : [resultados]).forEach(r => {
+          if (r.partido) res[r.partido] = (res[r.partido]||0) + (r.curules||0);
+        });
+      });
+      return res;
+    };
+    const out = {};
+    niveles.forEach(n => {
+      out[n] = { _2020: tot(n, cur20), _2024: tot(n, cur24) };
+    });
+    return out;
+  }
+};
 
 // ─────────────────────────────────────────────────────────────────
 // EXPORT GLOBAL

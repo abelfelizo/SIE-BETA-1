@@ -1,3 +1,26 @@
+# SIE 2028 — Changelog
+
+---
+
+## v8.9 — Marzo 2026
+
+### Correcciones de sistema
+- Versión actualizada a v8.9 en header, motores y cache-busting
+- Motor Histórico 2020 movido de INACTIVO a ACTIVO en panel de motores
+- Motor Normalización Histórica: descripción actualizada a modo COMPLETO (data 2020 integrada)
+- Motor Municipal: descripción actualizada — pendiente dataset alcaldes 2020/2024
+
+### Correcciones de UI
+- `renderRiesgo()`: corregido para respetar partido seleccionado (`_RIE_PARTIDO`) — antes siempre filtraba por PRM sin importar el selector
+- KPI "Total PRM" en vista Riesgo ahora es dinámico según partido activo
+- `bindLevelBtns('riesgo-controls')` ahora pasa nivel y partido correctamente al handler
+
+### Datos pendientes próxima sesión
+- `alianzas_2020.json → diputados_interior`: 45 circunscripciones (Fase 0)
+- Dataset alcaldes y directores municipales 2020/2024 (Fase 4)
+
+---
+
 # SIE 2028 — Changelog v8.0
 
 ## Resumen de cambios

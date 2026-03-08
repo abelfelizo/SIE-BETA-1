@@ -12,7 +12,7 @@
   <div class="brand">
     <span style="font-size:1.3rem">⚡</span>
     <span class="brand-name">SIE 2028</span>
-    <span class="badge">v8.5</span>
+    <span class="badge">v8.9</span>
     <span class="badge-ds">DATASET 2024</span>
   </div>
   <div style="display:flex;gap:.75rem;align-items:center">
@@ -40,6 +40,7 @@
     <button class="nav-btn" data-view="potencial">🎯 Potencial</button>
     <button class="nav-btn" data-view="movilizacion">🚀 Movilización</button>
     <button class="nav-btn" data-view="riesgo">⚠ Riesgo</button>
+    <button class="nav-btn" data-view="historico">📊 Histórico 2020</button>
   </div>
   <div class="nav-sep"></div>
   <div class="nav-group">
@@ -62,14 +63,14 @@
     <!-- Fila 1: KPIs estratégicos -->
     <div id="kpi-section"></div>
 
-    <!-- Fila 2: Mapa de control + Legislativo -->
+    <!-- Fila 2: Presidencial por bloque + Legislativo -->
     <div class="grid g2" style="margin-top:1rem">
       <div class="card">
         <div class="card-hdr">
-          <span class="card-title">Control territorial presidencial</span>
-          <span class="card-badge">Con alianzas · 32 provincias</span>
+          <span class="card-title">Presidencial por bloque</span>
+          <span class="card-badge">Con alianzas · 2024</span>
         </div>
-        <div id="dash-mapa-control"></div>
+        <div id="pres-bar-list" class="bar-list"></div>
       </div>
       <div class="card">
         <div class="card-hdr">
@@ -83,22 +84,23 @@
       </div>
     </div>
 
-    <!-- Fila 3: Alertas estratégicas -->
+    <!-- Fila 3: Estadísticas + Indicadores + Coalición -->
     <div class="grid g3" style="margin-top:1rem">
       <div class="card">
-        <div class="card-hdr"><span class="card-title">Top 5 · Riesgo PRM</span><span class="card-badge">Composite index</span></div>
-        <div id="dash-riesgo-top"></div>
+        <div class="card-hdr"><span class="card-title">Estadísticas electorales</span><span class="card-badge">JCE Oficial</span></div>
+        <div id="dash-padron"></div>
       </div>
       <div class="card">
-        <div class="card-hdr"><span class="card-title">Top 5 · Potencial FP</span><span class="card-badge">Jacobson 2004</span></div>
-        <div id="dash-potencial-top"></div>
+        <div class="card-hdr"><span class="card-title">Indicadores estratégicos</span><span class="card-badge">Laakso-Taagepera</span></div>
+        <div id="dash-indicadores"></div>
       </div>
       <div class="card">
-        <div class="card-hdr"><span class="card-title">Proyección 2028</span><span class="card-badge">Escenario base</span></div>
-        <div id="dash-proyeccion-quick"></div>
+        <div class="card-hdr"><span class="card-title">Coalición PRM</span><span class="card-badge">Partidos aliados</span></div>
+        <div id="dash-coalicion"></div>
       </div>
     </div>
   </div>
+
 
   <!-- NIVEL 2: ANÁLISIS ELECTORAL 2024 -->
   <div id="view-presidencial" class="view">
@@ -256,6 +258,45 @@
     </div>
   </div>
 
+  <!-- HISTÓRICO 2020 -->
+  <div id="view-historico" class="view">
+    <div class="section-title">📊 Histórico 2020 — Comparativa vs 2024</div>
+    <div class="kpi-grid" id="hist-kpis"></div>
+
+    <div class="grid g2" style="margin-top:1rem">
+      <div class="card">
+        <div class="card-hdr">
+          <span class="card-title">Presidencial 2020 por partido</span>
+          <span class="card-badge">JCE Oficial · Sin alianzas</span>
+        </div>
+        <div id="hist-pres-bars" class="bar-list"></div>
+      </div>
+      <div class="card">
+        <div class="card-hdr">
+          <span class="card-title">Curules 2020 vs 2024</span>
+          <span class="card-badge">Legislativo comparado</span>
+        </div>
+        <div id="hist-curules-comp"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1rem">
+      <div class="card-hdr">
+        <span class="card-title">Swing presidencial por provincia</span>
+        <span class="card-badge">Δ% 2024 vs 2020</span>
+      </div>
+      <div id="hist-swing-grid"></div>
+    </div>
+
+    <div class="card" style="margin-top:1rem">
+      <div class="card-hdr">
+        <span class="card-title">Senadores 2020 — Ganador por provincia</span>
+        <span class="card-badge">PRM: 25 · PLD: 7</span>
+      </div>
+      <div class="prov-grid" id="hist-sen-grid"></div>
+    </div>
+  </div>
+
   <!-- NIVEL 4: PROSPECTIVA 2028 -->
   <div id="view-simulador" class="view">
     <div class="section-title">🔬 Simulador Electoral 2028</div>
@@ -304,7 +345,7 @@
   </div>
 
   <div id="view-motores" class="view">
-    <div class="section-title">⚙ Estado de Motores — SIE 2028 v8.5</div>
+    <div class="section-title">⚙ Estado de Motores — SIE 2028 v8.9</div>
     <div class="grid g2">
       <div class="card"><div class="card-hdr"><span class="card-title">Activos</span></div><div id="motores-on"></div></div>
       <div class="card"><div class="card-hdr"><span class="card-title">Desactivados</span></div><div id="motores-off"></div></div>

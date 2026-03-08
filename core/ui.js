@@ -34,7 +34,17 @@ M.Territorial.init(_DS_TERRITORIOS);
 M.CrecimientoPadron.proyectar();
 // Inicializar motores multi-nivel con prov_metrics por nivel (v8.7)
 M.Movilizacion.init(_PROV_PRES, _PROV_SEN, _PROV_DIP);
-M.NormalizacionHistorica.init(_PROV_PRES);
+// Motor 17: NormalizacionHistorica — modo COMPLETO ahora que tenemos data 2020
+M.NormalizacionHistorica.init(_PROV_PRES, _PROV_METRICS_PRES_2020);
+// Motor 18: Histórico 2020 — activo
+M.Historico2020.init(
+  _DS_RESULTADOS_2020,
+  _DS_ALIANZAS_2020,
+  _DS_CURULES_2020,
+  _PROV_METRICS_PRES_2020,
+  _PROV_METRICS_SEN_2020,
+  _PROV_METRICS_DIP_2020
+);
 
 document.getElementById('sys-status').textContent =
   valResult.ok ? '\u2705 Sistema listo \u00b7 Dataset 2024' : '\u26a0\ufe0f ' + valResult.errores.length + ' errores';
@@ -52,6 +62,7 @@ document.getElementById('main-nav').addEventListener('click', function(e){
   btn.classList.add('active');
   if(id==='replay') renderReplay();
   if(id==='exterior') renderExterior();
+  if(id==='historico') renderHistorico();
   if(id==='simulador' && !window._simInit) initSimulador();
   if(id==='proyeccion' && !window._proyInit) initProyeccion();
 });
@@ -354,6 +365,107 @@ function renderExterior(){
   }).join('');
 }
 
+// ====== HISTÓRICO 2020 ======
+function renderHistorico(){
+  var H    = M.Historico2020;
+  var tot  = H.getTotalesPresidencial();
+  var pm20 = H.getPresidencialByProvincia();
+  var pm24 = _PROV_METRICS_PRES || [];
+  var swing= H.getSwingPresidencial(['PRM','PLD','FP']);
+
+  // ── KPIs ──────────────────────────────────────────────────────
+  var ins20  = tot.inscritos || 0;
+  var emit20 = tot.votos_emitidos || 0;
+  var par20  = ins20 ? +(emit20/ins20*100).toFixed(1) : 0;
+  var res20  = _DS_RESULTADOS_2020 && _DS_RESULTADOS_2020.niveles.presidencial.resultados || {};
+  var val20  = tot.votos_validos || 0;
+  var ganador20 = Object.entries(res20).sort(function(a,b){return b[1]-a[1];})[0];
+
+  document.getElementById('hist-kpis').innerHTML =
+    kpi('blue','Ganador 2020', ganador20?ganador20[0]:'?',
+        ganador20?+(ganador20[1]/val20*100).toFixed(2)+'%':'')
+    +kpi('green','Padrón 2020', fmt(ins20+595879), 'Dom. '+fmt(ins20)+' + Ext. 595,879')
+    +kpi('gold','Participación 2020', par20+'%', fmt(emit20)+' emitidos')
+    +kpi('red','PLD 2020', +((_DS_RESULTADOS_2020&&res20.PLD||0)/val20*100).toFixed(1)+'%',
+        'vs PLD 2024: '+((window._PROV_METRICS_PRES&&_PROV_METRICS_PRES.reduce(function(s,p){return s+(p.blocs&&p.blocs.PLD||0);},0)||0))+' votos');
+
+  // ── Barras presidencial 2020 ──────────────────────────────────
+  var sorted20 = Object.entries(res20).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
+  document.getElementById('hist-pres-bars').innerHTML =
+    sorted20.map(function(e){
+      var pct = val20 ? +(e[1]/val20*100).toFixed(2) : 0;
+      return bar(e[0]+' \u00b7 '+M.Resultados.getPartidoNombre(e[0]).substring(0,22),
+                 pct, pc(e[0]), fmt(e[1])+' votos');
+    }).join('');
+
+  // ── Comparativa curules ───────────────────────────────────────
+  var comp = H.getComparativaCurules();
+  var NIVELES_COMP = [
+    {key:'senadores',          label:'Senadores',     total:32},
+    {key:'diputados',          label:'Diputados',     total:178},
+    {key:'diputados_nacionales',label:'Nacionales',   total:5},
+    {key:'diputados_exterior', label:'Exterior',      total:7},
+  ];
+  var compRows = NIVELES_COMP.map(function(n){
+    var d20 = comp[n.key] && comp[n.key]._2020 || {};
+    var d24 = comp[n.key] && comp[n.key]._2024 || {};
+    var partidos = Array.from(new Set([
+      ...Object.keys(d20),...Object.keys(d24)
+    ])).sort(function(a,b){return (d24[b]||0)-(d24[a]||0);}).slice(0,4);
+    return '<div style="margin-bottom:.7rem">'
+      +'<div style="font-size:.78rem;font-weight:700;margin-bottom:.3rem;color:var(--accent)">'+n.label+' ('+n.total+')</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:.25rem">'
+      +partidos.map(function(p){
+        var c20 = d20[p]||0, c24 = d24[p]||0, delta = c24-c20;
+        return '<div style="display:flex;justify-content:space-between;font-size:.75rem;padding:.2rem .4rem;background:var(--bg3);border-radius:.25rem">'
+          +'<span style="color:'+pc(p)+';font-weight:700">'+p+'</span>'
+          +'<span>2020: <strong>'+c20+'</strong> &rarr; 2024: <strong>'+c24+'</strong> '
+          +'<span style="color:'+(delta>0?'var(--green)':delta<0?'var(--red)':'var(--muted)')+'">('+(delta>0?'+':'')+delta+')</span></span>'
+          +'</div>';
+      }).join('')
+      +'</div></div>';
+  }).join('');
+  document.getElementById('hist-curules-comp').innerHTML = compRows;
+
+  // ── Swing grid ────────────────────────────────────────────────
+  document.getElementById('hist-swing-grid').innerHTML =
+    '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.35rem">'
+    +swing.map(function(p){
+      var prm = p.swing.PRM||0, pld = p.swing.PLD||0, fp = p.swing.FP||0;
+      var dprt = p.delta_participacion;
+      return '<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:.45rem .65rem">'
+        +'<div style="font-size:.74rem;font-weight:700;margin-bottom:.25rem">'+p.provincia+'</div>'
+        +'<div style="font-size:.68rem;display:flex;flex-direction:column;gap:.1rem">'
+        +['PRM','PLD','FP'].map(function(par){
+          var val = p.swing[par]||0;
+          return '<div style="display:flex;justify-content:space-between">'
+            +'<span style="color:'+pc(par)+'">'+par+'</span>'
+            +'<strong style="color:'+(val>0?'var(--green)':val<0?'var(--red)':'var(--muted)')+'">'+
+            (val>0?'+':'')+val+'pp</strong></div>';
+        }).join('')
+        +'<div style="border-top:1px solid var(--border);margin-top:.15rem;padding-top:.15rem;display:flex;justify-content:space-between;color:var(--muted)">'
+        +'<span>Part.\u0394</span><strong style="color:'+(dprt>0?'var(--green)':dprt<0?'var(--red)':'var(--muted)')+'">'+
+        (dprt>0?'+':'')+dprt+'pp</strong></div>'
+        +'</div></div>';
+    }).join('')
+    +'</div>';
+
+  // ── Senadores 2020 grid ───────────────────────────────────────
+  var pm20sen = _PROV_METRICS_SEN_2020 || [];
+  document.getElementById('hist-sen-grid').innerHTML = pm20sen.map(function(prov){
+    var top = prov.top3||[];
+    var bars = top.map(function(t){
+      return '<div style="flex:'+t.pct+';background:'+pc(t.id)+';height:100%"></div>';
+    }).join('');
+    return '<div class="prov-card">'
+      +'<div class="prov-name">'+prov.provincia+'</div>'
+      +'<div class="prov-winner" style="color:'+pc(prov.ganador)+'">'+prov.ganador+'</div>'
+      +'<div class="prov-pct">'+prov.pct_ganador+'% \u00b7 ENPP '+(prov.enpp||'?')+'</div>'
+      +'<div class="prov-bar">'+bars+'</div>'
+      +'</div>';
+  }).join('');
+}
+
 // ====== POTENCIAL ======
 var _POT_NIVEL = 'presidencial';
 function _getProvDS(n){ return n==='senadores' ? _PROV_SEN : n==='diputados' ? _PROV_DIP : _PROV_PRES; }
@@ -464,12 +576,13 @@ function renderMovilizacion(){
 window.setMovNivel = function(n){ _MOV_NIVEL=n; renderMovilizacion(); };
 
 // ====== RIESGO ======
-var _RIE_NIVEL = 'presidencial';
+var _RIE_NIVEL   = 'presidencial';
+var _RIE_PARTIDO = 'PRM';
 
 function renderRiesgo(){
   var ds = _getProvDS(_RIE_NIVEL);
-  var clasificados = M.Riesgo.clasificar(ds);
-  var alertas = M.Riesgo.getAlertas(ds);
+  var clasificados = M.Riesgo.clasificar(ds, _RIE_PARTIDO);
+  var alertas = M.Riesgo.getAlertas(ds, _RIE_PARTIDO);
   var n_alto = clasificados.filter(function(p){return p.riesgo_nivel==='alto';}).length;
   var n_medio = clasificados.filter(function(p){return p.riesgo_nivel==='medio';}).length;
   var n_bajo = clasificados.filter(function(p){return p.riesgo_nivel==='bajo';}).length;
@@ -478,7 +591,7 @@ function renderRiesgo(){
     kpi('red','Riesgo Alto',n_alto,'provincias \u2014 monitoreo inmediato')
     +kpi('gold','Riesgo Medio',n_medio,'provincias \u2014 seguimiento')
     +kpi('green','Riesgo Bajo',n_bajo,'provincias \u2014 consolidadas')
-    +kpi('blue','Total PRM',clasificados.length,'provincias ganadas');
+    +kpi('blue','Total '+_RIE_PARTIDO,clasificados.length,'provincias ganadas');
 
   document.getElementById('riesgo-list').innerHTML = clasificados.map(function(pm){
     var col = pm.riesgo_nivel==='alto'?'var(--red)':pm.riesgo_nivel==='medio'?'var(--gold)':'var(--green)';
@@ -670,11 +783,11 @@ function renderMotores(){
     {n:'Motor Potencial',      d:'Score ofensivo/defensivo territorial (Jacobson 2004, Taagepera-Shugart)'},
     {n:'Motor Movilizaci\u00f3n',d:'Multi-nivel (presidencial/senadores/diputados) \u00b7 Turnout gap (Leighley & Nagler 2013)'},
     {n:'Motor Riesgo',         d:'Multi-nivel \u00b7 Composite risk index: margen(50%) + participaci\u00f3n(25%) + ENPP(25%)'},
-    {n:'Motor Normalizaci\u00f3n Hist\u00f3rica',d:'Madurez organizativa + crecimiento estructural \u00b7 Modo PROXY hasta data 2020 (Panebianco 1988)'},
+    {n:'Motor Normalizaci\u00f3n Hist\u00f3rica',d:'Madurez organizativa + crecimiento estructural \u00b7 Modo COMPLETO con data 2020 (Panebianco 1988)'},
+    {n:'Motor Hist\u00f3rico 2020',d:'Comparativo 2020-2024 \u00b7 Swing analysis \u00b7 45 circs diputados \u00b7 32 prov senadores'},
   ];
   var MOTORES_OFF = [
-    {n:'Motor Municipal',      d:'Alcaldes y Directores DM \u2014 pendiente dataset municipal'},
-    {n:'Motor Hist\u00f3rico 2020',d:'Comparativo 2020-2024 \u2014 pendiente dataset 2020'},
+    {n:'Motor Municipal',      d:'Alcaldes y Directores DM \u2014 pendiente dataset municipal 2020/2024'},
   ];
 
   document.getElementById('motores-on').innerHTML = MOTORES_ON.map(function(m){
@@ -744,6 +857,7 @@ renderPresidencial();
 renderSenadores();
 renderDiputados();
 renderExterior();
+renderHistorico();
 renderPotencial();
 renderMovilizacion();
 renderRiesgo();
@@ -778,7 +892,11 @@ bindLevelBtns('mov-controls', function(nivel, partido){
   if(partido){ _MOV_PARTIDO=partido; }
   renderMovilizacion();
 });
-bindLevelBtns('riesgo-controls', function(nivel){ if(nivel){_RIE_NIVEL=nivel; renderRiesgo();} });
+bindLevelBtns('riesgo-controls', function(nivel, partido){
+  if(nivel){ _RIE_NIVEL=nivel; }
+  if(partido){ _RIE_PARTIDO=partido; }
+  renderRiesgo();
+});
 
 })();
 

@@ -1,7 +1,7 @@
 # SIE 2028 - Sistema de Inteligencia Electoral
 
-**Versión**: 8.3  
-**Dataset Activo**: 2024  
+**Versión**: 8.9
+**Dataset Activo**: 2024 + 2020
 **Estado**: ✅ Producción
 
 ## Descripción
