@@ -1,5 +1,5 @@
 // ================================================================
-// SIE 2028 — ENTRY POINT v8.4
+// SIE 2028 — ENTRY POINT v8.5
 // Carga datasets via fetch, expone globals para engine + UI
 // ================================================================
 
@@ -35,19 +35,29 @@
 
   // Datasets a cargar — map a variables globales que engine + ui esperan
   const DATASETS = [
-    { key: '_DS_RESULTADOS',   file: 'resultados_2024.json'       },
-    { key: '_DS_PADRON',       file: 'padron_2024.json'           },
-    { key: '_DS_ALIANZAS',     file: 'alianzas_2024.json'         },
-    { key: '_DS_CURULES',      file: 'curules_resultado_2024.json' },
-    { key: '_DS_CURULES_CAT',  file: 'curules_catalogo.json'      },
-    { key: '_DS_PARTIDOS',     file: 'partidos.json'              },
-    { key: '_DS_TERRITORIOS',  file: 'territorios_catalogo.json'  },
-    { key: '_PROV_METRICS',    file: 'prov_metrics_2024.json'     },
+    // Core electoral
+    { key: '_DS_RESULTADOS',       file: 'resultados_2024.json'              },
+    { key: '_DS_ALIANZAS',         file: 'alianzas_2024.json'                },
+    { key: '_DS_CURULES',          file: 'curules_resultado_2024.json'       },
+    { key: '_DS_CURULES_CAT',      file: 'curules_catalogo.json'             },
+    { key: '_DS_PARTIDOS',         file: 'partidos.json'                     },
+    { key: '_DS_TERRITORIOS',      file: 'territorios_catalogo.json'         },
+    // Padrones por nivel (arquitectura v8.5)
+    { key: '_DS_PADRON',           file: 'padron_2024.json'                  },
+    { key: '_DS_PADRON_PROV',      file: 'padron_provincial_2024.json'       },
+    { key: '_DS_PADRON_CIRC',      file: 'padron_circ_2024.json'             },
+    { key: '_DS_PADRON_EXT',       file: 'padron_exterior_2024.json'         },
+    // Métricas provinciales por nivel (arquitectura v8.5)
+    { key: '_PROV_METRICS_PRES',   file: 'prov_metrics_presidencial_2024.json' },
+    { key: '_PROV_METRICS_SEN',    file: 'prov_metrics_senadores_2024.json'    },
+    { key: '_PROV_METRICS_DIP',    file: 'prov_metrics_diputados_2024.json'    },
+    // Legacy — apunta a presidencial para compatibilidad
+    { key: '_PROV_METRICS',        file: 'prov_metrics_presidencial_2024.json' },
   ];
 
   let loaded = 0;
   for (const ds of DATASETS) {
-    setMsg('Cargando ' + ds.file + '…', loaded + '/' + DATASETS.length + ' archivos');
+    setMsg('Cargando ' + ds.file + '…', loaded + '/' + TOTAL_DS + ' archivos');
     try {
       const resp = await fetch('./data/' + ds.file);
       if (!resp.ok) throw new Error('HTTP ' + resp.status);
@@ -59,7 +69,7 @@
     }
   }
 
-  setMsg('Inicializando motores…', loaded + '/' + DATASETS.length + ' datasets listos');
+  setMsg('Inicializando motores…', loaded + '/' + TOTAL_DS + ' datasets listos');
 
   // Cargar engine y UI como scripts clásicos (no modules)
   // engine.js expone window.SIE_MOTORES
@@ -72,7 +82,7 @@
     return;
   }
 
-  console.log('✅ SIE 2028 v8.4 · Dataset 2024 ACTIVO · Boot OK');
+  console.log('✅ SIE 2028 v8.5 · Dataset 2024 ACTIVO · Boot OK');
 })();
 
 function loadScript(src) {

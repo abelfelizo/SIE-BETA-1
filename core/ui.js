@@ -17,6 +17,9 @@ M.Alianzas.init(_DS_ALIANZAS);
 M.Curules.init(_DS_CURULES_CAT,_DS_CURULES);
 M.Territorial.init(_DS_TERRITORIOS);
 M.CrecimientoPadron.proyectar();
+// Inicializar motores multi-nivel con datasets por nivel (v8.5)
+M.Movilizacion.init(_PROV_PRES, _PROV_SEN, _PROV_DIP);
+M.NormalizacionHistorica.init(_PROV_PRES);
 
 document.getElementById('sys-status').textContent =
   valResult.ok ? '\u2705 Sistema listo \u00b7 Dataset 2024' : '\u26a0\ufe0f ' + valResult.errores.length + ' errores';
@@ -189,7 +192,7 @@ function renderSenadores(){
     +kpi('gold','Total','32','1 por provincia');
 
   document.getElementById('sen-prov-grid').innerHTML = senData.map(function(prov){
-    var pm = _PROV_METRICS.find(function(p){return p.id===prov.provincia_id;})||{};
+    var pm = _PROV_METRICS_SEN.find(function(p){return p.id===prov.provincia_id;})||{};
     var rn = pm.riesgo_nivel||'';
     var rs = pm.riesgo_score||'';
     var esAliadoPRM = prov.ganador !== 'PRM' && prov.bloque_coalicion === 'PRM-coalicion';
@@ -263,31 +266,43 @@ function renderDiputados(){
 }
 
 // ====== POTENCIAL ======
+var _POT_NIVEL = 'presidencial';
+function _getProvDS(n){ return n==='senadores' ? _PROV_SEN : n==='diputados' ? _PROV_DIP : _PROV_PRES; }
+
+function nivelTabs(idPrefix, activo, onChange) {
+  return ['presidencial','senadores','diputados'].map(function(n){
+    var isAct = n===activo;
+    return '<button onclick="'+onChange+'(\''+n+'\')" style="background:'+(isAct?'var(--accent)':'var(--bg3)')+';color:'+(isAct?'#fff':'var(--muted)')+';border:none;padding:.28rem .75rem;border-radius:.3rem;font-size:.72rem;font-weight:700;cursor:pointer;text-transform:capitalize">'+n+'</button>';
+  }).join('');
+}
+
 function renderPotencial(){
-  var ofensivo = M.Potencial.scoreOfensivo(_PROV_METRICS,'FP');
-  var defensivo = M.Potencial.scoreDefensivo(_PROV_METRICS,'PRM');
+  var ds = _getProvDS(_POT_NIVEL);
+  var ofensivo = M.Potencial.scoreOfensivo(ds,'FP');
+  var defensivo = M.Potencial.scoreDefensivo(ds,'PRM');
 
   document.getElementById('potencial-ofensivo').innerHTML =
-    ofensivo.filter(function(p){return p.categoria_ofensiva!=='perdida'&&p.categoria_ofensiva!=='consolidada';}).slice(0,8).map(function(pm){
+    ofensivo.filter(function(p){return p.categoria_ofensiva!=='perdida'&&p.categoria_ofensiva!=='consolidada';}).slice(0,10).map(function(pm){
+      var catColor = pm.categoria_ofensiva==='objetivo_prioritario'?'var(--fp)':pm.categoria_ofensiva==='objetivo_secundario'?'var(--gold)':'var(--muted)';
       return '<div style="display:flex;justify-content:space-between;align-items:center;padding:.42rem 0;border-bottom:1px solid var(--border)">'
         +'<div><div style="font-size:.82rem;font-weight:700">'+pm.provincia+'</div>'
-        +'<div style="font-size:.7rem;color:var(--muted)">Margen: '+pm.margen_pp+'pp \u00b7 Abst: '+pm.abstencion+'%</div></div>'
+        +'<div style="font-size:.7rem;color:var(--muted)">Margen: '+pm.margen_pp+'pp \u00b7 Abst: '+pm.abstencion+'% \u00b7 FP: '+pm.pct_target+'%</div></div>'
         +'<div style="text-align:right">'
-        +'<div style="font-size:.9rem;font-weight:800;color:var(--fp)">'+pm.score_ofensivo+'</div>'
-        +'<div style="font-size:.67rem;color:var(--muted)">'+pm.categoria_ofensiva.replace('_',' ')+'</div></div></div>';
+        +'<div style="font-size:.9rem;font-weight:800;color:'+catColor+'">'+pm.score_ofensivo+'</div>'
+        +'<div style="font-size:.67rem;color:var(--muted)">'+pm.categoria_ofensiva.replace(/_/g,' ')+'</div></div></div>';
     }).join('');
 
   document.getElementById('potencial-defensivo').innerHTML =
-    defensivo.slice(0,8).map(function(pm){
+    defensivo.slice(0,10).map(function(pm){
       return '<div style="display:flex;justify-content:space-between;align-items:center;padding:.42rem 0;border-bottom:1px solid var(--border)">'
         +'<div><div style="font-size:.82rem;font-weight:700">'+pm.provincia+'</div>'
         +'<div style="font-size:.7rem;color:var(--muted)">Margen: '+pm.margen_pp+'pp \u00b7 ENPP: '+pm.enpp+'</div></div>'
         +'<div style="text-align:right">'
-        +'<span class="risk-badge risk-'+pm.riesgo_nivel+'">Riesgo '+pm.riesgo_score+'</span>'
+        +'<span class="risk-badge risk-'+pm.riesgo_nivel+'">'+pm.riesgo_score+'</span>'
         +'<div style="font-size:.67rem;color:var(--muted)">'+pm.prioridad_defensa+'</div></div></div>';
     }).join('');
 
-  document.getElementById('competitividad-grid').innerHTML = _PROV_METRICS.map(function(pm){
+  document.getElementById('competitividad-grid').innerHTML = ds.map(function(pm){
     return '<div class="prov-card">'
       +'<div class="prov-name">'+pm.provincia+'</div>'
       +'<div class="prov-winner" style="color:'+pc(pm.ganador)+'">'+pm.ganador+'</div>'
@@ -297,33 +312,75 @@ function renderPotencial(){
   }).join('');
 }
 
+window.setPotNivel = function(n){ _POT_NIVEL=n; renderPotencial(); };
+
 // ====== MOVILIZACION ======
+var _MOV_NIVEL = 'presidencial';
+var _MOV_PARTIDO = 'FP';
+
 function renderMovilizacion(){
-  var agenda = M.Movilizacion.agenda(_PROV_METRICS,'FP',null);
-  document.getElementById('movilizacion-list').innerHTML = agenda.slice(0,15).map(function(a){
+  var agenda = M.Movilizacion.agenda(_MOV_NIVEL, _MOV_PARTIDO);
+  var resumen = M.Movilizacion.resumenMultinivel(_MOV_PARTIDO);
+
+  // KPIs del nivel activo
+  var kpisEl = document.getElementById('mov-kpis');
+  if(kpisEl){
+    var n_alta = agenda.filter(function(a){return a.factibilidad==='alta';}).length;
+    var n_media = agenda.filter(function(a){return a.factibilidad==='media';}).length;
+    var n_baja = agenda.filter(function(a){return a.factibilidad==='baja';}).length;
+    var gap_total = agenda.reduce(function(s,a){return s+a.votos_gap;},0);
+    kpisEl.innerHTML =
+      kpi('green','Factibilidad Alta',n_alta,'plazas recuperables')
+      +kpi('gold','Factibilidad Media',n_media,'requieren esfuerzo')
+      +kpi('red','Factibilidad Baja',n_baja,'objetivo difícil')
+      +kpi('purple','Gap total '+_MOV_NIVEL,fmt(gap_total),'votos a recuperar');
+  }
+
+  document.getElementById('movilizacion-list').innerHTML = agenda.slice(0,20).map(function(a){
+    var factColor = a.factibilidad==='alta'?'var(--green)':a.factibilidad==='media'?'var(--gold)':'var(--red)';
     return '<div class="mov-card">'
       +'<div style="display:flex;justify-content:space-between;align-items:flex-start">'
       +'<div><div style="font-size:.85rem;font-weight:700">'+a.provincia+'</div>'
-      +'<div style="font-size:.7rem;color:var(--muted)">Ganador actual: '+a.ganador_actual+' \u00b7 Partic. '+a.participacion_actual+'%</div></div>'
-      +'<span class="fact-'+a.factibilidad+'" style="font-size:.8rem;font-weight:700">'+a.factibilidad.toUpperCase()+'</span></div>'
+      +'<div style="font-size:.7rem;color:var(--muted)">Ganador actual: <strong style="color:'+pc(a.ganador_actual)+'">'+a.ganador_actual+'</strong>'
+      +(a.bloque_coalicion?' ['+a.bloque_coalicion+']':'')+' \u00b7 Partic. '+a.participacion_actual+'% \u00b7 ENPP '+a.enpp+'</div></div>'
+      +'<span style="font-size:.78rem;font-weight:700;color:'+factColor+'">'+a.factibilidad.toUpperCase()+'</span></div>'
       +'<div style="margin-top:.5rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:.35rem">'
       +'<div style="background:var(--bg);border-radius:var(--r);padding:.38rem;text-align:center">'
       +'<div style="font-size:.63rem;color:var(--muted)">Gap votos</div>'
       +'<div style="font-size:.83rem;font-weight:800">'+fmt(a.votos_gap)+'</div></div>'
       +'<div style="background:var(--bg);border-radius:var(--r);padding:.38rem;text-align:center">'
-      +'<div style="font-size:.63rem;color:var(--muted)">Necesarios</div>'
+      +'<div style="font-size:.63rem;color:var(--muted)">Votos necesarios</div>'
       +'<div style="font-size:.83rem;font-weight:800;color:var(--fp)">'+fmt(a.votos_necesarios)+'</div></div>'
       +'<div style="background:var(--bg);border-radius:var(--r);padding:.38rem;text-align:center">'
       +'<div style="font-size:.63rem;color:var(--muted)">% abstencionistas</div>'
-      +'<div style="font-size:.83rem;font-weight:800;color:'+(a.factibilidad==='alta'?'var(--green)':a.factibilidad==='media'?'var(--gold)':'var(--red)')+'">'+a.pct_abstencionistas_a_movilizar+'%</div></div>'
+      +'<div style="font-size:.83rem;font-weight:800;color:'+factColor+'">'+a.pct_abstencionistas_a_movilizar+'%</div></div>'
       +'</div></div>';
   }).join('');
+
+  // Resumen multi-nivel compacto
+  var rsEl = document.getElementById('mov-resumen');
+  if(rsEl){
+    rsEl.innerHTML = '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem">'
+      +resumen.map(function(r){
+        return '<div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:.65rem">'
+          +'<div style="font-size:.68rem;font-weight:700;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem">'+r.nivel+'</div>'
+          +'<div style="font-size:.78rem"><span style="color:var(--green)">'+r.plazas_alta+'A</span> '
+          +'<span style="color:var(--gold)">'+r.plazas_media+'M</span> '
+          +'<span style="color:var(--red)">'+r.plazas_baja+'B</span>'
+          +' / <span style="color:var(--muted)">'+r.plazas_perdidas+' perdidas</span></div></div>';
+      }).join('')+'</div>';
+  }
 }
 
+window.setMovNivel = function(n){ _MOV_NIVEL=n; renderMovilizacion(); };
+
 // ====== RIESGO ======
+var _RIE_NIVEL = 'presidencial';
+
 function renderRiesgo(){
-  var clasificados = M.Riesgo.clasificar(_PROV_METRICS);
-  var alertas = M.Riesgo.getAlertas(_PROV_METRICS);
+  var ds = _getProvDS(_RIE_NIVEL);
+  var clasificados = M.Riesgo.clasificar(ds);
+  var alertas = M.Riesgo.getAlertas(ds);
   var n_alto = clasificados.filter(function(p){return p.riesgo_nivel==='alto';}).length;
   var n_medio = clasificados.filter(function(p){return p.riesgo_nivel==='medio';}).length;
   var n_bajo = clasificados.filter(function(p){return p.riesgo_nivel==='bajo';}).length;
@@ -354,6 +411,8 @@ function renderRiesgo(){
       }).join('')
     : '<p class="text-muted text-sm">Sin alertas de alto riesgo.</p>';
 }
+
+window.setRieNivel = function(n){ _RIE_NIVEL=n; renderRiesgo(); };
 
 // ====== SIMULADOR ======
 var SIM_P = ['PRM','FP','PLD','PRD','PCR'];
@@ -458,18 +517,28 @@ function initProyeccion(){
 function renderProyFundamentals(polls_agg){
   var proy = M.Proyeccion.proyectar({}, polls_agg ? polls_agg.promedio : null);
   var partidos = Object.keys(proy);
-  document.getElementById('proy-fundamentals').innerHTML = partidos.map(function(p){
+  var statusNorm = M.NormalizacionHistorica.getStatus();
+  var normBanner = '<div style="background:var(--bg3);border:1px solid '+(statusNorm.modo==='PROXY'?'var(--gold)':'var(--green)')+';border-radius:var(--r);padding:.5rem .75rem;margin-bottom:.75rem;font-size:.72rem">'
+    +'<span style="font-weight:700;color:'+(statusNorm.modo==='PROXY'?'var(--gold)':'var(--green)')+'">MotorNormalizacionHistorica: '+statusNorm.modo+'</span>'
+    +(statusNorm.advertencia?' <span style="color:var(--muted)">\u2014 '+statusNorm.advertencia+'</span>':'')
+    +'</div>';
+
+  document.getElementById('proy-fundamentals').innerHTML = normBanner + partidos.map(function(p){
     var d = proy[p];
     var diff = +(d.proyectado - d.base_2024).toFixed(2);
     var diffStr = diff>=0?'+'+diff:''+diff;
+    var normTag = d.ajuste_normalizacion
+      ? '<span style="font-size:.62rem;background:var(--bg3);color:var(--gold);border:1px solid var(--gold)33;border-radius:.2rem;padding:.08rem .3rem;margin-left:.35rem">norm x'+d.ajuste_normalizacion.multiplicador+'</span>'
+      : '';
     return '<div style="padding:.55rem 0;border-bottom:1px solid var(--border)">'
       +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.28rem">'
-      +'<span style="font-weight:700;color:'+pc(p)+'">'+p+(d.es_incumbente?' \ud83c\udfc6':'')+'</span>'
+      +'<span style="font-weight:700;color:'+pc(p)+'">'+p+(d.es_incumbente?' \ud83c\udfc6':'')+normTag+'</span>'
       +'<div style="text-align:right">'
       +'<span style="font-size:1.05rem;font-weight:800;color:'+pc(p)+'">'+d.proyectado_norm+'%</span>'
       +'<span style="font-size:.7rem;color:'+(diff>=0?'var(--green)':'var(--red)')+';margin-left:.4rem">'+diffStr+'pp</span></div></div>'
       +'<div class="bar-track"><div class="bar-fill" style="width:'+d.proyectado_norm+'%;background:'+pc(p)+'"></div></div>'
-      +'<div style="font-size:.68rem;color:var(--muted);margin-top:.2rem">Base 2024: '+d.base_2024+'% \u00b7 '+d.metodologia+'</div></div>';
+      +'<div style="font-size:.68rem;color:var(--muted);margin-top:.2rem">Base 2024: '+d.base_2024+'% \u00b7 '+d.metodologia
+      +(d.ajuste_normalizacion?' \u00b7 '+d.ajuste_normalizacion.razon:'')+'</div></div>';
   }).join('');
 }
 
@@ -510,8 +579,9 @@ function renderMotores(){
     {n:'Motor Crecimiento Padr\u00f3n',d:'CAGR (Vf/Vi)^(1/n)-1 \u2014 Fuente JCE 2016-2024'},
     {n:'Motor Encuestas',      d:'Ponderaci\u00f3n exponencial tiempo/calidad/n (Silver/FiveThirtyEight)'},
     {n:'Motor Potencial',      d:'Score ofensivo/defensivo territorial (Jacobson 2004, Taagepera-Shugart)'},
-    {n:'Motor Movilizaci\u00f3n',d:'Turnout gap + votos necesarios (Leighley & Nagler 2013)'},
-    {n:'Motor Riesgo',         d:'Composite risk index: margen(50%) + participaci\u00f3n(25%) + ENPP(25%)'},
+    {n:'Motor Movilizaci\u00f3n',d:'Multi-nivel (presidencial/senadores/diputados) \u00b7 Turnout gap (Leighley & Nagler 2013)'},
+    {n:'Motor Riesgo',         d:'Multi-nivel \u00b7 Composite risk index: margen(50%) + participaci\u00f3n(25%) + ENPP(25%)'},
+    {n:'Motor Normalizaci\u00f3n Hist\u00f3rica',d:'Madurez organizativa + crecimiento estructural \u00b7 Modo PROXY hasta data 2020 (Panebianco 1988)'},
   ];
   var MOTORES_OFF = [
     {n:'Motor Municipal',      d:'Alcaldes y Directores DM \u2014 pendiente dataset municipal'},
@@ -534,10 +604,19 @@ function renderMotores(){
 
   var DS = [
     {f:'resultados_2024.json',s:'44 KB (sin municipal)'},
+    {f:'padron_provincial_2024.json',s:'Presidencial + senadores \u00b7 32 provincias'},
+    {f:'padron_circ_2024.json',s:'Diputados \u00b7 45 circs (estimado proporcional)'},
+    {f:'padron_exterior_2024.json',s:'Exterior \u00b7 3 regiones (estimado)'},
+    {f:'prov_metrics_presidencial_2024.json',s:'32 prov \u00b7 bloques presidenciales'},
+    {f:'prov_metrics_senadores_2024.json',s:'32 prov \u00b7 alianzas senatoriales'},
+    {f:'prov_metrics_diputados_2024.json',s:'32 prov \u00b7 agregado por provincia'},
     {f:'curules_resultado_2024.json',s:'22 KB'},
     {f:'partidos.json',s:'2 KB \u00b7 39 partidos'},
     {f:'padron_2024.json',s:'24 KB \u00b7 190 entradas'},
     {f:'territorios_catalogo.json',s:'57 KB'},
+    {f:'prov_pres_2024.json',s:'32 provincias — nivel presidencial'},
+    {f:'prov_sen_2024.json', s:'32 provincias — nivel senadores'},
+    {f:'prov_dip_2024.json', s:'32 provincias — nivel diputados'},
     {f:'alianzas_2024.json',s:'111 KB'},
     {f:'curules_catalogo.json',s:'8 KB'},
   ];
@@ -580,6 +659,36 @@ renderMovilizacion();
 renderRiesgo();
 renderMotores();
 setTimeout(function(){drawParliament('parl-canvas',M.Curules.getTotalLegislativo(),M.Curules.getSumaCurules());},50);
+
+// ── Listeners para selectores de nivel del HTML (level-btn) ──
+function bindLevelBtns(containerId, onChange) {
+  var cont = document.getElementById(containerId);
+  if (!cont) return;
+  cont.addEventListener('click', function(e) {
+    var btn = e.target.closest('.level-btn');
+    if (!btn) return;
+    var nivel = btn.dataset.level || btn.dataset.nivel;
+    var partido = btn.dataset.partido;
+    if (nivel) {
+      cont.querySelectorAll('[data-level],[data-nivel]').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      onChange(nivel, null);
+    }
+    if (partido) {
+      cont.querySelectorAll('[data-partido]').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      onChange(null, partido);
+    }
+  });
+}
+
+bindLevelBtns('pot-level-bar', function(nivel){ if(nivel){_POT_NIVEL=nivel; renderPotencial();} });
+bindLevelBtns('mov-controls', function(nivel, partido){
+  if(nivel){ _MOV_NIVEL=nivel; }
+  if(partido){ _MOV_PARTIDO=partido; }
+  renderMovilizacion();
+});
+bindLevelBtns('riesgo-controls', function(nivel){ if(nivel){_RIE_NIVEL=nivel; renderRiesgo();} });
 
 })();
 
