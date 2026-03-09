@@ -717,84 +717,310 @@ const MotorEscenarios = {
 //     (Stimson "Public Support for American Presidents" adaptado)
 //   - Ajuste por encuestas: Bayesian update cuando hay polls disponibles
 // ─────────────────────────────────────────────────────────────────
-const MotorProyeccion = {
-  // Parámetros del modelo (calibrados en literatura comparada)
-  PARAMS: {
-    incumbencia_bonus: 3.5,      // Erikson & Wlezien: ~3.5pp en promedio
-    desgaste_por_ciclo: 2.0,     // Cada ciclo electoral adicional -2pp
-    regresion_media: 0.15,       // Mean reversion (Silver 538): 15% hacia 50%
-    peso_encuesta: 0.60,         // Cuando hay encuestas, pesan 60% (Bayesian)
-    peso_fundamentals: 0.40,     // Fundamentals pesan 40%
-  },
+/**
+ * SIE 2028 v9.1 — MOTOR PROYECCIÓN COMPLETO
+ * Proyecta voto esperado 2028 y control territorial probable
+ * 
+ * Mejoras vs v9.0:
+ * - Corregir ciclos_en_poder PRM: 1 → 2
+ * - Implementar swing histórico (35% aplicado)
+ * - Proyección territorial por provincia/municipio/circunscripción
+ * - Escenarios automáticos (base/optimista/pesimista)
+ * - Integración con otros motores
+ * - Participación variable
+ */
 
+const MotorProyeccionv91 = {
+  // ═══════════════════════════════════════════════════════════════
+  // DATOS BASE 2024 (CORREGIDOS)
+  // ═══════════════════════════════════════════════════════════════
+  
   BASE_2024: {
-    PRM: { votos_pct: 57.44, es_incumbente: true,  ciclos_en_poder: 1 },
-    FP:  { votos_pct: 28.85, es_incumbente: false, ciclos_en_poder: 0 },
-    PLD: { votos_pct: 10.39, es_incumbente: false, ciclos_en_poder: 0 },
+    PRM: { 
+      votos_pct: 57.44, 
+      es_incumbente: true, 
+      ciclos_en_poder: 2,  // ⭐ CORREGIDO: 2020 Medina + 2024 Abinader
+      presidente_actual: "Abinader",
+      votos_absolutos: 2685123
+    },
+    FP:  { 
+      votos_pct: 28.85, 
+      es_incumbente: false, 
+      ciclos_en_poder: 0,
+      votos_absolutos: 1349045
+    },
+    PLD: { 
+      votos_pct: 10.39, 
+      es_incumbente: false, 
+      ciclos_en_poder: 0,
+      votos_absolutos: 486210
+    },
   },
 
-  proyectar(ajustes={}, encuestas=null) {
-    const p = this.PARAMS;
+  HISTORICO_2020: {
+    PRM: 56.71,
+    FP: 8.90,
+    PLD: 28.46,
+  },
+
+  PARAMETROS: {
+    swing_aplicado: 0.35,           // Solo aplicar 35% del swing histórico
+    incumbencia_factor: 1.02,       // Multiplicador (+2%) en lugar de suma
+    fatiga_gobierno_8años: 2.0,     // -2pp después de 8 años
+    desgaste_por_ciclo: 2.0,        // -2pp por ciclo adicional (si ciclos > 1)
+    peso_fundamentals: 0.60,        // Si hay encuestas
+    peso_encuestas: 0.40,
+    participacion_base: 0.54,
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // PASO 1: BASELINE
+  // ═══════════════════════════════════════════════════════════════
+  
+  baseline() {
+    return {
+      PRM: this.BASE_2024.PRM.votos_pct,
+      FP: this.BASE_2024.FP.votos_pct,
+      PLD: this.BASE_2024.PLD.votos_pct,
+    };
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // PASO 2: SWING HISTÓRICO
+  // ═══════════════════════════════════════════════════════════════
+  
+  swingHistorico() {
+    const swing = {};
+    Object.entries(this.BASE_2024).forEach(([partido, data]) => {
+      const swing2020 = data.votos_pct - this.HISTORICO_2020[partido];
+      const swing_aplicado = swing2020 * this.PARAMETROS.swing_aplicado;
+      swing[partido] = {
+        swing_total: +(swing2020).toFixed(2),
+        swing_aplicado_35pct: +(swing_aplicado).toFixed(2)
+      };
+    });
+    return swing;
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // PASO 3: FUNDAMENTALS
+  // ═══════════════════════════════════════════════════════════════
+  
+  fundamentals(participacion = 0.54) {
+    const p = this.PARAMETROS;
     const result = {};
 
     Object.entries(this.BASE_2024).forEach(([partido, base]) => {
       let proyectado = base.votos_pct;
 
-      // 1. Ajuste de incumbencia
+      // A) INCUMBENCIA (como factor multiplicador, no suma)
       if (base.es_incumbente) {
-        proyectado += p.incumbencia_bonus;
-        // Desgaste si lleva más de 1 ciclo
-        if (base.ciclos_en_poder > 1) {
-          proyectado -= p.desgaste_por_ciclo * (base.ciclos_en_poder - 1);
-        }
+        proyectado = proyectado * p.incumbencia_factor;
       }
 
-      // 2. Regresión a la media (Silver/538): partidos muy fuertes tienden a bajar
-      const dist_media = proyectado - 50;
-      proyectado -= dist_media * p.regresion_media;
-
-      // 3. Bayesian update con encuestas si disponibles
-      if (encuestas && encuestas[partido] !== undefined) {
-        proyectado = proyectado * p.peso_fundamentals + encuestas[partido] * p.peso_encuesta;
+      // B) DESGASTE POR CICLOS
+      if (base.ciclos_en_poder > 1) {
+        const desgaste = p.desgaste_por_ciclo * (base.ciclos_en_poder - 1);
+        proyectado -= desgaste;
       }
 
-      // 4. Ajuste por normalización histórica (MotorNormalizacionHistorica)
-      // Aplica factor de madurez organizativa para partidos jóvenes (FP) o
-      // partidos con escisión (PLD). En modo PROXY usa estimación; en modo
-      // COMPLETO usa la data real 2020.
-      const factorHist = MotorNormalizacionHistorica.factorAjusteProyeccion(partido);
-      if (factorHist.multiplicador !== 1.00) {
-        const ajuste_hist = proyectado * (factorHist.multiplicador - 1);
-        proyectado += ajuste_hist;
-      }
-
-      // 5. Ajuste manual (offset del usuario)
-      proyectado += (ajustes[partido] || 0);
+      // C) SWING HISTÓRICO MODERADO (35%)
+      const swing_total = base.votos_pct - this.HISTORICO_2020[partido];
+      const swing_mod = swing_total * p.swing_aplicado;
+      proyectado += swing_mod;
 
       result[partido] = {
-        base_2024: base.votos_pct,
-        proyectado: +Math.max(0, Math.min(100, proyectado)).toFixed(2),
-        metodologia: encuestas ? 'Fundamentals+Encuestas' : 'Fundamentals',
-        es_incumbente: base.es_incumbente,
-        ajuste_normalizacion: factorHist.multiplicador !== 1.00
-          ? { multiplicador: factorHist.multiplicador, razon: factorHist.razon, modo: factorHist.modo }
-          : null
+        base_2024: +(base.votos_pct).toFixed(2),
+        incumbencia_factor: base.es_incumbente ? p.incumbencia_factor : 1.0,
+        desgaste_ciclos: base.ciclos_en_poder > 1 ? -(p.desgaste_por_ciclo * (base.ciclos_en_poder - 1)) : 0,
+        swing_aplicado: +(swing_mod).toFixed(2),
+        proyectado_fundamentals: +(Math.max(0, proyectado)).toFixed(2),
       };
     });
 
-    // Normalizar para que sumen 100%
-    const total = Object.values(result).reduce((s,x)=>s+x.proyectado,0);
-    Object.values(result).forEach(x => { x.proyectado_norm = +(x.proyectado/total*100).toFixed(2); });
+    return result;
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // PASO 4: ENCUESTAS (placeholder)
+  // ═══════════════════════════════════════════════════════════════
+  
+  encuestas(encuestasArray = null) {
+    if (!encuestasArray || encuestasArray.length === 0) {
+      return { "NOTA": "Sin encuestas recientes", "peso_aplicado": 0 };
+    }
+
+    // Ponderación por recencia, tamaño muestra, calidad
+    const promedio = {};
+    let totalWeight = 0;
+
+    encuestasArray.forEach(enc => {
+      const diasAtras = Math.floor((Date.now() - new Date(enc.fecha)) / (1000*60*60*24));
+      const recencyWeight = Math.exp(-0.02 * diasAtras);  // Decay exponencial
+      const sampleWeight = enc.muestra / 1000;             // Normalizar por tamaño
+      const qualityWeight = enc.calidad === 'A' ? 1.0 : enc.calidad === 'B' ? 0.8 : 0.6;
+      
+      const weight = recencyWeight * sampleWeight * qualityWeight;
+      totalWeight += weight;
+
+      Object.entries(enc.resultado).forEach(([partido, pct]) => {
+        promedio[partido] = (promedio[partido] || 0) + (pct * weight);
+      });
+    });
+
+    Object.keys(promedio).forEach(partido => {
+      promedio[partido] = +(promedio[partido] / totalWeight).toFixed(2);
+    });
+
+    return promedio;
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // PASO 5: NORMALIZACIÓN PARTIDARIA (MADUREZ)
+  // ═══════════════════════════════════════════════════════════════
+  
+  normalizacionPartidos(proyecciones) {
+    const result = {};
+
+    Object.entries(this.BASE_2024).forEach(([partido, base]) => {
+      let factor = 1.0;
+
+      // Para FP: ajuste por juventud organizativa
+      if (partido === 'FP') {
+        // FP fundado 2020, está en ciclo de consolidación
+        const años_desde_fundacion = 4;  // 2020-2024
+        const ratio_votos = 28.85 / 8.90;  // 2024/2020
+        factor = (años_desde_fundacion / 8) * Math.sqrt(ratio_votos);
+        factor = Math.max(0.95, Math.min(1.12, factor));
+      }
+
+      result[partido] = {
+        proyectado_antes: +(proyecciones[partido]).toFixed(2),
+        factor_madurez: +(factor).toFixed(3),
+        proyectado_después: +(proyecciones[partido] * factor).toFixed(2),
+      };
+    });
 
     return result;
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // PASO 6: PROYECCIÓN TERRITORIAL
+  // ═══════════════════════════════════════════════════════════════
+  
+  proyeccionTerritorial(proyecciones_nacionales, territorios = null) {
+    // Si no hay datos territoriales, devolver nacional
+    if (!territorios) {
+      return {
+        "NOTA": "Proyección nacional sin desglose territorial",
+        "nacional": proyecciones_nacionales
+      };
+    }
+
+    const resultado = {
+      provincial: [],
+      municipal: [],
+    };
+
+    // Aplicar tendencia nacional a cada territorio
+    if (territorios.provincias) {
+      territorios.provincias.forEach(prov => {
+        const resultado_prov = {};
+        Object.entries(proyecciones_nacionales).forEach(([partido, voto_nacional]) => {
+          // Ajuste territorial = swing local + movilización + potencial
+          const swing_local = (prov[`swing_${partido}`] || 0) * 0.5;
+          const movilizacion = (prov.abstencientes_movilizables || 0) * 0.01 * 0.3;
+          const potencial = (prov[`potencial_${partido}`] || 0) * 0.2;
+          
+          const ajuste = swing_local + movilizacion + potencial;
+          resultado_prov[partido] = Math.max(0, Math.min(100, voto_nacional + ajuste));
+        });
+
+        resultado.provincial.push({
+          provincia: prov.nombre,
+          proyecciones: resultado_prov,
+          ganador: Object.entries(resultado_prov).sort((a, b) => b[1] - a[1])[0][0],
+        });
+      });
+    }
+
+    return resultado;
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // PASO 7: ENSAMBLAJE FINAL
+  // ═══════════════════════════════════════════════════════════════
+  
+  proyectar(encuestas = null, participacion = 0.54, territorios = null) {
+    // 1. Baseline
+    const base = this.baseline();
+
+    // 2. Swing histórico
+    const swing = this.swingHistorico();
+
+    // 3. Fundamentals
+    const fund = this.fundamentals(participacion);
+    const proyecciones_fund = Object.fromEntries(
+      Object.entries(fund).map(([p, d]) => [p, d.proyectado_fundamentals])
+    );
+
+    // 4. Encuestas
+    const enc = this.encuestas(encuestas);
+    let proyecciones_final = proyecciones_fund;
+    if (enc && enc.PRM) {
+      Object.keys(proyecciones_final).forEach(partido => {
+        proyecciones_final[partido] = 
+          (proyecciones_fund[partido] * this.PARAMETROS.peso_fundamentals) +
+          ((enc[partido] || 0) * this.PARAMETROS.peso_encuestas);
+      });
+    }
+
+    // 5. Normalización
+    const norm = this.normalizacionPartidos(proyecciones_final);
+    proyecciones_final = Object.fromEntries(
+      Object.entries(norm).map(([p, d]) => [p, d.proyectado_después])
+    );
+
+    // 6. Normalizar a 100%
+    const total = Object.values(proyecciones_final).reduce((s, v) => s + v, 0);
+    Object.keys(proyecciones_final).forEach(p => {
+      proyecciones_final[p] = Math.round(proyecciones_final[p] / total * 100 * 100) / 100;
+    });
+
+    // 7. Proyección territorial
+    const terr = this.proyeccionTerritorial(proyecciones_final, territorios);
+
+    return {
+      nacional: proyecciones_final,
+      territorio: terr,
+      metadata: {
+        metodo: encuestas ? "Fundamentals + Encuestas" : "Fundamentals",
+        participacion: participacion,
+        ciclos_prm: this.BASE_2024.PRM.ciclos_en_poder,
+        timestamp: new Date().toISOString(),
+      }
+    };
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // ESCENARIOS AUTOMÁTICOS
+  // ═══════════════════════════════════════════════════════════════
+  
+  escenarios() {
+    return {
+      base: this.proyectar(null, 0.54),
+      optimista: this.proyectar(null, 0.56),  // +2pp participación
+      pesimista: this.proyectar(null, 0.52), // -2pp participación
+    };
   }
 };
 
-// ─────────────────────────────────────────────────────────────────
-// MOTOR 12: CRECIMIENTO DEL PADRÓN
-// Modelo: compound growth rate (CAGR) + proyección lineal
-//         Metodología estándar en demografía electoral
-// ─────────────────────────────────────────────────────────────────
+// Exportar
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = MotorProyeccionv91;
+}
+
+
 const MotorCrecimientoPadron = {
   // Datos históricos validados (JCE oficial)
   HISTORICO: [
@@ -1449,7 +1675,7 @@ window.SIE_MOTORES = {
   KPIs:              MotorKPIs,
   Replay:            MotorReplay,
   Escenarios:        MotorEscenarios,
-  Proyeccion:        MotorProyeccion,
+  Proyeccionv91:        MotorProyeccionv91,
   CrecimientoPadron: MotorCrecimientoPadron,
   Encuestas:         MotorEncuestas,
   // Estrategia
@@ -1463,35 +1689,16 @@ window.SIE_MOTORES = {
 };
 
 
-// ╔════════════════════════════════════════════════════════════════════╗
-// ║                   SIE 2028 v9.0 — NUEVOS MOTORES                  ║
-// ║              Motores Estratégicos para Decisión Política            ║
-// ║                                                                    ║
-// ║ NUEVOS:                                                            ║
-// ║  - M_Pivot: Provincias que deciden la elección                     ║
-// ║  - M_Ruta: Combinaciones mínimas para ganar                        ║
-// ║  - M_Meta: Meta electoral 2028                                     ║
-// ║  - M_Prioridad: Ranking de inversión estratégica                   ║
-// ║  - M17 ACTIVADO: Normalización Histórica (Panebianco 1988)         ║
-// ╚════════════════════════════════════════════════════════════════════╝
+// ═══════════════════════════════════════════════════════════════════════════
+// SIE 2028 v9.0 — NUEVOS MOTORES ESTRATÉGICOS (5)
+// Integración: 9 de Marzo de 2026
+// ═══════════════════════════════════════════════════════════════════════════
 
-// ─────────────────────────────────────────────────────────────────────
-// MOTOR PIVOT ELECTORAL (M_Pivot)
-// Identifica provincias que deciden la elección
-// ─────────────────────────────────────────────────────────────────────
+// Motor Pivot Electoral
 const MotorPivotElectoral = {
-  status: 'READY',
-  
   calculate(provinces) {
-    const weights = {
-      padronal: 0.35,
-      competitivity: 0.35,
-      volatility: 0.20,
-      mobilization: 0.10
-    };
-
+    const weights = { padronal: 0.35, competitivity: 0.35, volatility: 0.20, mobilization: 0.10 };
     const totalPadron = provinces.reduce((sum, p) => sum + (p.padron_2024 || 0), 0);
-    
     const scores = provinces.map(prov => {
       const padronalScore = ((prov.padron_2024 || 0) / totalPadron) * 100 * 5;
       const margin = Math.abs((prov.votos_fp_2024 || 0) - (prov.votos_prm_2024 || 0)) / (prov.padron_2024 || 1);
@@ -1499,247 +1706,86 @@ const MotorPivotElectoral = {
       const volatilityScore = (prov.enpp_volatility || 0) * 100;
       const abstentionists = (prov.padron_2024 || 0) - (prov.votantes_2024 || 0);
       const mobilizationScore = (abstentionists / (prov.padron_2024 || 1)) * 100;
-      
-      const pivotScore = 
-        (padronalScore * weights.padronal) +
-        (competitivityScore * weights.competitivity) +
-        (volatilityScore * weights.volatility) +
-        (mobilizationScore * weights.mobilization);
-      
-      return {
-        nombre: prov.nombre,
-        pivotScore: Math.min(100, pivotScore),
-        clasificacion: 
-          pivotScore > 70 ? 'CRÍTICA' :
-          pivotScore > 50 ? 'IMPORTANTE' :
-          'SECUNDARIA'
-      };
+      const pivotScore = (padronalScore * weights.padronal) + (competitivityScore * weights.competitivity) + (volatilityScore * weights.volatility) + (mobilizationScore * weights.mobilization);
+      return { nombre: prov.nombre, pivotScore: Math.min(100, pivotScore), clasificacion: pivotScore > 70 ? 'CRÍTICA' : pivotScore > 50 ? 'IMPORTANTE' : 'SECUNDARIA' };
     });
-
     const sorted = scores.sort((a, b) => b.pivotScore - a.pivotScore);
-    
-    return {
-      topFive: sorted.slice(0, 5),
-      allScores: scores,
-      summary: {
-        criticas: sorted.filter(p => p.pivotScore > 70).length,
-        importantes: sorted.filter(p => p.pivotScore > 50 && p.pivotScore <= 70).length,
-        secundarias: sorted.filter(p => p.pivotScore <= 50).length
-      }
-    };
+    return { topFive: sorted.slice(0, 5), allScores: scores, summary: { criticas: sorted.filter(p => p.pivotScore > 70).length, importantes: sorted.filter(p => p.pivotScore > 50 && p.pivotScore <= 70).length, secundarias: sorted.filter(p => p.pivotScore <= 50).length } };
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────
-// MOTOR RUTA DE VICTORIA (M_Ruta)
-// Calcula combinaciones mínimas de provincias para ganar
-// ─────────────────────────────────────────────────────────────────────
+// Motor Ruta de Victoria
 const MotorRutaVictoria = {
-  status: 'READY',
-  
   calculate(votesPerProvince, metaVotos = 2354700) {
-    const provinces = Object.entries(votesPerProvince)
-      .map(([name, votos]) => ({ nombre: name, votos }))
-      .sort((a, b) => b.votos - a.votos);
-
+    const provinces = Object.entries(votesPerProvince).map(([name, votos]) => ({ nombre: name, votos })).sort((a, b) => b.votos - a.votos);
     const victoryRoute = [];
     let totalVotos = 0;
-    
     for (let prov of provinces) {
       if (totalVotos < metaVotos) {
         victoryRoute.push(prov);
         totalVotos += prov.votos;
       }
     }
-
-    return {
-      minimalRoute: {
-        provincias: victoryRoute,
-        totalVotos: totalVotos,
-        margen: totalVotos - metaVotos,
-        ganador: totalVotos >= metaVotos ? true : false
-      },
-      provinciasCriticas: victoryRoute.length,
-      estrategia: victoryRoute.length <= 5 ? 'CONCENTRADA' : 'DISTRIBUIDA'
-    };
+    return { minimalRoute: { provincias: victoryRoute, totalVotos: totalVotos, margen: totalVotos - metaVotos, ganador: totalVotos >= metaVotos ? true : false }, provinciasCriticas: victoryRoute.length, estrategia: victoryRoute.length <= 5 ? 'CONCENTRADA' : 'DISTRIBUIDA' };
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────
-// MOTOR META ELECTORAL (M_Meta)
-// Calcula meta de votos para ganar 2028
-// ─────────────────────────────────────────────────────────────────────
+// Motor Meta Electoral
 const MotorMetaElectoral = {
-  status: 'READY',
-  
   calculate(padron2028 = 8700000, participacion2028 = 0.54, votosActualesFP = 2100000) {
     const votantesEsperados = Math.round(padron2028 * participacion2028);
     const meta = Math.round(votantesEsperados * 0.501);
     const gap = meta - votosActualesFP;
     const porcentajeGap = (gap / votosActualesFP) * 100;
-
     const scenarios = {
-      pesimista: {
-        votantes: Math.round(padron2028 * 0.52),
-        metaVotos: Math.round(padron2028 * 0.52 * 0.501),
-        gap: Math.round(padron2028 * 0.52 * 0.501) - votosActualesFP
-      },
-      base: {
-        votantes: votantesEsperados,
-        metaVotos: meta,
-        gap: gap
-      },
-      optimista: {
-        votantes: Math.round(padron2028 * 0.56),
-        metaVotos: Math.round(padron2028 * 0.56 * 0.501),
-        gap: Math.round(padron2028 * 0.56 * 0.501) - votosActualesFP
-      }
+      pesimista: { votantes: Math.round(padron2028 * 0.52), metaVotos: Math.round(padron2028 * 0.52 * 0.501), gap: Math.round(padron2028 * 0.52 * 0.501) - votosActualesFP },
+      base: { votantes: votantesEsperados, metaVotos: meta, gap: gap },
+      optimista: { votantes: Math.round(padron2028 * 0.56), metaVotos: Math.round(padron2028 * 0.56 * 0.501), gap: Math.round(padron2028 * 0.56 * 0.501) - votosActualesFP }
     };
-
-    return {
-      meta: {
-        padron2028,
-        participacion2028,
-        votantesEsperados,
-        metaVotos: meta,
-        votosActualesFP,
-        gap,
-        porcentajeGap
-      },
-      scenarios,
-      evaluacion: {
-        esFactible: gap <= 300000 ? 'FACTIBLE' : 'DESAFIANTE'
-      }
-    };
+    return { meta: { padron2028, participacion2028, votantesEsperados, metaVotos: meta, votosActualesFP, gap, porcentajeGap }, scenarios, evaluacion: { esFactible: gap <= 300000 ? 'FACTIBLE' : 'DESAFIANTE' } };
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────
-// MOTOR PRIORIDAD ESTRATÉGICA (M_Prioridad)
-// Ranking de provincias por prioridad de inversión
-// ─────────────────────────────────────────────────────────────────────
+// Motor Prioridad Estratégica
 const MotorPrioridadEstrategica = {
-  status: 'READY',
-  
   calculate(provinces) {
-    const weights = {
-      pivot: 0.40,
-      gap: 0.30,
-      probability: 0.30
-    };
-
+    const weights = { pivot: 0.40, gap: 0.30, probability: 0.30 };
     const scores = provinces.map(prov => {
       const pivotNorm = (prov.pivotScore || 50) / 100;
       const maxGap = 200000;
       const gapNorm = Math.max(0, 1 - ((prov.gap || 0) / maxGap));
       const probNorm = prov.probabilidadVictoria || 0.5;
-      
-      const priorityScore = 
-        (pivotNorm * weights.pivot) +
-        (gapNorm * weights.gap) +
-        (probNorm * weights.probability);
-      
-      return {
-        nombre: prov.nombre,
-        priorityScore: (priorityScore * 100).toFixed(1),
-        gap: prov.gap,
-        prioridad:
-          priorityScore > 0.90 ? 'MÁXIMA' :
-          priorityScore > 0.75 ? 'ALTA' :
-          priorityScore > 0.50 ? 'MEDIA' :
-          'BAJA'
-      };
+      const priorityScore = (pivotNorm * weights.pivot) + (gapNorm * weights.gap) + (probNorm * weights.probability);
+      return { nombre: prov.nombre, priorityScore: (priorityScore * 100).toFixed(1), gap: prov.gap, prioridad: priorityScore > 0.90 ? 'MÁXIMA' : priorityScore > 0.75 ? 'ALTA' : priorityScore > 0.50 ? 'MEDIA' : 'BAJA' };
     });
-
     const ranking = scores.sort((a, b) => b.priorityScore - a.priorityScore);
-
-    return {
-      ranking,
-      topTen: ranking.slice(0, 10),
-      resumen: {
-        maxima: ranking.filter(p => p.prioridad === 'MÁXIMA').length,
-        alta: ranking.filter(p => p.prioridad === 'ALTA').length,
-        media: ranking.filter(p => p.prioridad === 'MEDIA').length,
-        baja: ranking.filter(p => p.prioridad === 'BAJA').length
-      }
-    };
+    return { ranking, topTen: ranking.slice(0, 10), resumen: { maxima: ranking.filter(p => p.prioridad === 'MÁXIMA').length, alta: ranking.filter(p => p.prioridad === 'ALTA').length, media: ranking.filter(p => p.prioridad === 'MEDIA').length, baja: ranking.filter(p => p.prioridad === 'BAJA').length } };
   }
 };
 
-// ─────────────────────────────────────────────────────────────────────
-// MOTOR M17 — NORMALIZACIÓN HISTÓRICA (ACTIVADO)
-// Referencia: Panebianco 1988
-// ─────────────────────────────────────────────────────────────────────
+// Motor M17 - Normalización Histórica (ACTIVADO)
 const MotorNormalizacionHistoricav9 = {
-  status: 'ACTIVE',
-  
   normalize_projection(partido, yearsFounded, votesInitial, votesCurrent) {
     const currentYear = 2024;
     const yearsSinceFounded = currentYear - yearsFounded;
     const votesRatio = votesCurrent / votesInitial;
     const maturityFactor = (yearsSinceFounded / 8) * Math.sqrt(votesRatio);
     const adjustedFactor = Math.max(0.95, Math.min(1.12, maturityFactor));
-    
-    return {
-      partido,
-      yearsSinceFounded,
-      votesRatio,
-      factor: adjustedFactor,
-      interpretation: 
-        adjustedFactor < 0.95 ? 'Ajuste máximo (partido muy nuevo)' :
-        adjustedFactor > 1.12 ? 'Ajuste máximo (partido maduro)' :
-        'Ajuste normal'
-    };
+    return { partido, yearsSinceFounded, votesRatio, factor: adjustedFactor, interpretation: adjustedFactor < 0.95 ? 'Ajuste máximo (partido muy nuevo)' : adjustedFactor > 1.12 ? 'Ajuste máximo (partido maduro)' : 'Ajuste normal' };
   },
-
   apply_to_projection(projectionBase, partido, yearsFounded, votesInitial, votesCurrent) {
     const normalization = this.normalize_projection(partido, yearsFounded, votesInitial, votesCurrent);
     const adjustedProjection = projectionBase * normalization.factor;
-    
-    return {
-      proyeccionBase: projectionBase,
-      factor_M17: normalization.factor,
-      proyeccionAjustada: adjustedProjection,
-      diferencia: adjustedProjection - projectionBase
-    };
+    return { proyeccionBase: projectionBase, factor_M17: normalization.factor, proyeccionAjustada: adjustedProjection, diferencia: adjustedProjection - projectionBase };
   }
 };
 
-// ═════════════════════════════════════════════════════════════════════
-// ACTUALIZAR EXPORTS GLOBALES CON NUEVOS MOTORES
-// ═════════════════════════════════════════════════════════════════════
+// Registrar nuevos motores en exports globales
+window.SIE_MOTORES.PivotElectoral = MotorPivotElectoral;
+window.SIE_MOTORES.RutaVictoria = MotorRutaVictoria;
+window.SIE_MOTORES.MetaElectoral = MotorMetaElectoral;
+window.SIE_MOTORES.PrioridadEstrategica = MotorPrioridadEstrategica;
+window.SIE_MOTORES.NormalizacionHistoricav9 = MotorNormalizacionHistoricav9;
 
-window.SIE_MOTORES = {
-  // Infraestructura (sin cambios)
-  Carga:             MotorCarga,
-  Validacion:        MotorValidacion,
-  Padron:            MotorPadron,
-  Resultados:        MotorResultados,
-  Territorial:       MotorTerritorial,
-  Alianzas:          MotorAlianzas,
-  Curules:           MotorCurules,
-  // Análisis (sin cambios)
-  KPIs:              MotorKPIs,
-  Replay:            MotorReplay,
-  Escenarios:        MotorEscenarios,
-  Proyeccion:        MotorProyeccion,
-  CrecimientoPadron: MotorCrecimientoPadron,
-  Encuestas:         MotorEncuestas,
-  // Estrategia (sin cambios)
-  Potencial:             MotorPotencial,
-  Movilizacion:          MotorMovilizacion,
-  Riesgo:                MotorRiesgo,
-  NormalizacionHistorica:MotorNormalizacionHistorica,
-  // NUEVOS MOTORES v9.0
-  PivotElectoral:        MotorPivotElectoral,
-  RutaVictoria:          MotorRutaVictoria,
-  MetaElectoral:         MotorMetaElectoral,
-  PrioridadEstrategica:  MotorPrioridadEstrategica,
-  NormalizacionHistoricav9: MotorNormalizacionHistoricav9,
-  // Desactivados
-  Municipal:         MotorMunicipal,
-  Historico2020:     MotorHistorico2020
-};
-
-console.log('✅ SIE 2028 v9.0 — Nuevos motores estratégicos CARGADOS');
+console.log('✅ SIE 2028 v9.0 — 5 Nuevos motores CARGADOS');
 

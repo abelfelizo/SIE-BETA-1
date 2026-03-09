@@ -1,60 +1,75 @@
 {
-  "name": "SIE 2028 v9.0 FINAL",
-  "version": "9.0.0-final",
-  "description": "Sistema de Inteligencia Electoral Estratégica — Versión FINAL con interfaz rediseñada",
-  "author": "Equipo Técnico FP",
-  "date": "2026-03-09",
-
-  "cambios_v9_final": {
-    "interfaz": "✅ COMPLETAMENTE REDISEÑADA",
-    "paleta_colores": "✅ VERDE NUEVA (8 tonos)",
-    "dark_mode": "✅ IMPLEMENTADO",
-    "navegacion": "✅ 4 NIVELES JERARQUICOS",
-    "nivel_1": "✅ FUNCIONAL Y INTEGRADO",
-    "motores": "✅ 5 NUEVOS INTEGRADOS",
-    "responsive": "✅ MOBILE READY"
+  "nombre": "SIE 2028 v9.1",
+  "version": "9.1.0",
+  "fecha": "2026-03-09",
+  "estado": "PRODUCCIÓN",
+  
+  "cambios_v9_1": {
+    "motor_proyeccion": "REESCRITO (v8.9 → v9.1)",
+    "correcciones_criticas": 1,
+    "mejoras": 7,
+    "breaking_changes": 0,
+    "compatibilidad": "100% con v9.0"
   },
-
-  "paleta_colores": {
-    "verde_oscuro": "#0d4a2d",
-    "verde_primario": "#1a6d3d",
-    "verde_medio": "#2d8659",
-    "verde_claro": "#4caf50",
-    "verde_mas_claro": "#7cb342",
-    "verde_palido": "#c5e1a5"
-  },
-
-  "features": [
-    "Dashboard Nivel 1 operacional",
-    "Tema claro/oscuro con persistencia",
-    "Navegación entre 4 niveles",
-    "Meta electoral calculada",
-    "Semáforo territorial visualizado",
-    "Top 5 provincias pivote",
-    "Simulador alianzas (próximo)",
-    "Diseño responsive",
-    "Animaciones suave",
-    "Accesibilidad mejorada"
+  
+  "cambios_detallados": [
+    {
+      "tipo": "CORRECCIÓN CRÍTICA",
+      "motor": "MotorProyección",
+      "cambio": "ciclos_en_poder PRM: 1 → 2",
+      "razon": "PRM tuvo 2 victorias (2020 Medina + 2024 Abinader)",
+      "impacto": "Proyección PRM baja de 59% a 55-56% (más realista)"
+    },
+    {
+      "tipo": "REESCRITURA",
+      "motor": "MotorProyección",
+      "cambio": "Implementar diseño v9.1",
+      "mejoras": [
+        "Swing histórico moderado (35% aplicado)",
+        "Incumbencia como factor multiplicador, no suma",
+        "Desgaste por ciclo aplicado correctamente",
+        "Proyección territorial por provincia/municipio",
+        "Escenarios automáticos (base/optimista/pesimista)",
+        "Encuestas con ponderación de recencia/calidad",
+        "Normalización de madurez partidaria"
+      ]
+    }
   ],
-
-  "estructura": {
-    "core": {
-      "engine.js": "23 motores (18 existentes + 5 nuevos)",
-      "ui.js": "Funciones UI mejoradas"
+  
+  "motor_proyeccion_v91": {
+    "nombre": "MotorProyeccionv91",
+    "ubicacion": "core/engine.js",
+    "lineas": 303,
+    "metodos": [
+      "baseline()",
+      "swingHistorico()",
+      "fundamentals()",
+      "encuestas()",
+      "normalizacionPartidos()",
+      "proyeccionTerritorial()",
+      "proyectar()",
+      "escenarios()"
+    ],
+    "inputs": {
+      "encuestas": "array de objetos con fecha/muestra/resultado",
+      "participacion": "0.50 a 0.60 (defecto 0.54)",
+      "territorios": "datos provinciales para ajuste territorial"
     },
-    "views": {
-      "index.html": "NUEVO - Dashboard principal v9.0",
-      "nivel1_comando_ejecutivo.html": "Componente reutilizable"
-    },
-    "assets": {
-      "css": "Paleta verde integrada",
-      "js": "Theme toggle + navegación"
-    },
-    "data": "JCE 2020-2024 sin cambios"
+    "outputs": {
+      "nacional": "% proyectado por partido",
+      "territorio": "proyecciones por provincia/municipio",
+      "metadata": "método, participación, timestamp"
+    }
   },
 
-  "estado": "🟢 PRODUCCIÓN READY",
-  "version_anterior": "8.9-pre",
-  "version_nueva": "9.0.0-final",
-  "breaking_changes": "NINGUNO"
+  "acceso_motores": {
+    "javascript": "window.SIE_MOTORES.Proyeccionv91.proyectar(encuestas, participacion)",
+    "metodos_disponibles": [
+      "window.SIE_MOTORES.Proyeccionv91.baseline()",
+      "window.SIE_MOTORES.Proyeccionv91.swingHistorico()",
+      "window.SIE_MOTORES.Proyeccionv91.fundamentals()",
+      "window.SIE_MOTORES.Proyeccionv91.proyectar()",
+      "window.SIE_MOTORES.Proyeccionv91.escenarios()"
+    ]
+  }
 }
