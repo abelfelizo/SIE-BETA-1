@@ -1,56 +1,130 @@
 {
-  "version": "8.9",
-  "dataset_activo": "2024 + 2020",
-  "build_date": "2026-03-08",
-  "validaciones": "21/21",
-  "entry_points": {
-    "standalone": "SIE-2028-v84.html",
-    "modular": "index.html"
+  "name": "SIE 2028 v9.0",
+  "version": "9.0.0",
+  "description": "Sistema de Inteligencia Electoral Estratégica — Evolución v9.0 con arquitectura de decisión política",
+  "author": "Equipo Técnico FP",
+  "license": "PROPRIETARY",
+  "date": "2026-03-09",
+  
+  "sistema": {
+    "nombre": "SIE 2028",
+    "version_anterior": "8.9-pre",
+    "version_actual": "9.0",
+    "objetivo": "Sistema de toma de decisiones estratégicas electorales",
+    "evolucion": "De análisis electoral a inteligencia estratégica"
   },
-  "core": [
-    "app.js",
-    "core/engine.js",
-    "core/ui.js",
-    "assets/css/styles.css"
+
+  "arquitectura": {
+    "niveles": 4,
+    "nivel_1": {
+      "nombre": "Comando Ejecutivo",
+      "audiencia": "Dirección política (Leonel Fernández + Junta)",
+      "tiempo_lectura": "10 segundos",
+      "elementos": 6,
+      "archivo": "views/nivel1_comando_ejecutivo.html"
+    },
+    "nivel_2": {
+      "nombre": "Sala de Guerra Territorial",
+      "audiencia": "Coordinadores provinciales, estrategas",
+      "tiempo_lectura": "3-5 minutos",
+      "elementos": 4,
+      "estado": "PLANEADO"
+    },
+    "nivel_3": {
+      "nombre": "Laboratorio 2028",
+      "audiencia": "Analistas, científicos políticos",
+      "tiempo_lectura": "30+ minutos",
+      "modulos": 5,
+      "estado": "EXISTENTE"
+    },
+    "nivel_4": {
+      "nombre": "Auditoría y Datos",
+      "audiencia": "Equipo técnico",
+      "elementos": 4,
+      "estado": "EXISTENTE"
+    }
+  },
+
+  "motores": {
+    "totales": 23,
+    "existentes": 18,
+    "nuevos": 5,
+    
+    "nuevos_motores": {
+      "M_Pivot": {
+        "nombre": "Motor Pivot Electoral",
+        "funcion": "Identifica provincias que deciden la elección",
+        "referencia": "Jacobson 2004",
+        "implementacion": "engine.js"
+      },
+      "M_Ruta": {
+        "nombre": "Motor Ruta de Victoria",
+        "funcion": "Calcula combinaciones mínimas para ganar",
+        "algoritmo": "Subset optimization (greedy)",
+        "implementacion": "engine.js"
+      },
+      "M_Meta": {
+        "nombre": "Motor Meta Electoral",
+        "funcion": "Proyecta meta de votos para 2028",
+        "referencia": "Leighley-Nagler 2013",
+        "implementacion": "engine.js"
+      },
+      "M_Prioridad": {
+        "nombre": "Motor Prioridad Estratégica",
+        "funcion": "Ranking de inversión por provincia",
+        "ponderacion": "pivot(40%) + gap(30%) + probabilidad(30%)",
+        "implementacion": "engine.js"
+      },
+      "M17_v9": {
+        "nombre": "Motor Normalización Histórica (ACTIVADO)",
+        "funcion": "Ajusta proyecciones por madurez organizativa",
+        "referencia": "Panebianco 1988",
+        "formula": "factor = (años/8) × (ratio_votos)^0.5",
+        "estado": "ACTIVE",
+        "implementacion": "engine.js"
+      }
+    }
+  },
+
+  "estructura_archivos": {
+    "core": {
+      "engine.js": "Motores analíticos (ahora con 5 nuevos motores)",
+      "ui.js": "Funciones de UI y visualización"
+    },
+    "views": {
+      "nivel1_comando_ejecutivo.html": "NUEVO — Dashboard de dirección"
+    },
+    "data": {
+      "description": "Datasets JCE 2020 y 2024 (sin cambios)"
+    },
+    "docs": {
+      "description": "Documentación técnica"
+    }
+  },
+
+  "cambios_principales": [
+    "✅ 5 nuevos motores estratégicos agregados sin romper compatibilidad",
+    "✅ Vista Nivel 1 (Comando Ejecutivo) completamente funcional",
+    "✅ Motor M17 activado para normalización de proyecciones",
+    "✅ Arquitectura visual de 4 niveles jerárquicos",
+    "✅ Métricas de decisión en tiempo real",
+    "✅ Interfaz profesional con CSS responsive"
   ],
-  "datasets": [
-    "data/resultados_2024.json",
-    "data/padron_2024.json",
-    "data/alianzas_2024.json",
-    "data/curules_resultado_2024.json",
-    "data/curules_catalogo.json",
-    "data/partidos.json",
-    "data/territorios_catalogo.json",
-    "data/prov_metrics_2024.json"
-  ],
-  "motores_activos": 18,
-  "motores_disabled": [
-    "MotorMunicipal",
-    "MotorHistorico2020"
-  ],
-  "vistas": [
-    "dashboard",
-    "presidencial",
-    "senadores",
-    "diputados",
-    "potencial",
-    "movilizacion",
-    "riesgo",
-    "simulador",
-    "proyeccion",
-    "replay",
-    "motores"
-  ],
-  "globals_inyectados": [
-    "_DS_RESULTADOS",
-    "_DS_PADRON",
-    "_DS_ALIANZAS",
-    "_DS_CURULES",
-    "_DS_CURULES_CAT",
-    "_DS_PARTIDOS",
-    "_DS_TERRITORIOS",
-    "_PROV_METRICS"
-  ],
-  "motores_inactivos": 1,
-  "nota": "v8.9: bugs UI corregidos, Motor Histórico 2020 ACTIVO, Riesgo con selector de partido"
+
+  "compatibilidad": {
+    "version_anterior": "8.9-pre",
+    "cambios_breaking": "NINGUNO — Arquitectura aditiva",
+    "datasets": "100% compatible",
+    "motores_existentes": "Sin modificaciones"
+  },
+
+  "siguiente_version": {
+    "version": "9.1",
+    "cambios": [
+      "Nivel 2 — Sala de Guerra Territorial",
+      "Simulador alianzas interactivo",
+      "D'Hondt por provincia",
+      "Plan de movilización por territorio"
+    ]
+  }
 }
