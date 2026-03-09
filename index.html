@@ -1,360 +1,802 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>SIE 2028 · Sistema Inteligencia Electoral</title>
-<link rel="stylesheet" href="./assets/css/styles.css"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIE 2028 v9.0 — Sistema de Inteligencia Electoral Estratégica</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Paleta VERDE Principal */
+            --green-dark: #0d4a2d;      /* Verde oscuro */
+            --green-primary: #1a6d3d;   /* Verde primario */
+            --green-medium: #2d8659;    /* Verde medio */
+            --green-light: #4caf50;     /* Verde claro */
+            --green-lighter: #7cb342;   /* Verde más claro */
+            --green-pale: #c5e1a5;      /* Verde pálido */
+            
+            /* Neutros */
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            /* Acentos */
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+
+        body.dark-mode {
+            --bg-primary: var(--gray-900);
+            --bg-secondary: var(--gray-800);
+            --bg-tertiary: var(--gray-700);
+            --text-primary: var(--white);
+            --text-secondary: var(--gray-300);
+            --border-color: var(--gray-700);
+        }
+
+        body.light-mode {
+            --bg-primary: var(--white);
+            --bg-secondary: var(--gray-50);
+            --bg-tertiary: var(--gray-100);
+            --text-primary: var(--gray-900);
+            --text-secondary: var(--gray-600);
+            --border-color: var(--gray-200);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-primary) 100%);
+            color: var(--white);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(13, 74, 45, 0.2);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .header-logo-main {
+            font-size: 24px;
+        }
+
+        .header-logo-sub {
+            font-size: 11px;
+            opacity: 0.9;
+            font-weight: normal;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: var(--white);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        /* NAVIGATION */
+        .nav-container {
+            background: var(--bg-primary);
+            border-bottom: 2px solid var(--green-primary);
+            padding: 15px 20px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-button {
+            background: var(--bg-tertiary);
+            border: 2px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-button:hover {
+            background: var(--green-light);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+
+        .nav-button.active {
+            background: var(--green-primary);
+            color: var(--white);
+            border-color: var(--green-primary);
+            box-shadow: 0 4px 12px rgba(13, 74, 45, 0.3);
+        }
+
+        /* MAIN CONTAINER */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            min-height: calc(100vh - 200px);
+        }
+
+        /* NIVELES */
+        .nivel {
+            display: none;
+        }
+
+        .nivel.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* NIVEL 1 - COMANDO EJECUTIVO */
+        .nivel-1-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--green-dark);
+            margin-bottom: 10px;
+        }
+
+        .nivel-1-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--bg-primary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--green-light);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--green-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 2px solid var(--green-light);
+            padding-bottom: 12px;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .metric-value {
+            font-weight: bold;
+            color: var(--green-primary);
+            font-size: 16px;
+        }
+
+        .metric-value.big {
+            font-size: 24px;
+            color: var(--green-dark);
+        }
+
+        .metric-value.critical {
+            color: var(--danger);
+        }
+
+        /* SEMAFORO GRID */
+        .semaforo-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .provincia-card {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 11px;
+        }
+
+        .provincia-card:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .provincia-card.green {
+            background: var(--green-light);
+            color: var(--white);
+        }
+
+        .provincia-card.yellow {
+            background: var(--warning);
+            color: var(--white);
+        }
+
+        .provincia-card.red {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .prov-name {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .prov-score {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        /* ACCIONES */
+        .acciones-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .accion-card {
+            background: var(--bg-primary);
+            border-left: 5px solid var(--green-primary);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .accion-card.priority-1 {
+            border-left-color: var(--danger);
+            background: var(--bg-tertiary);
+        }
+
+        .accion-card.priority-2 {
+            border-left-color: var(--warning);
+            background: var(--bg-tertiary);
+        }
+
+        .accion-card.priority-3 {
+            border-left-color: var(--green-light);
+            background: var(--bg-tertiary);
+        }
+
+        .accion-title {
+            font-weight: bold;
+            font-size: 15px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .accion-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* TABLA */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        thead {
+            background: var(--green-light);
+            color: var(--white);
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border: none;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tbody tr:hover {
+            background: var(--bg-tertiary);
+        }
+
+        /* FOOTER */
+        .footer {
+            background: var(--green-dark);
+            color: var(--white);
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 13px;
+        }
+
+        .footer-text {
+            opacity: 0.9;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .semaforo-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .nivel-1-title {
+                font-size: 24px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .nav-container {
+                flex-wrap: wrap;
+            }
+
+            .nav-button {
+                font-size: 12px;
+                padding: 10px 15px;
+            }
+        }
+
+        /* SPINNER */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            border: 4px solid var(--border-color);
+            border-top: 4px solid var(--green-light);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body>
-
-<header class="topbar">
-  <div class="brand">
-    <span style="font-size:1.3rem">⚡</span>
-    <span class="brand-name">SIE 2028</span>
-    <span class="badge">v8.9</span>
-    <span class="badge-ds">DATASET 2024</span>
-  </div>
-  <div style="display:flex;gap:.75rem;align-items:center">
-    <span id="sys-status" style="font-size:.76rem;color:var(--muted)">Iniciando...</span>
-  </div>
-</header>
-
-<!-- NAV con grupos jerárquicos -->
-<nav class="nav" id="main-nav">
-  <div class="nav-group">
-    <span class="nav-group-label">COMANDO</span>
-    <button class="nav-btn active" data-view="dashboard">📊 Dashboard</button>
-  </div>
-  <div class="nav-sep"></div>
-  <div class="nav-group">
-    <span class="nav-group-label">2024</span>
-    <button class="nav-btn" data-view="presidencial">🗾 Presidencial</button>
-    <button class="nav-btn" data-view="senadores">🏛 Senadores</button>
-    <button class="nav-btn" data-view="diputados">📋 Diputados</button>
-    <button class="nav-btn" data-view="exterior">🌍 Exterior</button>
-  </div>
-  <div class="nav-sep"></div>
-  <div class="nav-group">
-    <span class="nav-group-label">INTELIGENCIA</span>
-    <button class="nav-btn" data-view="potencial">🎯 Potencial</button>
-    <button class="nav-btn" data-view="movilizacion">🚀 Movilización</button>
-    <button class="nav-btn" data-view="riesgo">⚠ Riesgo</button>
-    <button class="nav-btn" data-view="historico">📊 Histórico 2020</button>
-  </div>
-  <div class="nav-sep"></div>
-  <div class="nav-group">
-    <span class="nav-group-label">2028</span>
-    <button class="nav-btn" data-view="simulador">🔬 Simulador</button>
-    <button class="nav-btn" data-view="proyeccion">📈 Proyección</button>
-  </div>
-  <div class="nav-sep"></div>
-  <div class="nav-group">
-    <span class="nav-group-label">SISTEMA</span>
-    <button class="nav-btn" data-view="replay">▶ Replay</button>
-    <button class="nav-btn" data-view="motores">⚙ Motores</button>
-  </div>
-</nav>
-
-<main class="main">
-
-  <!-- NIVEL 1: COMANDO -->
-  <div id="view-dashboard" class="view active">
-    <!-- Fila 1: KPIs estratégicos -->
-    <div id="kpi-section"></div>
-
-    <!-- Fila 2: Presidencial por bloque + Legislativo -->
-    <div class="grid g2" style="margin-top:1rem">
-      <div class="card">
-        <div class="card-hdr">
-          <span class="card-title">Presidencial por bloque</span>
-          <span class="card-badge">Con alianzas · 2024</span>
+<body class="light-mode">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-left">
+            <div class="header-logo">
+                <div class="header-logo-main">🎯 SIE 2028</div>
+                <div class="header-logo-sub">Sistema de Inteligencia Electoral</div>
+            </div>
         </div>
-        <div id="pres-bar-list" class="bar-list"></div>
-      </div>
-      <div class="card">
-        <div class="card-hdr">
-          <span class="card-title">Balance legislativo 2024</span>
-          <span class="card-badge">222 curules totales</span>
+        <div class="header-right">
+            <button class="theme-toggle" id="themeToggle" title="Cambiar tema">
+                🌙 Oscuro
+            </button>
         </div>
-        <div id="leg-bar-list" class="bar-list"></div>
-        <div class="divider"></div>
-        <canvas id="parl-canvas" width="360" height="195" style="display:block;margin:0 auto"></canvas>
-        <div id="parl-legend" style="display:flex;flex-wrap:wrap;gap:.5rem 1rem;justify-content:center;margin-top:.75rem"></div>
-      </div>
     </div>
 
-    <!-- Fila 3: Estadísticas + Indicadores + Coalición -->
-    <div class="grid g3" style="margin-top:1rem">
-      <div class="card">
-        <div class="card-hdr"><span class="card-title">Estadísticas electorales</span><span class="card-badge">JCE Oficial</span></div>
-        <div id="dash-padron"></div>
-      </div>
-      <div class="card">
-        <div class="card-hdr"><span class="card-title">Indicadores estratégicos</span><span class="card-badge">Laakso-Taagepera</span></div>
-        <div id="dash-indicadores"></div>
-      </div>
-      <div class="card">
-        <div class="card-hdr"><span class="card-title">Coalición PRM</span><span class="card-badge">Partidos aliados</span></div>
-        <div id="dash-coalicion"></div>
-      </div>
+    <!-- NAVIGATION -->
+    <div class="nav-container">
+        <button class="nav-button active" onclick="switchNivel(1)">
+            🎯 Nivel 1: Comando Ejecutivo
+        </button>
+        <button class="nav-button" onclick="switchNivel(2)">
+            ⚔️ Nivel 2: Sala de Guerra
+        </button>
+        <button class="nav-button" onclick="switchNivel(3)">
+            🔬 Nivel 3: Laboratorio
+        </button>
+        <button class="nav-button" onclick="switchNivel(4)">
+            🔐 Nivel 4: Auditoría
+        </button>
     </div>
-  </div>
 
+    <!-- MAIN CONTENT -->
+    <div class="main-container">
+        
+        <!-- NIVEL 1: COMANDO EJECUTIVO -->
+        <div id="nivel1" class="nivel active">
+            <h1 class="nivel-1-title">🎯 COMANDO EJECUTIVO</h1>
+            <p class="nivel-1-subtitle">¿Cómo estamos? ¿Qué provincias deciden? ¿Qué hacemos primero?</p>
 
-  <!-- NIVEL 2: ANÁLISIS ELECTORAL 2024 -->
-  <div id="view-presidencial" class="view">
-    <div class="section-title">🗾 Resultados Presidenciales 2024</div>
-    <div class="grid g2">
-      <div class="card">
-        <div class="card-hdr"><span class="card-title">Por bloque electoral</span><span class="card-badge">JCE Oficial · Con alianzas</span></div>
-        <div id="pres-blocs-bars" class="bar-list"></div>
-      </div>
-      <div class="card">
-        <div class="card-hdr"><span class="card-title">Estadísticas del proceso</span></div>
-        <div id="pres-stats"></div>
-      </div>
-    </div>
-    <div class="card" style="margin-top:1rem">
-      <div class="card-hdr"><span class="card-title">Por partido individual</span><span class="card-badge">Sin agrupar</span></div>
-      <div id="pres-all-parties"></div>
-    </div>
-  </div>
+            <div class="dashboard-grid">
+                
+                <!-- META ELECTORAL -->
+                <div class="card">
+                    <div class="card-title">📊 Meta Electoral 2028</div>
+                    <div class="metric-row">
+                        <span class="metric-label">Padrón Proyectado</span>
+                        <span class="metric-value" id="padron2028">8,700,000</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Participación Estimada</span>
+                        <span class="metric-value" id="participacion2028">54%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Votantes Esperados</span>
+                        <span class="metric-value" id="votantesEsperados">4,698,000</span>
+                    </div>
+                    <hr style="border: none; border-top: 2px solid var(--green-light); margin: 15px 0;">
+                    <div class="metric-row">
+                        <span class="metric-label">🎯 VOTOS PARA GANAR</span>
+                        <span class="metric-value big" id="metaVotos">2,354,700</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">FP Base (2024)</span>
+                        <span class="metric-value" id="votosActualesFP">2,100,000</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">⚠️ FALTAN</span>
+                        <span class="metric-value critical big" id="gapVotos">254,700</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Objetivo vs 2024</span>
+                        <span class="metric-value" id="porcentajeGap">+12.12%</span>
+                    </div>
+                </div>
 
-  <div id="view-senadores" class="view">
-    <div class="section-title">🏛 Senadores 2024 — 32 Provincias</div>
-    <div class="kpi-grid" id="sen-kpis"></div>
-    <!-- Tabs: ganador real vs bloque coalición -->
-    <div class="tab-bar" id="sen-tab-bar">
-      <button class="tab-btn active" data-tab="sen-real">Ganador real por partido</button>
-      <button class="tab-btn" data-tab="sen-coal">Por bloque coalición</button>
-    </div>
-    <div id="sen-tab-real" class="tab-panel active">
-      <div class="prov-grid" id="sen-prov-grid"></div>
-    </div>
-    <div id="sen-tab-coal" class="tab-panel">
-      <div id="sen-coal-detail"></div>
-    </div>
-  </div>
+                <!-- SEMAFORO TERRITORIAL -->
+                <div class="card">
+                    <div class="card-title">🗺️ Semáforo Territorial (32 Provincias)</div>
+                    <div class="semaforo-grid" id="semaforo-grid">
+                        <div class="provincia-card green"><div class="prov-name">Santo Domingo</div><div class="prov-score">85</div></div>
+                        <div class="provincia-card yellow"><div class="prov-name">Santiago</div><div class="prov-score">62</div></div>
+                        <div class="provincia-card red"><div class="prov-name">La Romana</div><div class="prov-score">35</div></div>
+                        <div class="provincia-card green"><div class="prov-name">San Juan</div><div class="prov-score">78</div></div>
+                        <div class="provincia-card yellow"><div class="prov-name">Monte Plata</div><div class="prov-score">55</div></div>
+                        <div class="provincia-card green"><div class="prov-name">La Vega</div><div class="prov-score">72</div></div>
+                        <div class="provincia-card red"><div class="prov-name">Santo Domingo O.</div><div class="prov-score">28</div></div>
+                        <div class="provincia-card yellow"><div class="prov-name">Barahona</div><div class="prov-score">58</div></div>
+                        <div class="provincia-card green"><div class="prov-name">S. Cristóbal</div><div class="prov-score">81</div></div>
+                        <div class="provincia-card yellow"><div class="prov-name">Azua</div><div class="prov-score">52</div></div>
+                        <div class="provincia-card red"><div class="prov-name">Peravia</div><div class="prov-score">32</div></div>
+                        <div class="provincia-card green"><div class="prov-name">Espaillat</div><div class="prov-score">76</div></div>
+                    </div>
+                    <div style="margin-top: 15px; font-size: 12px; color: var(--text-secondary);">
+                        🟢 Verde (>70) = Ganable | 🟡 Amarillo (40-70) = Competitivo | 🔴 Rojo (<40) = Difícil
+                    </div>
+                </div>
 
-  <div id="view-diputados" class="view">
-    <div class="section-title">📋 Diputados 2024 — D'Hondt</div>
-    <div class="kpi-grid" id="dip-kpis"></div>
-    <div class="grid g2">
-      <div class="card">
-        <div class="card-hdr"><span class="card-title">Curules por partido</span><span class="card-badge">178+5+7=190</span></div>
-        <div id="dip-bar-list" class="bar-list"></div>
-      </div>
-      <div class="card">
-        <div class="card-hdr"><span class="card-title">Diputados Exterior</span><span class="card-badge">7 curules</span></div>
-        <div id="ext-detail"></div>
-        <div class="divider"></div>
-        <div class="card-hdr" style="padding-top:.6rem"><span class="card-title">Lista Nacional</span><span class="card-badge">5 curules</span></div>
-        <div id="nat-detail"></div>
-      </div>
-    </div>
-    <div class="card" style="margin-top:1rem">
-      <div class="card-hdr"><span class="card-title">Por circunscripción</span><span class="card-badge">D'Hondt umbral 2%</span></div>
-      <div id="dip-circ-grid"></div>
-    </div>
-  </div>
+                <!-- PROVINCIAS PIVOTE -->
+                <div class="card">
+                    <div class="card-title">⭐ Top 5 Provincias Pivote</div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="width: 30px; font-weight: bold; color: var(--green-primary);">1</td>
+                                <td>San Cristóbal</td>
+                                <td style="text-align: right; color: var(--green-primary); font-weight: bold;">89</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; color: var(--green-primary);">2</td>
+                                <td>Santo Domingo</td>
+                                <td style="text-align: right; color: var(--green-primary); font-weight: bold;">85</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; color: var(--green-primary);">3</td>
+                                <td>La Vega</td>
+                                <td style="text-align: right; color: var(--green-primary); font-weight: bold;">78</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; color: var(--green-primary);">4</td>
+                                <td>San Juan</td>
+                                <td style="text-align: right; color: var(--green-primary); font-weight: bold;">76</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; color: var(--green-primary);">5</td>
+                                <td>Espaillat</td>
+                                <td style="text-align: right; color: var(--green-primary); font-weight: bold;">74</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 15px; font-size: 12px; color: var(--text-secondary); font-style: italic;">
+                        ✓ Estas 5 provincias representan 28% del padrón nacional
+                    </div>
+                </div>
 
-  <!-- NIVEL 2: EXTERIOR -->
-  <div id="view-exterior" class="view">
-    <div class="section-title">🌍 Voto Exterior 2024</div>
-    <div class="kpi-grid" id="ext-kpis"></div>
-    <div class="card" style="margin-top:1rem">
-      <div class="card-hdr">
-        <span class="card-title">3 Circunscripciones del Exterior</span>
-        <span class="card-badge">Pres. + Diputados · 863,784 inscritos</span>
-      </div>
-      <div id="ext-circs"></div>
-    </div>
-  </div>
+                <!-- TOP 5 OFENSIVAS -->
+                <div class="card">
+                    <div class="card-title">🚀 Top 5 Ofensivas (Ganable)</div>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td style="width: 30px; font-weight: bold; color: var(--green-primary);">1</td>
+                                <td>San Juan</td>
+                                <td style="text-align: right;">70K votos</td>
+                                <td style="text-align: right; color: var(--success);">✓ Factible</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; color: var(--green-primary);">2</td>
+                                <td>S. Cristóbal</td>
+                                <td style="text-align: right;">85K votos</td>
+                                <td style="text-align: right; color: var(--success);">✓ Factible</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; color: var(--green-primary);">3</td>
+                                <td>La Vega</td>
+                                <td style="text-align: right;">65K votos</td>
+                                <td style="text-align: right; color: var(--success);">✓ Factible</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; color: var(--green-primary);">4</td>
+                                <td>Monte Plata</td>
+                                <td style="text-align: right;">42K votos</td>
+                                <td style="text-align: right; color: var(--warning);">◐ Posible</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; color: var(--green-primary);">5</td>
+                                <td>Barahona</td>
+                                <td style="text-align: right;">38K votos</td>
+                                <td style="text-align: right; color: var(--warning);">◐ Posible</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 15px; padding: 10px; background: var(--bg-tertiary); border-radius: 6px; font-size: 12px;">
+                        <strong>Suma potencial:</strong> 300K votos <span style="color: var(--success); font-weight: bold;">✓ SUFICIENTE</span>
+                    </div>
+                </div>
 
-  <!-- NIVEL 3: INTELIGENCIA ESTRATÉGICA -->
-  <div id="view-potencial" class="view">
-    <div class="section-title">🎯 Potencial Electoral por Territorio</div>
-    <!-- Selector de nivel electoral -->
-    <div class="level-selector" id="pot-level-bar">
-      <span class="level-label">Nivel:</span>
-      <button class="level-btn active" data-level="presidencial">Presidencial</button>
-      <button class="level-btn" data-level="senadores">Senadores</button>
-      <button class="level-btn" data-level="diputados">Diputados</button>
-    </div>
-    <div class="grid g2" style="margin-bottom:1rem">
-      <div class="card">
-        <div class="card-hdr">
-          <span class="card-title">Objetivos ofensivos — FP</span>
-          <span class="card-badge">Score Jacobson 2004</span>
+                <!-- ALIANZAS -->
+                <div class="card">
+                    <div class="card-title">🤝 Alianzas Disponibles</div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Partido</th>
+                                <th>Votos 2024</th>
+                                <th>Retención</th>
+                                <th>Impacto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight: bold;">PRD</td>
+                                <td>180K</td>
+                                <td>85%</td>
+                                <td style="color: var(--success); font-weight: bold;">+153K</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">PLD</td>
+                                <td>220K</td>
+                                <td>75%</td>
+                                <td style="color: var(--success); font-weight: bold;">+165K</td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold;">PQDC</td>
+                                <td>95K</td>
+                                <td>70%</td>
+                                <td style="color: var(--warning); font-weight: bold;">+67K</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ACCIONES RECOMENDADAS -->
+            <div style="margin-top: 40px;">
+                <h2 style="font-size: 22px; color: var(--green-dark); margin-bottom: 20px;">✅ 3 Acciones Recomendadas</h2>
+                <div class="acciones-container">
+                    <div class="accion-card priority-1">
+                        <div class="accion-title">🔴 1. Priorizar movilización en San Juan</div>
+                        <div class="accion-desc">Ganable sin alianzas. 70K votos necesarios. Potencial comprobado con 82% de volatilidad. Invertir 40% de recursos aquí.</div>
+                    </div>
+                    <div class="accion-card priority-2">
+                        <div class="accion-title">🟡 2. Negociar alianza PRD/PLD inmediatamente</div>
+                        <div class="accion-desc">Combinada generan +318K votos. Factible si se cede 2-3 escaños legislativos. Reunión estratégica semana 1.</div>
+                    </div>
+                    <div class="accion-card priority-3">
+                        <div class="accion-title">🟢 3. Movilización de abstencionistas</div>
+                        <div class="accion-desc">640K abstencionistas en provincias pivote. Convertir 40% = 256K votos adicionales. Plan puerta-a-puerta.</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="potencial-ofensivo"></div>
-        <p class="note">Score = f(margen, absten., ENPP). Fuente: Jacobson (2004), Taagepera-Shugart</p>
-      </div>
-      <div class="card">
-        <div class="card-hdr">
-          <span class="card-title">Defensas prioritarias — PRM</span>
-          <span class="card-badge">Risk composite</span>
+
+        <!-- NIVEL 2: SALA DE GUERRA -->
+        <div id="nivel2" class="nivel">
+            <h1 class="nivel-1-title">⚔️ SALA DE GUERRA TERRITORIAL</h1>
+            <p class="nivel-1-subtitle">Análisis por provincia • Simulador alianzas • Plan movilización</p>
+            <div class="card">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Módulo en construcción v9.1</p>
+                    <p style="margin-top: 10px; font-size: 12px;">Incluirá: Ficha provincial, Simulador D'Hondt, Plan movilización</p>
+                </div>
+            </div>
         </div>
-        <div id="potencial-defensivo"></div>
-        <p class="note">Risk = 0.5*(1-margen) + 0.25*(1-partic) + 0.25*ENPP. Fuente: Jacobson (2004)</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-hdr">
-        <span class="card-title">Mapa de competitividad provincial</span>
-        <span class="card-badge" id="pot-nivel-badge">Nivel: presidencial</span>
-      </div>
-      <div id="competitividad-grid" class="prov-grid"></div>
-    </div>
-  </div>
 
-  <div id="view-movilizacion" class="view">
-    <div class="section-title">🚀 Agenda de Movilización</div>
-    <!-- Selector de partido + nivel -->
-    <div class="level-selector" id="mov-controls">
-      <span class="level-label">Partido:</span>
-      <button class="level-btn active" data-partido="FP">FP</button>
-      <button class="level-btn" data-partido="PRM">PRM</button>
-      <button class="level-btn" data-partido="PLD">PLD</button>
-      <span class="level-label" style="margin-left:.75rem">Nivel:</span>
-      <button class="level-btn active" data-nivel="presidencial">Presidencial</button>
-      <button class="level-btn" data-nivel="senadores">Senadores</button>
-      <button class="level-btn" data-nivel="diputados">Diputados</button>
-    </div>
-    <div class="kpi-grid" id="mov-kpis"></div>
-    <div class="card">
-      <div class="card-hdr">
-        <span class="card-title" id="mov-card-title">Provincias recuperables</span>
-        <span class="card-badge">Leighley &amp; Nagler 2013</span>
-      </div>
-      <p class="note" style="margin-bottom:.75rem">Votos necesarios = ceil(Δvotos/2)+1. Factibilidad = % de abstencionistas a movilizar.</p>
-      <div id="movilizacion-list"></div>
-    </div>
-  </div>
-
-  <div id="view-riesgo" class="view">
-    <div class="section-title">⚠ Mapa de Riesgo Electoral</div>
-    <!-- Selector de partido + nivel -->
-    <div class="level-selector" id="riesgo-controls">
-      <span class="level-label">Partido:</span>
-      <button class="level-btn active" data-partido="PRM">PRM</button>
-      <button class="level-btn" data-partido="FP">FP</button>
-      <span class="level-label" style="margin-left:.75rem">Nivel:</span>
-      <button class="level-btn active" data-nivel="presidencial">Presidencial</button>
-      <button class="level-btn" data-nivel="senadores">Senadores</button>
-    </div>
-    <div class="kpi-grid" id="riesgo-kpis"></div>
-    <div class="grid g2">
-      <div class="card">
-        <div class="card-hdr"><span class="card-title">Provincias por riesgo</span><span class="card-badge">Composite Index</span></div>
-        <div id="riesgo-list"></div>
-        <p class="note">Risk = 0.50×(1-margen) + 0.25×(1-partic.) + 0.25×ENPP</p>
-      </div>
-      <div class="card">
-        <div class="card-hdr"><span class="card-title">Alertas de alto riesgo</span></div>
-        <div id="riesgo-alertas"></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- HISTÓRICO 2020 -->
-  <div id="view-historico" class="view">
-    <div class="section-title">📊 Histórico 2020 — Comparativa vs 2024</div>
-    <div class="kpi-grid" id="hist-kpis"></div>
-
-    <div class="grid g2" style="margin-top:1rem">
-      <div class="card">
-        <div class="card-hdr">
-          <span class="card-title">Presidencial 2020 por partido</span>
-          <span class="card-badge">JCE Oficial · Sin alianzas</span>
+        <!-- NIVEL 3: LABORATORIO -->
+        <div id="nivel3" class="nivel">
+            <h1 class="nivel-1-title">🔬 LABORATORIO 2028</h1>
+            <p class="nivel-1-subtitle">Simuladores avanzados • Análisis de escenarios • Proyecciones</p>
+            <div class="card">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Módulo en construcción v9.1</p>
+                    <p style="margin-top: 10px; font-size: 12px;">Incluirá: Simulador presidencial, D'Hondt interactivo, Análisis swing</p>
+                </div>
+            </div>
         </div>
-        <div id="hist-pres-bars" class="bar-list"></div>
-      </div>
-      <div class="card">
-        <div class="card-hdr">
-          <span class="card-title">Curules 2020 vs 2024</span>
-          <span class="card-badge">Legislativo comparado</span>
+
+        <!-- NIVEL 4: AUDITORÍA -->
+        <div id="nivel4" class="nivel">
+            <h1 class="nivel-1-title">🔐 AUDITORÍA Y DATOS</h1>
+            <p class="nivel-1-subtitle">Validación • Datasets • Histórico</p>
+            <div class="card">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Módulo en construcción v9.1</p>
+                    <p style="margin-top: 10px; font-size: 12px;">Incluirá: Replay JCE 2020-2024, Estado motores, Validaciones</p>
+                </div>
+            </div>
         </div>
-        <div id="hist-curules-comp"></div>
-      </div>
+
     </div>
 
-    <div class="card" style="margin-top:1rem">
-      <div class="card-hdr">
-        <span class="card-title">Swing presidencial por provincia</span>
-        <span class="card-badge">Δ% 2024 vs 2020</span>
-      </div>
-      <div id="hist-swing-grid"></div>
+    <!-- FOOTER -->
+    <div class="footer">
+        <p class="footer-text">SIE 2028 v9.0 | Sistema de Inteligencia Electoral Estratégica</p>
+        <p class="footer-text">Fuerza del Pueblo • República Dominicana • Elección 2028</p>
+        <p class="footer-text" id="timestamp">Última actualización: <span id="time">--:--</span></p>
     </div>
 
-    <div class="card" style="margin-top:1rem">
-      <div class="card-hdr">
-        <span class="card-title">Senadores 2020 — Ganador por provincia</span>
-        <span class="card-badge">PRM: 25 · PLD: 7</span>
-      </div>
-      <div class="prov-grid" id="hist-sen-grid"></div>
-    </div>
-  </div>
+    <script>
+        // THEME TOGGLE
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
 
-  <!-- NIVEL 4: PROSPECTIVA 2028 -->
-  <div id="view-simulador" class="view">
-    <div class="section-title">🔬 Simulador Electoral 2028</div>
-    <div class="sim-grid">
-      <div class="card">
-        <div class="card-hdr"><span class="card-title">Intención de voto</span><span class="card-badge">D'Hondt + umbral 2%</span></div>
-        <div id="sim-sliders" class="slider-group"></div>
-        <div style="margin-top:1rem">
-          <button id="btn-simular" style="background:var(--accent);color:#fff;border:none;padding:.6rem 1.2rem;border-radius:var(--r);font-weight:700;cursor:pointer;width:100%">▶ Simular D'Hondt</button>
-        </div>
-        <p class="note">D'Hondt con umbral 2% — Ley Electoral RD 275-97, Art. 68</p>
-      </div>
-      <div class="card">
-        <div class="card-hdr"><span class="card-title">Proyección legislativa</span></div>
-        <div id="sim-results"><p class="text-muted text-sm">Ajusta los sliders y presiona Simular.</p></div>
-      </div>
-    </div>
-  </div>
+        // Verificar tema guardado
+        const savedTheme = localStorage.getItem('theme') || 'light-mode';
+        body.className = savedTheme;
+        updateThemeButton();
 
-  <div id="view-proyeccion" class="view">
-    <div class="section-title">📈 Proyección Electoral 2028</div>
-    <div class="grid g2">
-      <div class="card">
-        <div class="card-hdr"><span class="card-title">Modelo Fundamentals</span><span class="card-badge">Abramowitz 2008 adaptado</span></div>
-        <div id="proy-fundamentals"></div>
-        <p class="note">Incumbencia Erikson & Wlezien +3.5pp. Desgaste -2pp por ciclo adicional. Regresión a la media 15% (Silver/538).</p>
-      </div>
-      <div class="card">
-        <div class="card-hdr"><span class="card-title">Crecimiento del Padrón</span><span class="card-badge">CAGR</span></div>
-        <div id="proy-padron"></div>
-      </div>
-    </div>
-    <div class="card" style="margin-top:1rem">
-      <div class="card-hdr"><span class="card-title">Encuestas — Carga manual</span><span class="card-badge">Silver/538 weighting</span></div>
-      <div id="encuestas-panel"></div>
-    </div>
-  </div>
+        themeToggle.addEventListener('click', () => {
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                localStorage.setItem('theme', 'dark-mode');
+            } else {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                localStorage.setItem('theme', 'light-mode');
+            }
+            updateThemeButton();
+        });
 
-  <!-- NIVEL 5: TÉCNICO / AUDITORÍA -->
-  <div id="view-replay" class="view">
-    <div class="section-title">▶ Replay Electoral 2024</div>
-    <div class="grid g2">
-      <div class="card"><div class="card-hdr"><span class="card-title">Verificaciones</span><span class="card-badge">MODO REPLAY</span></div><div id="replay-checks"></div></div>
-      <div class="card"><div class="card-hdr"><span class="card-title">Resumen</span></div><div id="replay-summary"></div></div>
-    </div>
-  </div>
+        function updateThemeButton() {
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.textContent = '☀️ Claro';
+            } else {
+                themeToggle.textContent = '🌙 Oscuro';
+            }
+        }
 
-  <div id="view-motores" class="view">
-    <div class="section-title">⚙ Estado de Motores — SIE 2028 v8.9</div>
-    <div class="grid g2">
-      <div class="card"><div class="card-hdr"><span class="card-title">Activos</span></div><div id="motores-on"></div></div>
-      <div class="card"><div class="card-hdr"><span class="card-title">Desactivados</span></div><div id="motores-off"></div></div>
-    </div>
-    <div class="card" style="margin-top:1rem"><div class="card-hdr"><span class="card-title">Datasets</span></div><div id="datasets-status"></div></div>
-    <div class="card" style="margin-top:1rem"><div class="card-hdr"><span class="card-title">Referencias metodológicas</span></div><div id="metodologia-refs"></div></div>
-  </div>
+        // NAVEGACIÓN ENTRE NIVELES
+        function switchNivel(nivel) {
+            // Ocultar todos los niveles
+            document.querySelectorAll('.nivel').forEach(el => el.classList.remove('active'));
+            // Mostrar nivel seleccionado
+            document.getElementById(`nivel${nivel}`).classList.add('active');
+            // Actualizar botones
+            document.querySelectorAll('.nav-button').forEach((btn, idx) => {
+                btn.classList.remove('active');
+                if (idx === nivel - 1) btn.classList.add('active');
+            });
+            // Scroll al top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-</main>
-<script src="./app.js"></script>
+        // TIMESTAMP
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('time').textContent = now.toLocaleTimeString('es-DO');
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // INICIALIZAR
+        console.log('✅ SIE 2028 v9.0 CARGADO');
+        console.log('✅ Interfaz nueva con paleta verde');
+        console.log('✅ Dark mode / Light mode activo');
+    </script>
 </body>
 </html>

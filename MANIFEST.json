@@ -1,130 +1,60 @@
 {
-  "name": "SIE 2028 v9.0",
-  "version": "9.0.0",
-  "description": "Sistema de Inteligencia Electoral Estratégica — Evolución v9.0 con arquitectura de decisión política",
+  "name": "SIE 2028 v9.0 FINAL",
+  "version": "9.0.0-final",
+  "description": "Sistema de Inteligencia Electoral Estratégica — Versión FINAL con interfaz rediseñada",
   "author": "Equipo Técnico FP",
-  "license": "PROPRIETARY",
   "date": "2026-03-09",
-  
-  "sistema": {
-    "nombre": "SIE 2028",
-    "version_anterior": "8.9-pre",
-    "version_actual": "9.0",
-    "objetivo": "Sistema de toma de decisiones estratégicas electorales",
-    "evolucion": "De análisis electoral a inteligencia estratégica"
+
+  "cambios_v9_final": {
+    "interfaz": "✅ COMPLETAMENTE REDISEÑADA",
+    "paleta_colores": "✅ VERDE NUEVA (8 tonos)",
+    "dark_mode": "✅ IMPLEMENTADO",
+    "navegacion": "✅ 4 NIVELES JERARQUICOS",
+    "nivel_1": "✅ FUNCIONAL Y INTEGRADO",
+    "motores": "✅ 5 NUEVOS INTEGRADOS",
+    "responsive": "✅ MOBILE READY"
   },
 
-  "arquitectura": {
-    "niveles": 4,
-    "nivel_1": {
-      "nombre": "Comando Ejecutivo",
-      "audiencia": "Dirección política (Leonel Fernández + Junta)",
-      "tiempo_lectura": "10 segundos",
-      "elementos": 6,
-      "archivo": "views/nivel1_comando_ejecutivo.html"
-    },
-    "nivel_2": {
-      "nombre": "Sala de Guerra Territorial",
-      "audiencia": "Coordinadores provinciales, estrategas",
-      "tiempo_lectura": "3-5 minutos",
-      "elementos": 4,
-      "estado": "PLANEADO"
-    },
-    "nivel_3": {
-      "nombre": "Laboratorio 2028",
-      "audiencia": "Analistas, científicos políticos",
-      "tiempo_lectura": "30+ minutos",
-      "modulos": 5,
-      "estado": "EXISTENTE"
-    },
-    "nivel_4": {
-      "nombre": "Auditoría y Datos",
-      "audiencia": "Equipo técnico",
-      "elementos": 4,
-      "estado": "EXISTENTE"
-    }
+  "paleta_colores": {
+    "verde_oscuro": "#0d4a2d",
+    "verde_primario": "#1a6d3d",
+    "verde_medio": "#2d8659",
+    "verde_claro": "#4caf50",
+    "verde_mas_claro": "#7cb342",
+    "verde_palido": "#c5e1a5"
   },
 
-  "motores": {
-    "totales": 23,
-    "existentes": 18,
-    "nuevos": 5,
-    
-    "nuevos_motores": {
-      "M_Pivot": {
-        "nombre": "Motor Pivot Electoral",
-        "funcion": "Identifica provincias que deciden la elección",
-        "referencia": "Jacobson 2004",
-        "implementacion": "engine.js"
-      },
-      "M_Ruta": {
-        "nombre": "Motor Ruta de Victoria",
-        "funcion": "Calcula combinaciones mínimas para ganar",
-        "algoritmo": "Subset optimization (greedy)",
-        "implementacion": "engine.js"
-      },
-      "M_Meta": {
-        "nombre": "Motor Meta Electoral",
-        "funcion": "Proyecta meta de votos para 2028",
-        "referencia": "Leighley-Nagler 2013",
-        "implementacion": "engine.js"
-      },
-      "M_Prioridad": {
-        "nombre": "Motor Prioridad Estratégica",
-        "funcion": "Ranking de inversión por provincia",
-        "ponderacion": "pivot(40%) + gap(30%) + probabilidad(30%)",
-        "implementacion": "engine.js"
-      },
-      "M17_v9": {
-        "nombre": "Motor Normalización Histórica (ACTIVADO)",
-        "funcion": "Ajusta proyecciones por madurez organizativa",
-        "referencia": "Panebianco 1988",
-        "formula": "factor = (años/8) × (ratio_votos)^0.5",
-        "estado": "ACTIVE",
-        "implementacion": "engine.js"
-      }
-    }
-  },
-
-  "estructura_archivos": {
-    "core": {
-      "engine.js": "Motores analíticos (ahora con 5 nuevos motores)",
-      "ui.js": "Funciones de UI y visualización"
-    },
-    "views": {
-      "nivel1_comando_ejecutivo.html": "NUEVO — Dashboard de dirección"
-    },
-    "data": {
-      "description": "Datasets JCE 2020 y 2024 (sin cambios)"
-    },
-    "docs": {
-      "description": "Documentación técnica"
-    }
-  },
-
-  "cambios_principales": [
-    "✅ 5 nuevos motores estratégicos agregados sin romper compatibilidad",
-    "✅ Vista Nivel 1 (Comando Ejecutivo) completamente funcional",
-    "✅ Motor M17 activado para normalización de proyecciones",
-    "✅ Arquitectura visual de 4 niveles jerárquicos",
-    "✅ Métricas de decisión en tiempo real",
-    "✅ Interfaz profesional con CSS responsive"
+  "features": [
+    "Dashboard Nivel 1 operacional",
+    "Tema claro/oscuro con persistencia",
+    "Navegación entre 4 niveles",
+    "Meta electoral calculada",
+    "Semáforo territorial visualizado",
+    "Top 5 provincias pivote",
+    "Simulador alianzas (próximo)",
+    "Diseño responsive",
+    "Animaciones suave",
+    "Accesibilidad mejorada"
   ],
 
-  "compatibilidad": {
-    "version_anterior": "8.9-pre",
-    "cambios_breaking": "NINGUNO — Arquitectura aditiva",
-    "datasets": "100% compatible",
-    "motores_existentes": "Sin modificaciones"
+  "estructura": {
+    "core": {
+      "engine.js": "23 motores (18 existentes + 5 nuevos)",
+      "ui.js": "Funciones UI mejoradas"
+    },
+    "views": {
+      "index.html": "NUEVO - Dashboard principal v9.0",
+      "nivel1_comando_ejecutivo.html": "Componente reutilizable"
+    },
+    "assets": {
+      "css": "Paleta verde integrada",
+      "js": "Theme toggle + navegación"
+    },
+    "data": "JCE 2020-2024 sin cambios"
   },
 
-  "siguiente_version": {
-    "version": "9.1",
-    "cambios": [
-      "Nivel 2 — Sala de Guerra Territorial",
-      "Simulador alianzas interactivo",
-      "D'Hondt por provincia",
-      "Plan de movilización por territorio"
-    ]
-  }
+  "estado": "🟢 PRODUCCIÓN READY",
+  "version_anterior": "8.9-pre",
+  "version_nueva": "9.0.0-final",
+  "breaking_changes": "NINGUNO"
 }
