@@ -75,11 +75,11 @@ html, body {
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--bg-primary);
+  background: linear-gradient(135deg, #121012 0%, #1a3a2a 50%, #0d1f1a 100%);
   color: var(--text-primary);
   line-height: 1.6;
   font-size: 14px;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background 0.3s, color 0.3s;
   overflow: hidden;
 }
 
@@ -97,7 +97,7 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 16px 24px;
-  background-color: var(--bg-secondary);
+  background: linear-gradient(90deg, #121012 0%, #1a3a2a 100%);
   border-bottom: 2px solid var(--green-dark);
   box-shadow: var(--shadow-md);
   z-index: 100;
@@ -164,24 +164,43 @@ body {
   transition: all 0.3s;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
 }
 
 .theme-toggle:hover {
   border-color: var(--green-dark);
 }
 
+.theme-toggle-icon {
+  font-size: 12px;
+  width: 20px;
+  text-align: center;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.theme-toggle-icon.active {
+  opacity: 1;
+}
+
+body.light-mode .theme-toggle-icon:first-child {
+  opacity: 1;
+}
+
+body.light-mode .theme-toggle-icon:last-child {
+  opacity: 0.5;
+}
+
 .theme-toggle-circle {
   position: absolute;
   width: 22px;
   height: 22px;
-  background-color: var(--green-light);
+  background: linear-gradient(135deg, var(--green-dark), var(--green-light));
   border-radius: 11px;
   left: 3px;
   transition: left 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
+  box-shadow: var(--shadow-sm);
 }
 
 body.light-mode .theme-toggle-circle {
@@ -198,7 +217,7 @@ body.light-mode .theme-toggle-circle {
 /* SIDEBAR */
 .nav-sidebar {
   width: 260px;
-  background-color: var(--bg-secondary);
+  background: linear-gradient(180deg, #1a1819 0%, #1a3a2a 100%);
   border-right: 1px solid var(--border);
   overflow-y: auto;
   padding: 12px 0;
